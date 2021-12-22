@@ -1,5 +1,5 @@
 import { Application } from "express";
-import basic from "./api/controllers/basic"
+import basic from "./controllers/basic"
 
 
 export = (app: Application): void => {
