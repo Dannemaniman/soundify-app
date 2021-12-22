@@ -1,5 +1,5 @@
 
-import { User, UserModel, userSchema } from '../models/User';
+import { User } from '../models/User';
 
 
 export const userService = () => {
