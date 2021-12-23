@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const SoundifyContext = React.createContext({
   user: true,
@@ -19,11 +19,12 @@ export const SoundifyContextProvider = (props) => {
   }
 
   const fetchFromAPI = () => {
+
   }
  
 
 
-  return <SoundifyContext.Provider>{props.children}</SoundifyContext.Provider>
+  return <SoundifyContext.Provider value={SoundifyContext}>{props.children}</SoundifyContext.Provider>
 }
 
 
