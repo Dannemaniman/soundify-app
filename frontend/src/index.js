@@ -8,9 +8,7 @@ import SoundifyContextProvider from "./store/soundify-context"
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      {/* <SoundifyContextProvider> */}
-        <App />
-      {/* </SoundifyContextProvider> */}
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
