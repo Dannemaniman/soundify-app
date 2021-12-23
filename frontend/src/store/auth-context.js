@@ -12,8 +12,8 @@ export const AuthContextProvider = (props) => {
   const baseUrl = 'http://localhost:8000/'
 
   const loginHandler = (username, password) => {
-    console.log(username, password)
-    fetch(`${baseUrl}api/user/login`)
+    const data = { username, password }
+    fetch(`${baseUrl}api/user/login`, { method: 'POST', body: JSON.stringify(data)})
       .then((data) => data.json())
       .then(data => console.log(data))
       .catch((err) => console.log(err))
