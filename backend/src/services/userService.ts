@@ -1,7 +1,7 @@
 import { UserInterface } from '../db/models/User'
 import User from '../db/schemas/userSchema'
 
-const bcrypt = require("bcryptjs")
+import bcrypt from 'bcrypt'
 const jwt = require("jsonwebtoken")
 
 
@@ -12,10 +12,7 @@ const createNewUser = async (user: UserInterface) => {
       return 'User Already Exist. Please Login'
     }
 
-    /* const encryptedPassword = encryptPassword(user.password)     */
     user.password = await encryptPassword(user.password)
-    console.log(user.password)
-
 
     const doc = new User(user)
     await doc.save()

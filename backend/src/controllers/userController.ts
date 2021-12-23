@@ -9,19 +9,7 @@ router.get('/', async (_: Request, res: Response, next: NextFunction) => {
 
 })
 
-router.post('/register', (req: Request, res: Response) => {
-
-})
-
-router.post('/login', (req: Request, res: Response) => {
-
-})
-
-
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
-
-  console.log("post")
-
+router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const newUser = await userService.createNewUser(req.body as UserInterface)
     res.status(200).json(newUser)
@@ -31,6 +19,12 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(500) && next(error)
   }
 })
+
+router.post('/login', (req: Request, res: Response) => {
+  res.status(200).json("Congratz! ")
+})
+
+
 
 
 export = router
