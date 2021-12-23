@@ -1,0 +1,49 @@
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+
+  background-color: var(--color-primary);
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.img {
+  cursor: pointer;
+}
+
+.hamburgerContainer {
+  justify-self: flex-start;
+  display: grid;
+  align-items: center;
+  margin-left: 1.5rem;
+  height: 3rem;
+  cursor: pointer;
+}
+
+.hamburger {
+  border: none;
+  border-radius: 0;
+
+  background-color: #fff;
+  height: 0.2rem;
+  width: 2rem;
+}
+
+.hamburger::before,
+.hamburger::after {
+  background-color: #fff;
+  height: 0.2rem;
+  width: 2rem;
+  content: '';
+  display: block;
+}
+
+.hamburger::before {
+  transform: translateY(-0.8rem);
+}
+.hamburger::after {
+  transform: translateY(0.5rem);
+}
