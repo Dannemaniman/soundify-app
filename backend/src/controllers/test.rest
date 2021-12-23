@@ -1,0 +1,10 @@
+POST http://localhost:8000/api/user HTTP/1.1
+content-type: application/json
+
+{
+  "user_name": "string",
+  "password": "string",
+  "token": "string",
+  "playlists": [],
+  "email": "string"
+}
