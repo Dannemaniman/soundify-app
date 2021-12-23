@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { SoundifyContextProvider } from './store/soundify-context'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SoundifyContextProvider>
+      <App />
+    </SoundifyContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
