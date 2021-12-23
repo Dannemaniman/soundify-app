@@ -6,7 +6,7 @@
 
   background-color: var(--color-primary);
   background-size: cover;
-  height: 100%;
+  height: auto;
   width: 100%;
 }
 
@@ -18,8 +18,8 @@
   justify-self: flex-start;
   display: grid;
   align-items: center;
-  margin-left: 1.5rem;
-  height: 3rem;
+  margin-left: 2rem;
+  height: 2.5rem;
   cursor: pointer;
 }
 
@@ -42,8 +42,8 @@
 }
 
 .hamburger::before {
-  transform: translateY(-0.8rem);
+  transform: translateY(-1rem);
 }
 .hamburger::after {
-  transform: translateY(0.5rem);
+  transform: translateY(0.7rem);
 }

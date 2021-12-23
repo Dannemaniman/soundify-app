@@ -11,7 +11,7 @@ function Header() {
       <div className={styles.img}>
         <svg
           width='115'
-          height='78'
+          height='60'
           viewBox='0 0 515 178'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
