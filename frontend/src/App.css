@@ -1,7 +1,8 @@
 .App {
   display: grid;
   grid-template-rows: 7rem 1fr;
-  height: 100%;
+  height: 80vh;
+  position: relative;
 }
 
 .container {

@@ -17,6 +17,10 @@
   box-sizing: border-box;
 }
 
+root {
+  height: 100%;
+}
+
 html {
   display: flex;
   justify-content: center;
