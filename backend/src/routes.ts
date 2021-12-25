@@ -1,11 +1,11 @@
 import { Application } from "express";
-import basic from "./controllers/basic"
+import user from "./controllers/userController"
 
 
 export = (app: Application): void => {
 
-  // Routes
-  app.use("/api/", basic);
+  // Routes  
+  app.use("/api/user", user);
 
 
 };
