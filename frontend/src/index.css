@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 
-root {
+#root {
   height: 100%;
 }
 
@@ -36,9 +36,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 400px;
-  height: 80vh;
-  max-height: 900px;
+  width: 100vw;
+  max-width: 500px;
+  height: 100vh;
+  max-height: 820px;
   background-color: var(--color-bg-white);
 }
 

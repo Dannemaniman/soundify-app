@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 const SoundifyContext = React.createContext({
   user: true,
-  onLogin: () => { },
-  fetchFromAPI: () => {}
+  onLogin: () => {},
+  fetchFromAPI: () => {},
 })
-
 
 export const SoundifyContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -18,14 +17,13 @@ export const SoundifyContextProvider = (props) => {
     setIsLoggedIn(false)
   }
 
-  const fetchFromAPI = () => {
+  const fetchFromAPI = () => {}
 
-  }
- 
-
-
-  return <SoundifyContext.Provider value={SoundifyContext}>{props.children}</SoundifyContext.Provider>
+  return (
+    <SoundifyContext.Provider value={SoundifyContext}>
+      {props.children}
+    </SoundifyContext.Provider>
+  )
 }
-
 
 export default SoundifyContext
