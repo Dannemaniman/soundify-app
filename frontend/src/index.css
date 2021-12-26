@@ -41,6 +41,7 @@ body {
   height: 100vh;
   max-height: 820px;
   background-color: var(--color-bg-white);
+  color: var(--color-primary-floor);
 }
 
 code {
