@@ -1,5 +1,6 @@
 import HeroImg from '../../components/heroImg/HeroImg'
 import MostPlayed from '../../components/landingPage/MostPlayed'
+import Carousel from '../../components/carousel/Carousel'
 import styles from './HomePage.module.css'
 
 const HomePage = () => {
@@ -15,6 +16,7 @@ const HomePage = () => {
         />
 
         <MostPlayed />
+        <Carousel />
       </div>
     </>
   )

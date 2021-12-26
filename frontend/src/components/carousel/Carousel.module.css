@@ -1,0 +1,7 @@
+.carousel {
+  grid-column: 2/8;
+  grid-row: 3 / 4;
+  background-color: gray;
+
+  height: 10rem;
+}
