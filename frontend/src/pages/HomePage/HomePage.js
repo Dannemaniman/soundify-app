@@ -16,7 +16,8 @@ const HomePage = () => {
         />
 
         <MostPlayed />
-        <Carousel />
+        <Carousel name={'artists'} />
+        <Carousel name={'albums'} />
       </div>
     </>
   )

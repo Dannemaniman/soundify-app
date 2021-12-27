@@ -1,10 +1,10 @@
 .App {
+  position: relative;
   display: grid;
   grid-template-rows: 7rem 1fr;
   height: 100%;
-  position: relative;
 }
 
-.container {
+.main {
   height: 100%;
 }

@@ -1,6 +1,6 @@
 .homepage {
   display: grid;
-  grid-template-columns: 0.5fr repeat(6, 1fr) 0.5fr;
+  grid-template-columns: 0.2fr repeat(6, 1fr) 0.2fr;
   grid-template-rows: minmax(min-content, 25rem) minmax(min-content, 11rem) repeat(
       2,
       1fr
