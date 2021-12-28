@@ -6,7 +6,7 @@ import styles from './Carousel.module.css'
 import './Carousel.css'
 import CarouselItem from './carouselItem/CarouselItem'
 
-const Carousel = ({ name }) => {
+const Carousel = ({ title, list }) => {
   const settings = {
     dots: false,
     infinite: true,
@@ -51,14 +51,30 @@ const Carousel = ({ name }) => {
     },
   ]
 
-  return (
-    <div className={styles.carousel}>
-      <h1 style={{ color: 'black' }}>Latest {name}</h1>
+  const Real = () => {
+    return (
       <Slider {...settings} className={styles.carousel}>
-        {dummyData.map((artist, index) => (
-          <CarouselItem key={index} imgUrl={artist.imgUrl} />
+        {list.map((item, index) => (
+          <CarouselItem key={index} imgUrl={item.thumbnails[1].url} />
         ))}
       </Slider>
+    )
+  }
+
+  const Fake = () => {
+    return (
+      <Slider {...settings} className={styles.carousel}>
+        {dummyData.map((item, index) => (
+          <CarouselItem key={index} imgUrl={item.imgUrl} />
+        ))}
+      </Slider>
+    )
+  }
+
+  return (
+    <div className={styles.carousel}>
+      <h1 style={{ color: 'black' }}>{title}</h1>
+      {list ? <Real /> : <Fake />}
     </div>
   )
 }
