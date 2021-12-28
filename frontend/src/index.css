@@ -38,7 +38,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   width: 100vw;
   max-width: 500px;
-  min-height: 100vh;
+  height: 100vh;
   max-height: 820px;
   background-color: var(--color-bg-white);
   color: var(--color-primary-floor);
