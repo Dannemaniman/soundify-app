@@ -1,21 +1,22 @@
-import './App.css'
-import Header from './components/header/Header'
-import Sidebar from './components/sidebar/Sidebar'
-import Login from './pages/LoginPage/LoginPage'
-import Home from './pages/HomePage/HomePage'
-import { Route, Routes } from 'react-router-dom'
-import { useContext, useState } from 'react'
-import SoundifyContext from './store/soundify-context'
+import './App.css';
+import Header from './components/header/Header';
+import Sidebar from './components/sidebar/Sidebar';
+import Login from './pages/LoginPage/LoginPage';
+import Home from './pages/HomePage/HomePage';
+import Signup from './pages/SignUpPage/SignUpPage';
+import { Route, Routes } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import SoundifyContext from './store/soundify-context';
 
 const App = () => {
-  const [sidebar, setsidebar] = useState(false)
+  const [sidebar, setsidebar] = useState(false);
 
   const showSidebar = () => {
-    setsidebar(!sidebar)
-  }
+    setsidebar(!sidebar);
+  };
 
-  const ctx = useContext(SoundifyContext)
-  console.log(ctx.user)
+  const ctx = useContext(SoundifyContext);
+  console.log(ctx.user);
 
   return (
     <div className='App'>
@@ -25,10 +26,11 @@ const App = () => {
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
         </Routes>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
