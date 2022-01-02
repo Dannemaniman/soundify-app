@@ -3,6 +3,7 @@ import Header from './components/header/Header'
 import Sidebar from './components/sidebar/Sidebar'
 import Login from './pages/LoginPage/LoginPage'
 import Home from './pages/HomePage/HomePage'
+import YoutubePlayer from './components/youtubePlayer/YoutubePlayer'
 import ArtistPage from './pages/ArtistPage/ArtistPage'
 import { Route, Routes } from 'react-router-dom'
 import { useContext, useState } from 'react'
@@ -22,6 +23,7 @@ const App = () => {
     <div className='App'>
       <Header showSidebar={showSidebar} />
       <Sidebar hideSidebar={showSidebar} animation={sidebar} />
+      <YoutubePlayer videoId={'kaOOfci2YC8'} />
       <main className='main'>
         <Routes>
           <Route exact path='/' element={<Home />} />
