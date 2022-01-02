@@ -1,4 +1,6 @@
-//This file is for testing routes
+//DELETE THIS FILE WHEN USER AUTH IS FINSIHED
+//This file is for testing routes  
+
 
 POST http://localhost:8000/api/user HTTP/1.1
 content-type: application/json
@@ -8,5 +10,17 @@ content-type: application/json
   "password": "string",
   "token": "string",
   "playlists": [],
+  "email": "string"
+}
+
+###
+
+POST http://localhost:8000/api/user/login HTTP/1.1
+content-type: application/json
+
+{
+  "user_name": "string",
+  "password": "string",
+  "token": "string",  
   "email": "string"
 }

@@ -20,8 +20,16 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
   }
 })
 
-router.post('/login', (req: Request, res: Response) => {
-  res.status(200).json("Congratz! ")
+router.post('/login', async (req: Request, res: Response) => {
+  console.log("LOG IN ROUTE")
+
+  try {
+    const user = await userService.logInUser(req.body.email, req.body.password)
+    res.status(200).json(user)
+  } catch (error) {
+    res.status(400).json({})
+  }
+
 })
 
 
