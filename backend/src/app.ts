@@ -11,6 +11,8 @@ const app: Application = Express()
 export default async function (): Promise<Application> {
   app.use(cookieParser())
   app.use(express.json())
+
+  
   Routes(app)
   return app
 }
