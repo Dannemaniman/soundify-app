@@ -20,19 +20,6 @@ const App = () => {
   console.log(ctx.user)
 
   return (
-<<<<<<< HEAD
-    <AuthContextProvider>
-      <div className='App'>
-        <Header />
-        <main className='main'>
-          <Routes>
-            <Route exact path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-          </Routes>
-        </main>
-      </div>
-    </AuthContextProvider>  
-=======
     <div className='App'>
       <Header showSidebar={showSidebar} />
       <Sidebar hideSidebar={showSidebar} animation={sidebar} />
@@ -44,7 +31,6 @@ const App = () => {
         </Routes>
       </main>
     </div>
->>>>>>> dev
   )
 }
 

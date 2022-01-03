@@ -42,11 +42,6 @@ body {
     font-family: 'Arial';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-<<<<<<< HEAD
-  width: 400px;
-  height: 100vh;
-  max-height: 900px;
-=======
   width: 100vw;
   max-width: 500px;
   height: 100vh;
@@ -56,7 +51,6 @@ body {
 }
 
 main {
->>>>>>> dev
   background-color: var(--color-bg-white);
 }
 
