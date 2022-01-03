@@ -1,6 +1,6 @@
 import { UserInterface } from '../db/models/User'
 import User from '../db/schemas/userSchema'
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 
 const jwt = require("jsonwebtoken")
 const dotenv = require('dotenv')
@@ -31,14 +31,12 @@ const logInUser = async (email: string, password: string) => {
   const user = await User.findOne({ email })
 
   if (user) {
-    const token = generateAccessToken(user.email)
-    console.log("User:", user)
-
-    return await bcrypt.compare(password, user.password) ? user : false
+    if (await bcrypt.compare(password, user.password)) {
+      const token = generateAccessToken(user.email)
+      return token
+    }
   }
-  else {
-    throw Error('incorrect email and/or password')
-  }
+  throw Error('incorrect email and/or password')
 }
 
 

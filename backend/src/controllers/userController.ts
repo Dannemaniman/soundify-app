@@ -24,10 +24,12 @@ router.post('/login', async (req: Request, res: Response) => {
   console.log("LOG IN ROUTE")
 
   try {
-    const user = await userService.logInUser(req.body.email, req.body.password)
-    res.status(200).json(user)
+    const token = await userService.logInUser(req.body.email, req.body.password)
+    res.status(200).json(token)
   } catch (error) {
-    res.status(400).json({})
+    console.log(error)
+
+    /* res.status(400).json() */
   }
 
 })
