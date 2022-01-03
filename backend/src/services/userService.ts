@@ -52,7 +52,6 @@ const encryptPassword = async (password: string) => {
 
 const generateAccessToken = (email: string) => {
   const newToken = jwt.sign({ email }, process.env.TOKEN_KEY, { expiresIn: '1800s' })
-  console.log(newToken)
   return newToken
 }
 
