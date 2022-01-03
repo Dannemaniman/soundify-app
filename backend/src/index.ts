@@ -10,6 +10,8 @@ const startServer = async () => {
   const server = await app()
   const port = process.env.PORT
 
+  console.log(port)
+
   server.listen(port, () => {
     console.log(`App running on port ${port}`)
   })
