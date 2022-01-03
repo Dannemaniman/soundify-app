@@ -1,5 +1,5 @@
 import './form.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const Form = () => {
 	const defaultValues = {
@@ -13,8 +13,8 @@ const Form = () => {
 	//Här skickar vi objektet till backend genom en post antar jag eller något sådant:
 	// fetch("/home", { method: post, headers: { 'Content-type': "application/json" }, body: JSON.stringify(newUser) }).then(res => res.json()).then(data => console.log(data))
 
-	async function postNewUser() {
-		fetch('/api/register/user', {
+	async function saveNewUser() {
+		fetch('/api/user/register', {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify(newUser),
@@ -23,12 +23,8 @@ const Form = () => {
 			.then((data) => console.log(data));
 	}
 
-	useEffect(() => {
-		postNewUser();
-	}, []);
-
 	const handelSubmit = (event) => {
-		console.log(newUser);
+		saveNewUser();
 		event.preventDefault();
 	};
 

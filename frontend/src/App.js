@@ -4,7 +4,7 @@ import Sidebar from './components/sidebar/Sidebar';
 import Login from './pages/LoginPage/LoginPage';
 import Home from './pages/HomePage/HomePage';
 import ArtistPage from './pages/ArtistPage/ArtistPage';
-import Signup from './pages/SignupPage/SignUpPage';
+import Signup from './pages/SignUpPage/SignUpPage';
 import { Route, Routes } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import SoundifyContext from './store/soundify-context';
