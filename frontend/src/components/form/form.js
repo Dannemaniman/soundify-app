@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 const Form = () => {
 	const defaultValues = {
-		username: '',
+		user_name: '',
 		email: '',
 		password: '',
 	};
@@ -14,7 +14,7 @@ const Form = () => {
 	// fetch("/home", { method: post, headers: { 'Content-type': "application/json" }, body: JSON.stringify(newUser) }).then(res => res.json()).then(data => console.log(data))
 
 	async function postNewUser() {
-		fetch('/register', {
+		fetch('/api/register/user', {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify(newUser),
@@ -40,9 +40,9 @@ const Form = () => {
 				<input
 					type='text'
 					name='username'
-					value={newUser.username}
+					value={newUser.user_name}
 					onChange={(e) => {
-						setNewUser({ ...newUser, username: e.target.value });
+						setNewUser({ ...newUser, user_name: e.target.value });
 					}}
 				/>
 				<h4>Email</h4>
