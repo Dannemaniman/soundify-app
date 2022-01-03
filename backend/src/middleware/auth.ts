@@ -12,6 +12,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
       throw new Error()
     }
 
+    req.body.token = token
     req.body.user = user
 
     console.log(token)

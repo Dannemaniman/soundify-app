@@ -8,9 +8,9 @@ import auth from '../middleware/auth'
 const router: Router = Router()
 
 
-router.get('/users', auth, async (req: Request, res: Response) => {
-  res.send(req.body.user)
-})
+// router.get('/users', auth, async (req: Request, res: Response) => {
+//   res.send(req.body.user)
+// })
 
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -37,7 +37,17 @@ router.post('/login', async (req: Request, res: Response) => {
 })
 
 router.post('/logout', auth, async (req: Request, res: Response) => {
+  try {
+    console.log(req.body)
+    req.body.user.tokens = req.body.user.tokens.filter((token: { token: string }) => {
+      return token.token !== req.body.token
+    })
+    await req.body.user.save()
 
+    res.status(200).send()
+  } catch (error) {
+    res.status(500).send()
+  }
 })
 
 
