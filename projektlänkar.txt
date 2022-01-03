@@ -1,0 +1,12 @@
+E/R 
+https://app.diagrams.net/#G1vAtpvlMDpNsqEdoh8hoTsRWXh1csGKWr
+
+UML
+https://app.diagrams.net/#G1JGIVkkBo_1CKBrziRGHmGDVWrin5mi-y
+
+TRELLO
+https://trello.com/b/pun56MmH/spacex-v2
+
+
+Backend struktur:
+https://www.coreycleary.me/project-structure-for-an-express-rest-api-when-there-is-no-standard-way

@@ -9,6 +9,11 @@
   --color-primary-silver: #ccc5b9;
   --color-primary-floor: #fffcf2;
   --color-primary-orange: #eb5e28;
+
+  --grid-col-setup: 0.2fr repeat(6, 1fr) 0.2fr;
+  --grid-row-setup: minmax(min-content, 25rem) minmax(min-content, 11rem)
+    repeat(2, 1fr);
+  --row-gap: 2rem;
 }
 
 * {
@@ -17,12 +22,16 @@
   box-sizing: border-box;
 }
 
+#root {
+  height: 100%;
+}
+
 html {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--color-html-bg);
-  height: 100vh;
+  min-height: 100vh;
   font-size: 62.5%; /* 10px */
 }
 
@@ -33,9 +42,21 @@ body {
     font-family: 'Arial';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+<<<<<<< HEAD
   width: 400px;
   height: 100vh;
   max-height: 900px;
+=======
+  width: 100vw;
+  max-width: 500px;
+  height: 100vh;
+  max-height: 820px;
+  background-color: var(--color-bg-white);
+  color: var(--color-primary-floor);
+}
+
+main {
+>>>>>>> dev
   background-color: var(--color-bg-white);
 }
 
