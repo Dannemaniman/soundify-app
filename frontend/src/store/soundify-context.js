@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
 const SoundifyContext = React.createContext({
-<<<<<<< HEAD
-  fetchFromAPI: () => {}
-=======
   user: true,
   onLogin: () => {},
   fetchFromAPI: () => {},
->>>>>>> dev
 })
 
 export const SoundifyContextProvider = (props) => {
