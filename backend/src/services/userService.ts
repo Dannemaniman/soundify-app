@@ -1,6 +1,6 @@
 import { UserInterface } from '../db/models/User'
 import User from '../db/schemas/userSchema'
-import * as bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 const jwt = require("jsonwebtoken")
 const dotenv = require('dotenv')
