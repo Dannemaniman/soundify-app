@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './Header.module.css'
 
-function Header() {
+const Header = ({ showSidebar }) => {
   return (
     <div className={styles.header}>
-      <div className={styles.hamburgerContainer}>
+      <div className={styles.hamburgerContainer} onClick={showSidebar}>
         <div className={styles.hamburger}></div>
       </div>
 
