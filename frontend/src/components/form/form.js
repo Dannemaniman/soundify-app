@@ -10,9 +10,6 @@ const Form = () => {
 
 	const [newUser, setNewUser] = useState(defaultValues);
 
-	//Här skickar vi objektet till backend genom en post antar jag eller något sådant:
-	// fetch("/home", { method: post, headers: { 'Content-type': "application/json" }, body: JSON.stringify(newUser) }).then(res => res.json()).then(data => console.log(data))
-
 	async function saveNewUser() {
 		fetch('/api/user/register', {
 			method: 'POST',
