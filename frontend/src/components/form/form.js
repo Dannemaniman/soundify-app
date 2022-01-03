@@ -13,7 +13,19 @@ const Form = () => {
 	//Här skickar vi objektet till backend genom en post antar jag eller något sådant:
 	// fetch("/home", { method: post, headers: { 'Content-type': "application/json" }, body: JSON.stringify(newUser) }).then(res => res.json()).then(data => console.log(data))
 
-	useEffect(() => {});
+	async function postNewUser() {
+		fetch('/register', {
+			method: 'POST',
+			headers: { 'Content-type': 'application/json' },
+			body: JSON.stringify(newUser),
+		})
+			.then((res) => res.json())
+			.then((data) => console.log(data));
+	}
+
+	useEffect(() => {
+		postNewUser();
+	}, []);
 
 	const handelSubmit = (event) => {
 		console.log(newUser);
