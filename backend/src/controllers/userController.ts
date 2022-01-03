@@ -21,15 +21,13 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 })
 
 router.post('/login', async (req: Request, res: Response) => {
-  console.log("LOG IN ROUTE")
 
   try {
     const token = await userService.logInUser(req.body.email, req.body.password)
     res.status(200).json(token)
   } catch (error) {
     console.log(error)
-
-    /* res.status(400).json() */
+    res.status(400).json(error)
   }
 
 })

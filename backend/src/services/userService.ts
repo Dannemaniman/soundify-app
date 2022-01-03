@@ -36,7 +36,7 @@ const logInUser = async (email: string, password: string) => {
       return token
     }
   }
-  throw Error('incorrect email and/or password')
+  throw new Error('incorrect email and/or password')
 }
 
 
