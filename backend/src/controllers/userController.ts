@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import { UserInterface } from '../db/models/User'
 import userService from '../services/userService'
+import bcrypt from "bcrypt"
 
 const router: Router = Router()
 
@@ -20,7 +21,9 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
   }
 })
 
-router.post('/login', (req: Request, res: Response) => {
+router.post('/login', async (req: Request, res: Response) => {
+
+  // const isMatch = await bcrypt.compare(req.body, userPass)
   res.status(200).json("Congratz! ")
 })
 
