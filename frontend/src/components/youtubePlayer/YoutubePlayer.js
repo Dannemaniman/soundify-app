@@ -4,18 +4,22 @@ import YouTube from 'react-youtube'
 import { PlayerContext } from '../../store/playerContext'
 
 const YoutubePlayer = (props) => {
-  const context = useContext(PlayerContext).song
+  const context = useContext(PlayerContext)
 
-  const progressBarDone = useRef(null)
   const progressBar = useRef(null)
-  const timePlayed = useRef(null)
 
   const [playing, setplaying] = useState(false)
   const [player, setplayer] = useState(null)
+  const [endTime, setendTime] = useState('0:00')
+  const [startTime, setstartTime] = useState('0:00')
+  const [doneProgress, setdoneProgress] = useState('')
 
   const [song, setsong] = useState(null)
+  const [index, setindex] = useState(0)
+  const [playlist, setplaylist] = useState([])
 
-  let durationInterval
+  let checkTime
+  let style
 
   const opts = {
     height: '0',
@@ -26,43 +30,84 @@ const YoutubePlayer = (props) => {
   }
 
   useEffect(() => {
-    if (!context.song) return
-    setsong(context)
+    if (!context.playlist.content?.songs) return
+
+    setindex(context.playlist.index)
+    setplaylist(context.playlist.content.songs)
+    setsong({
+      song: context.playlist.content.songs[context.playlist.index],
+      thumbnail: context.playlist.content.thumbnails[1],
+    })
   }, [context])
 
   const setTimes = () => {
-    clearInterval(durationInterval)
-    durationInterval = setInterval(() => {
+    clearInterval(checkTime)
+    checkTime = setInterval(() => {
       if (player.getCurrentTime() === null) return
 
-      let currentTime = Math.ceil(player.getCurrentTime())
-      let seconds =
-        currentTime % 60 < 10
-          ? '0' + Math.ceil(currentTime % 60)
-          : Math.ceil(currentTime % 60)
-      let time = `${Math.ceil(currentTime / 60 - 1)}:${seconds}`
-      if (time === '-1:00') {
-        timePlayed.current.innerHTML = '0:00'
-      } else {
-        timePlayed.current.innerHTML = time
-      }
-
-      progressBarDone.current.style.setProperty(
-        'width',
+      setstartTime(getTime(player.getCurrentTime()))
+      setdoneProgress(
         (player.getCurrentTime() / player.getDuration()) * 100 + '%'
       )
     }, 500)
   }
 
   const onPlayerReady = (event) => {
-    console.log('onready', event.target)
     event.target.pauseVideo()
     setplayer(event.target)
   }
 
   const onChange = (event) => {
+    if (event.data == window.YT.PlayerState.ENDED) {
+      return nextSong()
+    }
     setTimes()
-    // event.target.playVideo()
+    setendTime(getTime(event.target.getDuration()))
+  }
+
+  const nextSong = () => {
+    if (index + 1 >= playlist.length) {
+      setindex((prevIndex) => prevIndex - (playlist.length - 1))
+      player.loadVideoById(playlist[0].videoId)
+      setplaying(true)
+      setsong((prevState) => ({ ...prevState, song: playlist[0] }))
+      return
+    }
+
+    player.loadVideoById(playlist[index + 1].videoId)
+    setplaying(true)
+    setsong((prevState) => ({ ...prevState, song: playlist[index + 1] }))
+    setindex((prevIndex) => prevIndex + 1)
+  }
+
+  const prevSong = () => {
+    if (index - 1 < 0) {
+      setindex((prevIndex) => prevIndex + (playlist.length - 1))
+      player.loadVideoById(playlist[playlist.length - 1].videoId)
+      setplaying(true)
+      setsong((prevState) => ({
+        ...prevState,
+        song: playlist[playlist.length - 1],
+      }))
+      return
+    }
+
+    player.loadVideoById(playlist[index - 1].videoId)
+    setplaying(true)
+    setsong((prevState) => ({ ...prevState, song: playlist[index - 1] }))
+    setindex((prevIndex) => prevIndex - 1)
+  }
+
+  const getTime = (secondsTotal) => {
+    var totalSec = secondsTotal
+    var minutes = parseInt(totalSec / 60) % 60
+    var seconds = Math.ceil(totalSec % 60)
+
+    return (
+      (minutes < 1 ? '0' : minutes) +
+      ':' +
+      (seconds < 10 ? '0' + seconds : seconds)
+    )
   }
 
   const pausePlayer = () => {
@@ -91,7 +136,7 @@ const YoutubePlayer = (props) => {
   }
 
   //Change time on song with progress bar
-  function pickSongTime(e) {
+  function changedSongTime(e) {
     let coordStart = progressBar.current.getBoundingClientRect().left
     let coordEnd = e.pageX
     let percent = (coordEnd - coordStart) / progressBar.current.offsetWidth
@@ -99,15 +144,14 @@ const YoutubePlayer = (props) => {
     return player.getDuration() * percent
   }
 
-  const pickTime = (e) => {
-    player.seekTo(pickSongTime(e), true)
+  const changeTime = (e) => {
+    player.seekTo(changedSongTime(e), true)
   }
 
   return (
     <>
       {song ? (
         <div className={styles.playerContainer}>
-          {/* <div id='yt-player' className={styles.container}></div> */}
           <YouTube
             videoId={song.song.videoId}
             opts={opts}
@@ -116,37 +160,36 @@ const YoutubePlayer = (props) => {
           />
 
           <div className={styles.songContainer}>
-            <img className={styles.img} src={song.img.url} alt='' />
+            <img className={styles.img} src={song.thumbnail?.url} alt='' />
             <div className={styles.name}>
-              <p className={styles.artistName}>{song.song.artist.name}</p>
-              <p className={styles.songName}>{song.song.name}</p>
+              <p className={styles.artistName}>{song.song.artist?.name}</p>
+              <p className={styles.songName}>{song.song?.name}</p>
             </div>
           </div>
 
           <div className={styles.buttonContainer}>
             <button className={styles.next}>
-              <i className='fas fa-step-backward'></i>
+              <i className='fas fa-step-backward' onClick={prevSong}></i>
             </button>
             <PlayPaus />
-            <button className={styles.next}>
+            <button className={styles.next} onClick={nextSong}>
               <i className='fas fa-step-forward'></i>
             </button>
           </div>
 
           <div className={styles.progressContainer}>
-            <span className='start'></span>
-            <p ref={timePlayed}>0:00</p>
+            <p>{startTime}</p>
             <div
               className={styles.progressBar}
               ref={progressBar}
-              onClick={pickTime}
+              onClick={changeTime}
             >
               <div
                 className={styles.progressBarDone}
-                ref={progressBarDone}
+                style={{ width: doneProgress }}
               ></div>
             </div>
-            <p id='time-duration'>3:42</p>
+            <p>{endTime}</p>
           </div>
         </div>
       ) : (
