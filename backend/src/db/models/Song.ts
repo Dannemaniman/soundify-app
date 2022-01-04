@@ -1,10 +1,8 @@
-import Artist from './Artist';
+import { Artist } from './Artist';
 
 // Document interface
-interface Song {
+export interface Song {
 	name: string;
 	artist: Artist[];
 	lenght: number;
 }
-
-export = Song;

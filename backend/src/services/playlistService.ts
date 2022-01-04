@@ -10,3 +10,9 @@ const createNewPlaylist = async (playlist: PlaylistInterface) => {
 		console.log(error);
 	}
 };
+
+const playlistService = {
+	createNewPlaylist,
+};
+
+export default playlistService;
