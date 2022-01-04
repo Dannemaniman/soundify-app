@@ -2,14 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
-import { BrowserRouter } from "react-router-dom"
-import SoundifyContextProvider from "./store/soundify-context"
+import { BrowserRouter } from 'react-router-dom'
+import SoundifyContextProvider from './store/soundify-context'
+import PlayerProvider from './store/playerContext'
 
 ReactDOM.render(
-  <React.StrictMode>
+  <PlayerProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
+  </PlayerProvider>,
   document.getElementById('root')
 )

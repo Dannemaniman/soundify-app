@@ -1,36 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import styles from './YoutubePlayer.module.css'
+import { PlayerContext } from '../../store/playerContext'
 
 const YoutubePlayer = (props) => {
-  const end = useRef(null)
-  const start = useRef(null)
+  const context = useContext(PlayerContext).song
+
   const progressBarDone = useRef(null)
   const progressBar = useRef(null)
   const timePlayed = useRef(null)
 
   const [playing, setplaying] = useState(false)
-  const [player, setplayer] = useState(null)
+  const [playerYT, setplayerYT] = useState(null)
 
   const [song, setsong] = useState(null)
 
   let durationInterval
-
-  //Detta är bara tillfälligt för att testa denna component.
-  useEffect(() => {
-    const fetch1 = async () => {
-      let response = await fetch(
-        'https://yt-music-api.herokuapp.com/api/yt/songs/nothing%20else%20matters'
-      )
-      setsong(await response.json())
-    }
-    fetch1()
-  }, [])
-
-  let playerr
+  let player
 
   useEffect(() => {
-    console.log(song)
-    if (!song) return
     if (!window.YT) {
       const tag = document.createElement('script')
       tag.src = 'https://www.youtube.com/iframe_api'
@@ -40,34 +27,78 @@ const YoutubePlayer = (props) => {
       const firstScriptTag = document.getElementsByTagName('script')[0]
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
     } else {
-      console.log('load video')
       loadVideo()
     }
   }, [song])
 
-  const loadVideo = () => {
-    // const { videoId } = props
+  function onPlayerStateChange(event) {
+    // if (event.data === window.YT.PlayerState.ENDED) {
+    //   return nextTrack()
+    // }
+    //if (player.getCurrentTime() >= player.getDuration()) player.stopVideo()
+  }
 
-    playerr = new window.YT.Player(`yt-player`, {
-      videoId: song.content[0].videoId,
+  const nextTrack = () => {
+    return
+  }
+
+  const loadVideo = () => {
+    player = new window.YT.Player(`yt-player`, {
+      videoId: song ? song.song.videoId : '',
       events: {
         onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange,
       },
     })
-    setplayer(playerr)
+    setplayerYT(player)
+  }
+
+  useEffect(() => {
+    if (!context.song) return
+    setsong(context)
+
+    setTimeout(() => {
+      playerYT.loadVideoById(context.song.videoId)
+      setTimes()
+    }, 10)
+  }, [context])
+
+  const setTimes = () => {
+    clearInterval(durationInterval)
+    durationInterval = setInterval(() => {
+      if (playerYT.getCurrentTime() === null) return
+
+      let currentTime = Math.ceil(playerYT.getCurrentTime())
+      let seconds =
+        currentTime % 60 < 10
+          ? '0' + Math.ceil(currentTime % 60)
+          : Math.ceil(currentTime % 60)
+      let time = `${Math.ceil(currentTime / 60 - 1)}:${seconds}`
+      if (time === '-1:00') {
+        timePlayed.current.innerHTML = '0:00'
+      } else {
+        timePlayed.current.innerHTML = time
+      }
+
+      progressBarDone.current.style.setProperty(
+        'width',
+        (playerYT.getCurrentTime() / playerYT.getDuration()) * 100 + '%'
+      )
+    }, 500)
   }
 
   const onPlayerReady = () => {
-    playerr.playVideo()
+    //setsong(context)
+    playerYT.loadVideoById(context.song.videoId)
     if (window.YT.PlayerState.PLAYING) setplaying(true)
   }
 
   const pausePlayer = () => {
-    player.pauseVideo()
+    playerYT.pauseVideo()
     setplaying(false)
   }
   const startPlayer = () => {
-    player.playVideo()
+    playerYT.playVideo()
     setplaying(true)
   }
 
@@ -87,41 +118,17 @@ const YoutubePlayer = (props) => {
     }
   }
 
-  if (player) {
-    clearInterval(durationInterval)
-    durationInterval = setInterval(() => {
-      if (player.getCurrentTime() === null) return
-
-      let currentTime = Math.ceil(player.getCurrentTime())
-      let seconds =
-        currentTime % 60 < 10
-          ? '0' + Math.ceil(currentTime % 60)
-          : Math.ceil(currentTime % 60)
-      let time = `${Math.ceil(currentTime / 60 - 1)}:${seconds}`
-      if (time === '-1:00') {
-        timePlayed.current.innerHTML = '0:00'
-      } else {
-        timePlayed.current.innerHTML = time
-      }
-
-      progressBarDone.current.style.setProperty(
-        'width',
-        (player.getCurrentTime() / player.getDuration()) * 100 + '%'
-      )
-    }, 1000)
-  }
-
   //Change time on song with progress bar
   function pickSongTime(e) {
     let coordStart = progressBar.current.getBoundingClientRect().left
     let coordEnd = e.pageX
     let percent = (coordEnd - coordStart) / progressBar.current.offsetWidth
 
-    return player.getDuration() * percent
+    return playerYT.getDuration() * percent
   }
 
   const pickTime = (e) => {
-    player.seekTo(pickSongTime(e), true)
+    playerYT.seekTo(pickSongTime(e), true)
   }
 
   return (
@@ -131,14 +138,10 @@ const YoutubePlayer = (props) => {
           <div id='yt-player' className={styles.container}></div>
 
           <div className={styles.songContainer}>
-            <img
-              className={styles.img}
-              src={song.content[0].thumbnails[0].url}
-              alt=''
-            />
+            <img className={styles.img} src={song.img.url} alt='' />
             <div className={styles.name}>
-              <p className={styles.artistName}>{song.content[0].artist.name}</p>
-              <p className={styles.songName}>{song.content[0].name}</p>
+              <p className={styles.artistName}>{song.song.artist.name}</p>
+              <p className={styles.songName}>{song.song.name}</p>
             </div>
           </div>
 

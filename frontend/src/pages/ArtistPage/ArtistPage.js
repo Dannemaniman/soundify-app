@@ -49,6 +49,7 @@ const ArtistPage = () => {
             <SongList
               songs={artist.products.songs.content}
               header={`Top 5 songs by  ${artist.name}`}
+              thumbnails={artist.thumbnails}
             />
           </section>
 

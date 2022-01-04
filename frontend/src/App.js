@@ -8,22 +8,24 @@ import ArtistPage from './pages/ArtistPage/ArtistPage'
 import { Route, Routes } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import SoundifyContext from './store/soundify-context'
+import { PlayerContext } from './store/playerContext'
 
 const App = () => {
   const [sidebar, setsidebar] = useState(false)
+  const player = useContext(PlayerContext)
 
   const showSidebar = () => {
     setsidebar(!sidebar)
   }
 
   const ctx = useContext(SoundifyContext)
-  console.log(ctx.user)
+  //console.log(ctx.user)
 
   return (
     <div className='App'>
       <Header showSidebar={showSidebar} />
       <Sidebar hideSidebar={showSidebar} animation={sidebar} />
-      <YoutubePlayer videoId={'kaOOfci2YC8'} />
+      {player && <YoutubePlayer />}
       <main className='main'>
         <Routes>
           <Route exact path='/' element={<Home />} />
