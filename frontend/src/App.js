@@ -8,6 +8,7 @@ import Signup from './pages/SignUpPage/SignUpPage';
 import { Route, Routes } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import SoundifyContext from './store/soundify-context';
+import { AuthContextProvider } from './store/auth-context';
 
 const App = () => {
 	const [sidebar, setsidebar] = useState(false);

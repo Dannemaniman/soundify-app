@@ -7,15 +7,6 @@ const SoundifyContext = React.createContext({
 })
 
 export const SoundifyContextProvider = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  const loginHandler = () => {
-    setIsLoggedIn(true)
-  }
-
-  const logoutHandler = () => {
-    setIsLoggedIn(false)
-  }
 
   const fetchFromAPI = () => {}
 
