@@ -1,10 +1,10 @@
-import Artist from './Artist';
+import Artist from './Artist'
 
 // Document interface
 interface Song {
-	name: string;
-	artist: Artist[];
-	lenght: number;
+	name: string
+	artist: Artist[]
+	length: number
 }
 
-export = Song;
+export = Song
