@@ -17,6 +17,7 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
     const newUser = await userService.createNewUser(req.body as UserInterface)
     if (!newUser) throw new Error('User Already Exist. Please Login')
     const token = await newUser.generateAuthToken()
+
     res.status(200).json({ user: newUser.getPublicProfile(), token })
 
   } catch (error: any) {
