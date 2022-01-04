@@ -1,11 +1,9 @@
-import { Model, Schema, model } from 'mongoose'
-import Playlist from './Playlist'
+import { Model, Schema, model } from 'mongoose';
+import { PlaylistInterface } from './Playlist';
 
 // Document interface
-export interface ReturnUserInterface {
-  user_name: string
-  playlists: Array<Playlist>
-  email: string
+export interface ReturnUser {
+	user_name: string;
+	playlists: Array<PlaylistInterface>;
+	email: string;
 }
-
-

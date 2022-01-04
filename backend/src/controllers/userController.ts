@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { UserInterface } from '../db/models/User';
+import { User as IUser } from '../db/models/User';
 import userService from '../services/userService';
 import bcrypt from 'bcrypt';
 import User from '../db/schemas/userSchema';
@@ -15,11 +15,10 @@ router.post(
 	'/register',
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const newUser = await userService.createNewUser(
-				req.body as UserInterface
-			);
+			const newUser = await userService.createNewUser(req.body as IUser);
 			if (!newUser) throw new Error('User Already Exist. Please Login');
 			const token = await newUser.generateAuthToken();
+
 			res.status(200).json({ user: newUser.getPublicProfile(), token });
 		} catch (error: any) {
 			res.sendStatus(500).json(error.msg);

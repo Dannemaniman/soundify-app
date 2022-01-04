@@ -1,23 +1,28 @@
-import mongoose, { Schema, model } from 'mongoose';
-import { UserInterface, UserModel } from '../models/User';
-import { ReturnUserInterface } from '../models/ReturnUser';
+import { Schema, model } from 'mongoose';
+import { User, UserModel } from '../models/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { ReturnUser } from '../models/ReturnUser';
 
-const userSchema = new Schema<UserInterface, UserModel>({
-	user_name: { type: String, required: true, trim: true, unique: true },
-	password: { type: String, required: true, trim: true },
-	tokens: [
-		{
-			token: {
-				type: String,
-				required: true,
+const userSchema = new Schema<User, UserModel>(
+	{
+		user_name: { type: String, required: true, trim: true, unique: true },
+		password: { type: String, required: true, trim: true },
+		tokens: [
+			{
+				token: {
+					type: String,
+					required: true,
+				},
 			},
-		},
-	],
-	playlists: { type: [String], required: false },
-	email: { type: String, unique: true },
-});
+		],
+		playlists: { type: [String], required: false },
+		email: { type: String, unique: true },
+	},
+	{
+		timestamps: true,
+	}
+);
 
 userSchema.pre('save', async function (next) {
 	const user = this;
@@ -47,7 +52,7 @@ userSchema.methods.getPublicProfile = function () {
 	delete userObject.password;
 	delete userObject.tokens;
 
-	return userObject as ReturnUserInterface;
+	return userObject as ReturnUser;
 };
 
 userSchema.static(
@@ -65,6 +70,6 @@ userSchema.static(
 	}
 );
 
-const User = model<UserInterface, UserModel>('User', userSchema);
+const User = model<User, UserModel>('User', userSchema);
 
 export default User;
