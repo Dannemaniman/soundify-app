@@ -8,6 +8,7 @@ import { Route, Routes } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import SoundifyContext from './store/soundify-context'
 import { AuthContextProvider } from './store/auth-context'
+import SearchPage from './pages/SearchPage/SearchPage'
 
 const App = () => {
   const [sidebar, setsidebar] = useState(false)
@@ -28,6 +29,7 @@ const App = () => {
           <Route exact path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/artist/:id' element={<ArtistPage />} />
+          <Route path='/search' element={<SearchPage />} />
         </Routes>
       </main>
     </div>

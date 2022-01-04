@@ -5,7 +5,7 @@ const SongListItem = ({ song }) => {
   return (
     <div className={styles.item}>
       <section>
-        <h2>{song.name}</h2>
+        <h2>{song.name.substring(0, 30)}{song.name.length >= 30 ? " ..." : ""}</h2>
         <h4>{song.artist.name}</h4>
       </section>
 
