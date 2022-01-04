@@ -85,7 +85,7 @@
 }
 
 .progressBarDone {
-  width: 30%;
+  width: 0;
   background-color: var(--color-primary-orange);
   border-radius: 5px;
   height: 5px;

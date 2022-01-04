@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
 import styles from './YoutubePlayer.module.css'
+import YouTube from 'react-youtube'
 import { PlayerContext } from '../../store/playerContext'
 
 const YoutubePlayer = (props) => {
@@ -10,65 +11,31 @@ const YoutubePlayer = (props) => {
   const timePlayed = useRef(null)
 
   const [playing, setplaying] = useState(false)
-  const [playerYT, setplayerYT] = useState(null)
+  const [player, setplayer] = useState(null)
 
   const [song, setsong] = useState(null)
 
   let durationInterval
-  let player
 
-  useEffect(() => {
-    if (!window.YT) {
-      const tag = document.createElement('script')
-      tag.src = 'https://www.youtube.com/iframe_api'
-
-      window.onYouTubeIframeAPIReady = loadVideo
-
-      const firstScriptTag = document.getElementsByTagName('script')[0]
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
-    } else {
-      loadVideo()
-    }
-  }, [song])
-
-  function onPlayerStateChange(event) {
-    // if (event.data === window.YT.PlayerState.ENDED) {
-    //   return nextTrack()
-    // }
-    //if (player.getCurrentTime() >= player.getDuration()) player.stopVideo()
-  }
-
-  const nextTrack = () => {
-    return
-  }
-
-  const loadVideo = () => {
-    player = new window.YT.Player(`yt-player`, {
-      videoId: song ? song.song.videoId : '',
-      events: {
-        onReady: onPlayerReady,
-        onStateChange: onPlayerStateChange,
-      },
-    })
-    setplayerYT(player)
+  const opts = {
+    height: '0',
+    width: '0',
+    playerVars: {
+      autoplay: 1,
+    },
   }
 
   useEffect(() => {
     if (!context.song) return
     setsong(context)
-
-    setTimeout(() => {
-      playerYT.loadVideoById(context.song.videoId)
-      setTimes()
-    }, 10)
   }, [context])
 
   const setTimes = () => {
     clearInterval(durationInterval)
     durationInterval = setInterval(() => {
-      if (playerYT.getCurrentTime() === null) return
+      if (player.getCurrentTime() === null) return
 
-      let currentTime = Math.ceil(playerYT.getCurrentTime())
+      let currentTime = Math.ceil(player.getCurrentTime())
       let seconds =
         currentTime % 60 < 10
           ? '0' + Math.ceil(currentTime % 60)
@@ -82,23 +49,28 @@ const YoutubePlayer = (props) => {
 
       progressBarDone.current.style.setProperty(
         'width',
-        (playerYT.getCurrentTime() / playerYT.getDuration()) * 100 + '%'
+        (player.getCurrentTime() / player.getDuration()) * 100 + '%'
       )
     }, 500)
   }
 
-  const onPlayerReady = () => {
-    //setsong(context)
-    playerYT.loadVideoById(context.song.videoId)
-    if (window.YT.PlayerState.PLAYING) setplaying(true)
+  const onPlayerReady = (event) => {
+    console.log('onready', event.target)
+    event.target.pauseVideo()
+    setplayer(event.target)
+  }
+
+  const onChange = (event) => {
+    setTimes()
+    // event.target.playVideo()
   }
 
   const pausePlayer = () => {
-    playerYT.pauseVideo()
+    player.pauseVideo()
     setplaying(false)
   }
   const startPlayer = () => {
-    playerYT.playVideo()
+    player.playVideo()
     setplaying(true)
   }
 
@@ -124,18 +96,24 @@ const YoutubePlayer = (props) => {
     let coordEnd = e.pageX
     let percent = (coordEnd - coordStart) / progressBar.current.offsetWidth
 
-    return playerYT.getDuration() * percent
+    return player.getDuration() * percent
   }
 
   const pickTime = (e) => {
-    playerYT.seekTo(pickSongTime(e), true)
+    player.seekTo(pickSongTime(e), true)
   }
 
   return (
     <>
       {song ? (
         <div className={styles.playerContainer}>
-          <div id='yt-player' className={styles.container}></div>
+          {/* <div id='yt-player' className={styles.container}></div> */}
+          <YouTube
+            videoId={song.song.videoId}
+            opts={opts}
+            onReady={onPlayerReady}
+            onStateChange={onChange}
+          />
 
           <div className={styles.songContainer}>
             <img className={styles.img} src={song.img.url} alt='' />
@@ -157,7 +135,7 @@ const YoutubePlayer = (props) => {
 
           <div className={styles.progressContainer}>
             <span className='start'></span>
-            <p ref={timePlayed}>0:40</p>
+            <p ref={timePlayed}>0:00</p>
             <div
               className={styles.progressBar}
               ref={progressBar}
