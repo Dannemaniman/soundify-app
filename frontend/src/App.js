@@ -9,31 +9,33 @@ import { useContext, useState } from 'react'
 import SoundifyContext from './store/soundify-context'
 import { AuthContextProvider } from './store/auth-context'
 import SearchPage from './pages/SearchPage/SearchPage'
+import Signup from './pages/SignUpPage/SignUpPage'
 
 const App = () => {
-  const [sidebar, setsidebar] = useState(false)
+	const [sidebar, setsidebar] = useState(false)
 
-  const showSidebar = () => {
-    setsidebar(!sidebar)
-  }
+	const showSidebar = () => {
+		setsidebar(!sidebar)
+	}
 
-  const ctx = useContext(SoundifyContext)
-  console.log(ctx.user)
+	const ctx = useContext(SoundifyContext)
+	console.log(ctx.user)
 
-  return (
-    <div className='App'>
-      <Header showSidebar={showSidebar} />
-      <Sidebar hideSidebar={showSidebar} animation={sidebar} />
-      <main className='main'>
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/artist/:id' element={<ArtistPage />} />
-          <Route path='/search' element={<SearchPage />} />
-        </Routes>
-      </main>
-    </div>
-  )
+	return (
+		<div className='App'>
+			<Header showSidebar={showSidebar} />
+			<Sidebar hideSidebar={showSidebar} animation={sidebar} />
+			<main className='main'>
+				<Routes>
+					<Route exact path='/' element={<Home />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/artist/:id' element={<ArtistPage />} />
+					<Route path='/search' element={<SearchPage />} />
+					<Route path='/signup' element={<Signup />} />
+				</Routes>
+			</main>
+		</div>
+	)
 }
 
 export default App
