@@ -11,7 +11,6 @@ router.post('/createplaylist', async (req: Request, res: Response) => {
 		);
 		console.log(req.body);
 		res.send(200);
-		console.log('Success??');
 	} catch (error: any) {
 		res.sendStatus(500).json(error.message);
 	}
