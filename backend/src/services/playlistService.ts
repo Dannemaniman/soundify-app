@@ -11,6 +11,12 @@ const createNewPlaylist = async (playlist: PlaylistInterface) => {
 	}
 };
 
+const getPlaylistById = async () => {};
+
+const deletePlaylist = async () => {};
+
+const updatePlaylist = async () => {};
+
 const playlistService = {
 	createNewPlaylist,
 };
