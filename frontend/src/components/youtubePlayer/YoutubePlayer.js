@@ -119,22 +119,6 @@ const YoutubePlayer = (props) => {
     setplaying(true)
   }
 
-  const PlayPaus = () => {
-    if (!playing) {
-      return (
-        <button className={styles.next} onClick={startPlayer}>
-          <i className='fas fa-play'></i>
-        </button>
-      )
-    } else {
-      return (
-        <button className={styles.next} onClick={pausePlayer}>
-          <i className='fas fa-pause'></i>
-        </button>
-      )
-    }
-  }
-
   //Change time on song with progress bar
   function changedSongTime(e) {
     let coordStart = progressBar.current.getBoundingClientRect().left
@@ -171,7 +155,18 @@ const YoutubePlayer = (props) => {
             <button className={styles.next}>
               <i className='fas fa-step-backward' onClick={prevSong}></i>
             </button>
-            <PlayPaus />
+
+            {playing && (
+              <button className={styles.next} onClick={pausePlayer}>
+                <i className='fas fa-pause'></i>
+              </button>
+            )}
+            {!playing && (
+              <button className={styles.next} onClick={startPlayer}>
+                <i className='fas fa-play'></i>
+              </button>
+            )}
+
             <button className={styles.next} onClick={nextSong}>
               <i className='fas fa-step-forward'></i>
             </button>
