@@ -8,7 +8,7 @@
 .cardsContainer{
   max-height: 300px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
   color: var(--color-primary);
   overflow: scroll;
   gap: 1rem;
