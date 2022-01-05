@@ -11,13 +11,17 @@ const Form = () => {
 	const [newUser, setNewUser] = useState(defaultValues);
 
 	async function saveNewUser() {
-		fetch('/api/user/register', {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify(newUser),
-		})
-			.then((res) => res.json())
-			.then((data) => console.log(data));
+		try {
+			fetch('/api/user/register/', {
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				body: JSON.stringify(newUser),
+			})
+				.then((res) => res.json())
+				.then((data) => console.log(data));
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	const handelSubmit = (event) => {

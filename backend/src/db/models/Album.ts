@@ -1,9 +1,7 @@
-import Artist from './Artist';
-import Song from './Song';
+import { Artist } from './Artist';
+import { Song } from './Song';
 
-interface Album {
+export interface Album {
 	artist: Artist;
 	songs: Song[];
 }
-
-export = Album;
