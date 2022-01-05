@@ -8,8 +8,8 @@
 }
 
 .playerContainer {
-  position: absolute;
-  bottom: 0;
+  position: sticky;
+  top: calc(100vh - 85px);
   left: 0;
   z-index: 1000;
 
