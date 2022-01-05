@@ -10,6 +10,7 @@ const YoutubePlayer = (props) => {
 
   const [playing, setplaying] = useState(false)
   const [player, setplayer] = useState(null)
+  const [hide, sethide] = useState(false)
   const [endTime, setendTime] = useState('0:00')
   const [startTime, setstartTime] = useState('0:00')
   const [doneProgress, setdoneProgress] = useState('')
@@ -132,16 +133,37 @@ const YoutubePlayer = (props) => {
     player.seekTo(changedSongTime(e), true)
   }
 
+  const hideOrShow = () => {
+    sethide(!hide)
+  }
+  const hidecss = () => {
+    let css = {}
+    if (hide) {
+      css = {
+        top: 'calc(100vh)',
+        height: '0px',
+        border: 'none',
+        padding: '0',
+      }
+    }
+    return css
+  }
+
   return (
     <>
       {song ? (
-        <div className={styles.playerContainer}>
+        <div className={styles.playerContainer} style={hidecss()}>
           <YouTube
             videoId={song.song.videoId}
             opts={opts}
             onReady={onPlayerReady}
             onStateChange={onChange}
           />
+
+          <div className={styles.hide} onClick={hideOrShow}>
+            {!hide && <i className='fas fa-chevron-down'></i>}
+            {hide && <i className='fas fa-chevron-up'></i>}
+          </div>
 
           <div className={styles.songContainer}>
             <img className={styles.img} src={song.thumbnail?.url} alt='' />
