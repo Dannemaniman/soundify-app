@@ -24,16 +24,16 @@ router.get('/getallplaylists', async (req: Request, res: Response) => {
 });
 
 //get specific playlist by name
-router.get('/getplaylist/:name', async (req: Request, res: Response) => {
+router.get('/getplaylist/:name', (req: Request, res: Response) => {
 	let paramName = req.params.name;
-	res.send(paramName);
-	const result = await Playlist.findOne(
-		{ playlist_name: new RegExp(paramName, 'i') },
+
+	Playlist.findOne(
+		{ playlist_name: paramName },
 		function (err: any, docs: any) {
 			if (err) {
 				res.send(err.message);
 			} else {
-				res.json(docs);
+				res.send(docs);
 			}
 		}
 	);
