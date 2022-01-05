@@ -3,11 +3,13 @@ import Header from './components/header/Header'
 import Sidebar from './components/sidebar/Sidebar'
 import Login from './pages/LoginPage/LoginPage'
 import Home from './pages/HomePage/HomePage'
-import YoutubePlayer from './components/youtubePlayer/YoutubePlayer'
 import ArtistPage from './pages/ArtistPage/ArtistPage'
+import Signup from './pages/SignUpPage/SignUpPage'
+import YoutubePlayer from './components/youtubePlayer/YoutubePlayer'
 import { Route, Routes } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import SoundifyContext from './store/soundify-context'
+import { AuthContextProvider } from './store/auth-context'
 import { PlayerContext } from './store/playerContext'
 
 const App = () => {
@@ -19,7 +21,7 @@ const App = () => {
   }
 
   const ctx = useContext(SoundifyContext)
-  //console.log(ctx.user)
+  console.log(ctx.user)
 
   return (
     <div className='App'>
@@ -31,6 +33,7 @@ const App = () => {
           <Route exact path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/artist/:id' element={<ArtistPage />} />
+          <Route path='/signup' element={<Signup />} />
         </Routes>
       </main>
     </div>

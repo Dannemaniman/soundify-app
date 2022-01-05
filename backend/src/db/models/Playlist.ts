@@ -1,10 +1,11 @@
 import { Schema } from 'mongoose';
+import Song from './Song';
 
 // Document interface
 interface Playlist {
-  created_at: Date;
-  modified_at: Date;
+	songs: Song[];
+	created_at: Date;
+	modified_at: Date;
 }
 
-
-export = Playlist
+export = Playlist;
