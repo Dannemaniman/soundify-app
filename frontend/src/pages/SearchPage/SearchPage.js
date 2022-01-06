@@ -50,7 +50,7 @@ const SearchPage = () => {
 
     data.forEach((element) => {
 
-      if (element.type === 'song' || element.type === 'single') {
+      if (element.type === 'song' || element.type === 'single' || element.type === 'video') {
         newSongs.push(element)
       }
       else if (element.type === 'artist') {
