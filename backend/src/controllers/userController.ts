@@ -27,18 +27,13 @@ router.post(
 );
 
 router.post('/login', async (req: Request, res: Response) => {
-	console.log('login');
-
 	try {
-		//spräckt
 		const user = await User.findByCredentials(
 			req.body.email,
 			req.body.password
 		);
-		console.log(user);
 
 		const token = await user.generateAuthToken();
-		console.log(user);
 
 		res.send({ user: user.getPublicProfile(), token });
 	} catch (e: any) {
@@ -48,7 +43,6 @@ router.post('/login', async (req: Request, res: Response) => {
 
 router.post('/logout', auth, async (req: Request, res: Response) => {
 	try {
-		console.log(req.body);
 		req.body.user.tokens = req.body.user.tokens.filter(
 			(token: { token: string }) => {
 				return token.token !== req.body.token;
@@ -63,3 +57,7 @@ router.post('/logout', auth, async (req: Request, res: Response) => {
 });
 
 export = router;
+
+// Varför vi inte kan logga in är på grund av att vi inte har ett token som loginHandlern kan verifiera, så vi fastnar i en bad request.
+
+//Nu går det att logga in, vi får allt inkl. token. Nästa steg är att vi behöver spara objektet som skickas tillbaka i en Cookie eller LocalStorage för att i sin tur kunna få tag i användarens keys samt values.

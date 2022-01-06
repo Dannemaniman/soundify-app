@@ -2,25 +2,32 @@ import React, { useState } from 'react';
 
 const AuthContext = React.createContext({
 	isLoggedIn: '',
-	loginHandler: (username, password) => {},
+	loginHandler: (email, password) => {},
 	logoutHandler: () => {},
 });
 
 export const AuthContextProvider = (props) => {
-	console.log('from AuthContextProvider');
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const baseUrl = 'http://localhost:8000/';
+	console.log(isLoggedIn);
 
-	const loginHandler = (username, password) => {
-		const data = { username, password };
-		fetch(`/api/user/login`, {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify(data),
-		})
-			.then((data) => data.json())
-			.then((data) => console.log(data))
-			.catch((err) => console.log(err));
+	const loginHandler = async (email, password) => {
+		const data = { email, password };
+		try {
+			await fetch('/api/user/login', {
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				body: JSON.stringify(data),
+			})
+				.then((data) => {
+					console.log(data);
+					return data.json();
+				})
+
+				.then((message) => console.log(message));
+		} catch (err) {
+			console.log(err);
+		}
+
 		setIsLoggedIn(true);
 	};
 
