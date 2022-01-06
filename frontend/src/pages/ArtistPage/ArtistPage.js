@@ -11,6 +11,7 @@ const ArtistPage = () => {
   const [artist, setartist] = useState('')
   const [viewMore, setviewMore] = useState(false)
 
+  //Detta är bara tillfälligt för att testa denna page.
   useEffect(() => {
     const fetch1 = async () => {
       let response = await fetch(
@@ -26,7 +27,6 @@ const ArtistPage = () => {
     <>
       {artist && (
         <div className={styles.artistpage}>
-          {console.log(artist)}
           <HeroImg imgUrl={artist.thumbnails[0].url} caption={artist.name} />
 
           <section className={styles.description}>
@@ -49,6 +49,7 @@ const ArtistPage = () => {
             <SongList
               songs={artist.products.songs.content}
               header={`Top 5 songs by  ${artist.name}`}
+              thumbnails={artist.thumbnails}
             />
           </section>
 

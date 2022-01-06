@@ -10,7 +10,6 @@ const SearchPage = () => {
   let timer
   const waitTime = 1000
 
-
   const [search, setSearch] = useState('')
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
@@ -24,7 +23,7 @@ const SearchPage = () => {
         `https://yt-music-api.herokuapp.com/api/yt/search/${search}`
       )
       let res = await response.json()
-      console.log(res.content)
+
       sortFetchedData(res.content)
     }
     fetchSearch()
@@ -43,31 +42,23 @@ const SearchPage = () => {
   }
 
   const sortFetchedData = (data) => {
-
     let newSongs = []
     let newArtists = []
     let newAlbums = []
 
     data.forEach((element) => {
-
-      if (element.type === 'song' || element.type === 'single' || element.type === 'video') {
+      if (element.type === 'song' || element.type === 'single') {
         newSongs.push(element)
-      }
-      else if (element.type === 'artist') {
+      } else if (element.type === 'artist') {
         newArtists.push(element)
-      }
-      else if (element.type === 'album') {
+      } else if (element.type === 'album') {
         newAlbums.push(element)
       }
-
     })
-
-    console.log(newAlbums)
 
     setArtist(newArtists)
     setSongs(newSongs)
     setAlbums(newAlbums)
-
   }
 
   const resetAll = () => {
@@ -76,36 +67,43 @@ const SearchPage = () => {
     setAlbums([])
   }
 
-
   return (
     <>
-      {<div className={s.container}>
-        <h1>Search {search}</h1>
-        <input className={`${s.searchInput} ${s.icon}`} placeholder='Artists, songs or albums' onChange={handleChange} />
-        {!albums.length > 0 &&
-          <div className={s.yourMostPlayed}>
-            <h1>Your most played albums</h1>
-            <div className={s.cards}>
-              <div className={s.albumCard}>Metallica</div>
-              <div className={s.albumCard}>Rammstein</div>
+      {
+        <div className={s.container}>
+          <h1>Search {search}</h1>
+          <input
+            className={`${s.searchInput} ${s.icon}`}
+            placeholder='Artists, songs or albums'
+            onChange={handleChange}
+          />
+          {!albums.length > 0 && (
+            <div className={s.yourMostPlayed}>
+              <h1>Your most played albums</h1>
+              <div className={s.cards}>
+                <div className={s.albumCard}>Metallica</div>
+                <div className={s.albumCard}>Rammstein</div>
+              </div>
             </div>
-          </div>}
+          )}
 
-        {artists.length > 0 &&
+          {artists.length > 0 && (
+            <div>
+              <ArtistSlider artists={artists} />
+            </div>
+          )}
+          {albums.length > 0 && (
+            <div>
+              <AlbumSlider albums={albums} />
+            </div>
+          )}
           <div>
-            <ArtistSlider artists={artists} />
-          </div>}
-        {albums.length > 0 &&
-          <div>
-            <AlbumSlider albums={albums} />
-          </div>}
-        <div>
-          {songs.length > 0 && <SongList
-            songs={songs}
-            header={`Song results on "${search}"`}
-          />}
+            {songs.length > 0 && (
+              <SongList songs={songs} header={`Song results on "${search}"`} />
+            )}
+          </div>
         </div>
-      </div>}
+      }
     </>
   )
 }

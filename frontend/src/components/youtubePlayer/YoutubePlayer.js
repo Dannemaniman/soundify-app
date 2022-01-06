@@ -28,7 +28,6 @@ const YoutubePlayer = (props) => {
     playerVars: {
       autoplay: 1,
     },
-    origin: 'http://localhost:3000'
   }
 
   useEffect(() => {
@@ -48,7 +47,6 @@ const YoutubePlayer = (props) => {
     clearInterval(checkTime)
     checkTime = setInterval(() => {
       if (player.getCurrentTime() === null || player.getCurrentTime() === undefined) return
-      console.log(player.getCurrentTime())
       setstartTime(getTime(player.getCurrentTime()))
       setdoneProgress(
         (player.getCurrentTime() / player.getDuration()) * 100 + '%'
@@ -57,16 +55,14 @@ const YoutubePlayer = (props) => {
   }
 
   const onPlayerReady = (event) => {
-    console.log(event)
     event.target.pauseVideo()
     setplayer(event.target)
   }
 
   const onChange = (event) => {
-    if (event.data === window.YT.PlayerState.ENDED) {
+    if (event.data == window.YT.PlayerState.ENDED) {
       return nextSong()
     }
-    console.log(player)
     setTimes()
     setendTime(getTime(event.target.getDuration()))
   }
@@ -171,7 +167,7 @@ const YoutubePlayer = (props) => {
           </div>
 
           <div className={styles.songContainer}>
-            {/* <img className={styles.img} src={song.thumbnail?.url} alt='' /> */}
+            <img className={styles.img} src={song.thumbnail?.url} alt='' />
             <div className={styles.name}>
               <p className={styles.artistName}>{song.song.artist?.name}</p>
               <p className={styles.songName}>{song.song?.name}</p>
