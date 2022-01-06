@@ -1,0 +1,33 @@
+.artistSliderContainer{  
+  max-height: 300px;
+  margin: 3rem 0 4rem 0;  
+}
+.artistSliderContainer h1{  
+  margin-bottom: 2rem;
+}
+.cardsContainer{
+  max-height: 300px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+  color: var(--color-primary);
+  overflow: scroll;
+  gap: 1rem;
+}
+
+.artistCard{
+  width: 100%;
+  height: 8rem;
+  padding: 0.5rem;
+  background-color: rgb(255, 255, 255);
+  border: 2px solid var(--color-primary-orange);
+}
+
+.artistCard:hover{
+  cursor: pointer;
+}
+
+.artistCard .artistTitle{
+  color: var(--color-primary-floor);
+  text-shadow: 2px 2px 5px black;
+  
+}
