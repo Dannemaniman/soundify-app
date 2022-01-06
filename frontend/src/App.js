@@ -1,24 +1,25 @@
-import './App.css';
-import Header from './components/header/Header';
-import Sidebar from './components/sidebar/Sidebar';
-import Login from './pages/LoginPage/LoginPage';
-import Home from './pages/HomePage/HomePage';
-import ArtistPage from './pages/ArtistPage/ArtistPage';
-import Signup from './pages/SignUpPage/SignUpPage';
-import { Route, Routes } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import SoundifyContext from './store/soundify-context';
-import { AuthContextProvider } from './store/auth-context';
+import './App.css'
+import Header from './components/header/Header'
+import Sidebar from './components/sidebar/Sidebar'
+import Login from './pages/LoginPage/LoginPage'
+import Home from './pages/HomePage/HomePage'
+import ArtistPage from './pages/ArtistPage/ArtistPage'
+import { Route, Routes } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import SoundifyContext from './store/soundify-context'
+import { AuthContextProvider } from './store/auth-context'
+import SearchPage from './pages/SearchPage/SearchPage'
+import Signup from './pages/SignUpPage/SignUpPage'
 
 const App = () => {
-	const [sidebar, setsidebar] = useState(false);
+	const [sidebar, setsidebar] = useState(false)
 
 	const showSidebar = () => {
-		setsidebar(!sidebar);
-	};
+		setsidebar(!sidebar)
+	}
 
-	const ctx = useContext(SoundifyContext);
-	console.log(ctx.user);
+	const ctx = useContext(SoundifyContext)
+	console.log(ctx.user)
 
 	return (
 		<div className='App'>
@@ -29,11 +30,12 @@ const App = () => {
 					<Route exact path='/' element={<Home />} />
 					<Route path='/login' element={<Login />} />
 					<Route path='/artist/:id' element={<ArtistPage />} />
+					<Route path='/search' element={<SearchPage />} />
 					<Route path='/signup' element={<Signup />} />
 				</Routes>
 			</main>
 		</div>
-	);
-};
+	)
+}
 
-export default App;
+export default App
