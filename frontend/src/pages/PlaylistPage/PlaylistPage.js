@@ -1,7 +1,7 @@
-import Playlists from '../../components/playlists/Playlist';
+import Playlists from '../../components/playlists/Playlist'
 
 const PlaylistPage = () => {
-	return <Playlists />;
-};
+  return <Playlists />
+}
 
-export default PlaylistPage;
+export default PlaylistPage
