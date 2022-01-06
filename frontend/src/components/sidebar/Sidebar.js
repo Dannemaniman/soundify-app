@@ -36,7 +36,7 @@ const Sidebar = ({ hideSidebar, animation }) => {
 						</li>
 						<li
 							className={styles.listItem}
-							onClick={() => handleClick('myplaylist')}>
+							onClick={() => handleClick('myplaylists')}>
 							<i className={`fas fa-list-ul ${styles.symbol}`}></i>
 							PLAYLIST
 						</li>
