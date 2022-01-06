@@ -18,17 +18,17 @@ const ArtistSlider = ({ artists }) => {
         <div className={s.cardsContainer}>
           {artsistsArray.map((ele, index) => {
             return (
-              <>
-                <div className={s.artistCard} key={index} style={{
-                  backgroundImage: `url(${ele.thumbnails[1].url})`,
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'cover',
-                }}
-                  onClick={() => handleClick(ele.browseId)}
-                >
-                  <h2 className={s.artistTitle} key={index}>{ele.name}</h2>
-                </div></>)
+
+              <div className={s.artistCard} key={index} style={{
+                backgroundImage: `url(${ele.thumbnails[1].url})`,
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+              }}
+                onClick={() => handleClick(ele.browseId)}
+              >
+                <h2 className={s.artistTitle} key={index}>{ele.name}</h2>
+              </div>)
           })}
         </div>
       </div>
