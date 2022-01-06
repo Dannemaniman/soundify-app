@@ -18,7 +18,6 @@ const ArtistSlider = ({ artists }) => {
         <div className={s.cardsContainer}>
           {artsistsArray.map((ele, index) => {
             return (
-
               <div className={s.artistCard} key={index} style={{
                 backgroundImage: `url(${ele.thumbnails[1].url})`,
                 backgroundPosition: 'center',
