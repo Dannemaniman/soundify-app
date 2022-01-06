@@ -9,3 +9,7 @@
 .main {
   height: 100%;
 }
+
+iframe {
+  width: 100%;
+}
