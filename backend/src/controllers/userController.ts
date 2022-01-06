@@ -27,16 +27,22 @@ router.post(
 );
 
 router.post('/login', async (req: Request, res: Response) => {
+	console.log('login');
+
 	try {
+		//spräckt
 		const user = await User.findByCredentials(
 			req.body.email,
 			req.body.password
 		);
+		console.log(user);
+
 		const token = await user.generateAuthToken();
+		console.log(user);
 
 		res.send({ user: user.getPublicProfile(), token });
-	} catch (e) {
-		res.status(400).send();
+	} catch (e: any) {
+		res.sendStatus(500).json(e.msg);
 	}
 });
 
