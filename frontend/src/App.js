@@ -22,7 +22,6 @@ const App = () => {
   }
 
   const ctx = useContext(SoundifyContext)
-  console.log(ctx.user)
 
   return (
     <div className='App'>

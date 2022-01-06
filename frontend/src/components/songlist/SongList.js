@@ -7,10 +7,9 @@ const SongList = ({ songs, header, thumbnails }) => {
   const player = useContext(PlayerContext)
 
   const setPlaylistHandler = (data) => {
-    //console.log(songs, data)
     player.setPlaylist({
-      content: { songs: songs, thumbnails: thumbnails },
-      index: data,
+      content: { songs: songs, thumbnails: data.img ? data.img : thumbnails },
+      index: data.index,
     })
   }
 
