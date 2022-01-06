@@ -6,6 +6,7 @@ import Home from './pages/HomePage/HomePage'
 import ArtistPage from './pages/ArtistPage/ArtistPage'
 import Signup from './pages/SignUpPage/SignUpPage'
 import YoutubePlayer from './components/youtubePlayer/YoutubePlayer'
+import SearchPage from './pages/SearchPage/SearchPage'
 import { Route, Routes } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import SoundifyContext from './store/soundify-context'
@@ -33,6 +34,7 @@ const App = () => {
           <Route exact path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/artist/:id' element={<ArtistPage />} />
+          <Route path='/search' element={<SearchPage />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>
       </main>
