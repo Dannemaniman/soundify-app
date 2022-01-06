@@ -7,4 +7,6 @@
 .header {
   color: var(--color-primary);
   font-size: 3rem;
+  margin-bottom: 4rem;
+  margin-top: 2rem;
 }
