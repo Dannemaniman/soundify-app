@@ -5,7 +5,6 @@ import { PlayerContext } from '../../store/playerContext'
 const SongListItem = ({ index, song, setPlaylist }) => {
   return (
     <div className={styles.item}>
-      {console.log(song)}
       <section>
         <h2>
           {song.name.substring(0, 20)}

@@ -60,7 +60,7 @@ const YoutubePlayer = (props) => {
   }
 
   const onChange = (event) => {
-    if (event.data == window.YT.PlayerState.ENDED) {
+    if (event.data === window.YT.PlayerState.ENDED) {
       return nextSong()
     }
     setTimes()

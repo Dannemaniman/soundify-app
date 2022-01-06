@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import s from './AlbumSlider.module.css'
 
-const AlbumSlider = ({ albums }) => {
+const AlbumSlider = ({ albums, header }) => {
 
   const albumsArray = albums
 
@@ -9,7 +9,7 @@ const AlbumSlider = ({ albums }) => {
     <>
 
       <div className={s.albumSliderContainer}>
-        <h1>Album results:</h1>
+        <h1>{header}</h1>
         <div className={s.cardsContainer}>
           {albumsArray.map((ele, index) => {
             return (

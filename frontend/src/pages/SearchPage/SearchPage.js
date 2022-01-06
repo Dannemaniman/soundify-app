@@ -8,7 +8,7 @@ import s from './SearchPage.module.css'
 const SearchPage = () => {
   /* const param = useParams() */
   let timer
-  const waitTime = 1000
+  const waitTime = 800
 
   const [search, setSearch] = useState('')
   const [artists, setArtist] = useState([])
@@ -30,12 +30,15 @@ const SearchPage = () => {
   }, [search])
 
   const handleChange = async (e) => {
+
+    if (e.key === "Enter") setSearch(e.target.value)
+
     clearTimeout(timer)
 
     //Waiting for user finished typing
     timer = setTimeout(() => {
       if (!e.target.value.length > 0) {
-        resetAll()
+        resetAllSearchTerms()
       }
       setSearch(e.target.value)
     }, waitTime)
@@ -61,7 +64,7 @@ const SearchPage = () => {
     setAlbums(newAlbums)
   }
 
-  const resetAll = () => {
+  const resetAllSearchTerms = () => {
     setArtist([])
     setSongs([])
     setAlbums([])
@@ -76,6 +79,7 @@ const SearchPage = () => {
             className={`${s.searchInput} ${s.icon}`}
             placeholder='Artists, songs or albums'
             onChange={handleChange}
+            onKeyDown={handleChange}
           />
           {!albums.length > 0 && (
             <div className={s.yourMostPlayed}>
@@ -89,12 +93,12 @@ const SearchPage = () => {
 
           {artists.length > 0 && (
             <div>
-              <ArtistSlider artists={artists} />
+              <ArtistSlider artists={artists} header={`Artist results on "${search}"`} />
             </div>
           )}
           {albums.length > 0 && (
             <div>
-              <AlbumSlider albums={albums} />
+              <AlbumSlider albums={albums} header={`Album results on "${search}"`} />
             </div>
           )}
           <div>

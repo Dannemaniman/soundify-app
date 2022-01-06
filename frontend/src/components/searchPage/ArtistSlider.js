@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom"
 import s from './ArtistSlider.module.css'
 
-const ArtistSlider = ({ artists }) => {
+const ArtistSlider = ({ artists, header }) => {
 
   const artsistsArray = artists
   let navigate = useNavigate()
@@ -14,7 +14,7 @@ const ArtistSlider = ({ artists }) => {
   return (
     <>
       <div className={s.artistSliderContainer}>
-        <h1>Artists results:</h1>
+        <h1 >{header}</h1>
         <div className={s.cardsContainer}>
           {artsistsArray.map((ele, index) => {
             return (
