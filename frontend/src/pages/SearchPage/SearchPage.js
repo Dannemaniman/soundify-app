@@ -14,10 +14,13 @@ const SearchPage = () => {
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
 
   useEffect(() => {
     const fetchSearch = async () => {
       if (!search) return
+      setIsLoading(true)
 
       let response = await fetch(
         `https://yt-music-api.herokuapp.com/api/yt/search/${search}`
@@ -25,9 +28,11 @@ const SearchPage = () => {
       let res = await response.json()
 
       sortFetchedData(res.content)
+      if (res) setIsLoading(false)
     }
     fetchSearch()
   }, [search])
+
 
   const handleChange = async (e) => {
 
@@ -43,6 +48,7 @@ const SearchPage = () => {
       setSearch(e.target.value)
     }, waitTime)
   }
+
 
   const sortFetchedData = (data) => {
     let newSongs = []
@@ -64,11 +70,13 @@ const SearchPage = () => {
     setAlbums(newAlbums)
   }
 
+
   const resetAllSearchTerms = () => {
     setArtist([])
     setSongs([])
     setAlbums([])
   }
+
 
   return (
     <>
@@ -81,7 +89,7 @@ const SearchPage = () => {
             onChange={handleChange}
             onKeyDown={handleChange}
           />
-          {!albums.length > 0 && (
+          {!search.length > 0 && (
             <div className={s.yourMostPlayed}>
               <h1>Your most played albums</h1>
               <div className={s.cards}>
@@ -91,21 +99,27 @@ const SearchPage = () => {
             </div>
           )}
 
-          {artists.length > 0 && (
-            <div>
-              <ArtistSlider artists={artists} header={`Artist results on "${search}"`} />
-            </div>
-          )}
-          {albums.length > 0 && (
-            <div>
-              <AlbumSlider albums={albums} header={`Album results on "${search}"`} />
-            </div>
-          )}
-          <div>
-            {songs.length > 0 && (
-              <SongList songs={songs} header={`Song results on "${search}"`} />
+          <div className={isLoading ? 'loader' : ''}>
+            {(artists.length > 0 && !isLoading) && (
+              <div>
+                <ArtistSlider artists={artists} header={`Artist results on "${search}"`} />
+              </div>
             )}
+            {(albums.length > 0 && !isLoading) && (
+              <div>
+                <AlbumSlider albums={albums} header={`Album results on "${search}"`} />
+
+              </div>
+            )}
+            <div>
+              {(songs.length > 0 && !isLoading) && (
+                <SongList songs={songs} header={`Song results on "${search}"`} />
+              )}
+
+            </div>
           </div>
+
+
         </div>
       }
     </>
