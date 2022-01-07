@@ -34,8 +34,8 @@ router.post('/login', async (req: Request, res: Response) => {
 		);
 
 		const token = await user.generateAuthToken();
-
-		res.send({ user: user.getPublicProfile(), token });
+		res.cookie('loggedIn', token, { maxAge: 900000, httpOnly: true });
+		res.send({ user: user.getPublicProfile() });
 	} catch (e: any) {
 		res.sendStatus(500).json(e.msg);
 	}

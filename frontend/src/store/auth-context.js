@@ -8,8 +8,6 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props) => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	console.log(isLoggedIn);
-
 	const loginHandler = async (email, password) => {
 		const data = { email, password };
 		try {
@@ -22,12 +20,10 @@ export const AuthContextProvider = (props) => {
 					console.log(data);
 					return data.json();
 				})
-
 				.then((message) => console.log(message));
 		} catch (err) {
 			console.log(err);
 		}
-
 		setIsLoggedIn(true);
 	};
 
