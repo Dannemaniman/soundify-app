@@ -1,12 +1,21 @@
 import React from 'react';
 import styles from './Sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../../store/auth-context';
 
 const Sidebar = ({ hideSidebar, animation }) => {
 	let navigate = useNavigate();
+	const ctx = useContext(AuthContext);
 
 	const handleClick = (page) => {
 		navigate(`/${page}`, { replace: true });
+		hideSidebar();
+	};
+
+	const handleLogout = () => {
+		ctx.logoutHandler();
+		navigate('/');
 		hideSidebar();
 	};
 
@@ -46,7 +55,7 @@ const Sidebar = ({ hideSidebar, animation }) => {
 							<i className={`fas fa-search ${styles.symbol}`}></i>
 							SEARCH
 						</li>
-						<li className={styles.listItem}>
+						<li className={styles.listItem} onClick={handleLogout}>
 							<i className={`fas fa-sign-out-alt ${styles.symbol}`}></i>
 							LOGOUT
 						</li>

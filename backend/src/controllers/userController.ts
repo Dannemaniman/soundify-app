@@ -40,7 +40,7 @@ router.post('/login', async (req: Request, res: Response) => {
 		res.sendStatus(500).json(e.msg);
 	}
 });
-
+//auth
 router.post('/logout', auth, async (req: Request, res: Response) => {
 	try {
 		req.body.user.tokens = req.body.user.tokens.filter(
@@ -48,16 +48,21 @@ router.post('/logout', auth, async (req: Request, res: Response) => {
 				return token.token !== req.body.token;
 			}
 		);
+		res.send(req.body.user.tokens);
 		await req.body.user.save();
 
-		res.status(200).send();
+		//Det går att logga ut genom thunderclient om du använder bearer auth med token. Så uppenbarligen går det att logga ut men behöver veta hur jag skickar in den i hans kod han gjort-
+
+		//Ta bort cookie, gör en mongoose metod för att jämföra token och sedan ta bort token i databas.
+		res.clearCookie('loggedIn');
+		res.send(req.cookies);
+		// res.send({ user: req.body.user });
 	} catch (error) {
 		res.status(500).send();
 	}
 });
 
+router.get('/whoami', (req: Request, res: Response) => {
+	res.send(req.cookies);
+});
 export = router;
-
-// Varför vi inte kan logga in är på grund av att vi inte har ett token som loginHandlern kan verifiera, så vi fastnar i en bad request.
-
-//Nu går det att logga in, vi får allt inkl. token. Nästa steg är att vi behöver spara objektet som skickas tillbaka i en Cookie eller LocalStorage för att i sin tur kunna få tag i användarens keys samt values.
