@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import s from './ViewMore.module.css'
+import backIcon from '../../assets/icons/back.png'
 
-import AlbumSlider from '../../components/searchPage/AlbumSlider'
-import ArtistSlider from '../../components/searchPage/ArtistSlider'
 import SongList from '../../components/songlist/SongList'
 
 const ViewMore = () => {
+
+  let navigate = useNavigate()
 
   const query = new URLSearchParams(useLocation().search)
   const type = query.get("query")
@@ -31,16 +32,25 @@ const ViewMore = () => {
     fetchSearch()
   }, [type, name])
 
+  const handleGoback = () => {
+    navigate(`/search/${name}`, { replace: true })
+
+  }
+
 
   return (
-    <div className={isLoading ? "loader" : s.container}>
-      <h1>{type.charAt(0).toUpperCase()}{type.slice(1)} found:</h1>
-      {console.log(dataToRender)}
+    <div className={s.container}>
+
+      <div className={s.header} onClick={() => { handleGoback() }}>
+        <img src={backIcon} alt="" />
+        <h1>{type.charAt(0).toUpperCase()}{type.slice(1)} found:</h1>
+      </div>
+      {isLoading && <div className={isLoading ? "loader" : ""}></div>}
       {!isLoading && dataToRender.map((ele, index) => {
         return (
           <div className={s.viewMoreItem} key={index}>
             <div className={s.mainContent}>
-              <h1 className={s.artistTitle}>{ele.name.substring(0, 25)} </h1>
+              <h1 className={s.artistTitle}>{ele.name.substring(0, 20)} {ele.name.length > 20 ? "..." : ""}</h1>
               <img src={ele.thumbnails[0].url} alt="artist or album" />
             </div>
             {ele.artist && <p>By: {ele.artist}</p>}
@@ -48,6 +58,7 @@ const ViewMore = () => {
             {/* <button>{type.charAt(0).toUpperCase()}{type.slice(1, -1)}</button> */}
           </div>)
       })}
+
     </div>
   )
 

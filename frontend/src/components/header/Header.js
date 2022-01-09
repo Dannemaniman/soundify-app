@@ -1,14 +1,20 @@
 import React from 'react'
+import { useLocation, useNavigate } from "react-router-dom"
 import styles from './Header.module.css'
 
 const Header = ({ showSidebar }) => {
+
+  let navigate = useNavigate()
+
+
+
   return (
     <div className={styles.header}>
       <div className={styles.hamburgerContainer} onClick={showSidebar}>
         <div className={styles.hamburger}></div>
       </div>
 
-      <div className={styles.img}>
+      <div className={styles.img} onClick={() => { navigate('/') }}>
         <svg
           width='115'
           height='60'

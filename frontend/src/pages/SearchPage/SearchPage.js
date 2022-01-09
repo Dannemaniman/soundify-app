@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
+import { useLocation, useNavigate } from "react-router-dom"
+
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
 import SongList from '../../components/songlist/SongList'
 import s from './SearchPage.module.css'
 
 const SearchPage = () => {
-  /* const param = useParams() */
+  const param = useParams()
+  let navigate = useNavigate()
+
   let timer
   const waitTime = 800
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(param.query ? param.query : "")
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
@@ -18,6 +22,7 @@ const SearchPage = () => {
 
 
   useEffect(() => {
+
     const fetchSearch = async () => {
       if (!search) return
       setIsLoading(true)
@@ -29,15 +34,16 @@ const SearchPage = () => {
 
       sortFetchedData(res.content)
       if (res) setIsLoading(false)
+      navigate(`/search/${search}`, { replace: true })
     }
     fetchSearch()
-  }, [search])
+
+  }, [navigate, search])
 
 
-  const handleChange = async (e) => {
+  const handleChangeInput = async (e) => {
 
     if (e.key === "Enter") setSearch(e.target.value)
-
     clearTimeout(timer)
 
     //Waiting for user finished typing
@@ -47,6 +53,7 @@ const SearchPage = () => {
       }
       setSearch(e.target.value)
     }, waitTime)
+
   }
 
 
@@ -86,8 +93,8 @@ const SearchPage = () => {
           <input
             className={`${s.searchInput} ${s.icon}`}
             placeholder='Artists, songs or albums'
-            onChange={handleChange}
-            onKeyDown={handleChange}
+            onChange={handleChangeInput}
+            onKeyDown={handleChangeInput}
           />
           {!search.length > 0 && (
             <div className={s.yourMostPlayed}>

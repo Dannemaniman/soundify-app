@@ -1,14 +1,14 @@
-import React from 'react';
-import styles from './Sidebar.module.css';
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import styles from './Sidebar.module.css'
+import { useNavigate } from 'react-router-dom'
 
 const Sidebar = ({ hideSidebar, animation }) => {
-	let navigate = useNavigate();
+	let navigate = useNavigate()
 
 	const handleClick = (page) => {
-		navigate(`/${page}`, { replace: true });
-		hideSidebar();
-	};
+		navigate(`/${page}`, { replace: true })
+		hideSidebar()
+	}
 
 	return (
 		<>
@@ -29,7 +29,7 @@ const Sidebar = ({ hideSidebar, animation }) => {
 
 				<div className={styles.listContainer}>
 					<ul className={styles.list}>
-						<li className={styles.listItem}>
+						<li className={styles.listItem} onClick={() => handleClick('')} >
 							{' '}
 							<i className={`fas fa-home ${styles.symbol}`}></i>
 							HOME
@@ -66,7 +66,7 @@ const Sidebar = ({ hideSidebar, animation }) => {
 				</div>
 			</div>
 		</>
-	);
-};
+	)
+}
 
-export default Sidebar;
+export default Sidebar

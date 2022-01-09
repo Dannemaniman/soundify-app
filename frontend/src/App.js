@@ -36,6 +36,7 @@ const App = () => {
 					<Route path='/login' element={<Login />} />
 					<Route path='/artist/:id' element={<ArtistPage />} />
 					<Route path='/search' element={<SearchPage />} />
+					<Route path='/search/:query' element={<SearchPage />} />
 					<Route path='/search/show-more' element={<ViewMore />} />
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/myplaylists' element={<PlaylistPage />} />
