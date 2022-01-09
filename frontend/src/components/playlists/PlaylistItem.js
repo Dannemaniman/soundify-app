@@ -1,16 +1,30 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { PlayerContext } from '../../store/playerContext'
+import { useNavigate } from 'react-router-dom'
 import styles from './PlaylistItem.module.css'
 
 const PlaylistItem = (props) => {
+  const ctx = useContext(PlayerContext)
+  let navigate = useNavigate()
+
   const createPlaylist = () => {
     console.log('create')
   }
 
+  const playListHandler = () => {
+    ctx.setPlaylistPage(props.playlist)
+    navigate(`/playlist`, { replace: true })
+  }
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={playListHandler}>
       <figure className={styles.figure}>
         {!props.create ? (
-          <img className={styles.img} src={props.playlist?.img} alt='photo' />
+          <img
+            className={styles.img}
+            src={props.playlist.songs[0].thumbnail}
+            alt='photo'
+          />
         ) : (
           <div className={styles.plus} onClick={createPlaylist}>
             <i className='far fa-plus'></i>

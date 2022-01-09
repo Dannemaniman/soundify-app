@@ -14,7 +14,8 @@ const Playlists = (lists) => {
   useEffect(() => {
     async function fetcch() {
       const playlistss = await fetch('/api/playlist/getallplaylists')
-      setplaylists(await playlistss.json())
+      let test = await playlistss.json()
+      setplaylists(test)
     }
     fetcch()
   }, [])
