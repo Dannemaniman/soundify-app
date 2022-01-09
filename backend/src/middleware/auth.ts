@@ -12,10 +12,10 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 		) as JwtPayload;
 		const user = await User.findOne({
 			_id: decoded._id,
-			tokens: token,
+			// 'tokens.token': token,
 		});
 		//hittar användaren men visar alla tokens istället för att visa den aktuella?
-		console.log(user);
+
 		if (!user) {
 			throw new Error();
 		}

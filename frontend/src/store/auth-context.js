@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const AuthContext = React.createContext({
 	isLoggedIn: '',
 	loginHandler: (email, password) => {},
-	logoutHandler: () => {},
+	logoutHandler: (token) => {},
 });
 
 export const AuthContextProvider = (props) => {
@@ -28,7 +28,7 @@ export const AuthContextProvider = (props) => {
 		setIsLoggedIn(true);
 	};
 
-	const logoutHandler = async () => {
+	const logoutHandler = async (token) => {
 		setIsLoggedIn(false);
 	};
 

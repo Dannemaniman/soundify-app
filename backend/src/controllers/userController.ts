@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { User as IUser } from '../db/models/User';
 import userService from '../services/userService';
 import bcrypt from 'bcrypt';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import User from '../db/schemas/userSchema';
 import auth from '../middleware/auth';
 
@@ -41,21 +42,37 @@ router.post('/login', async (req: Request, res: Response) => {
 	}
 });
 //auth
+
+const tokenCatcher = async (req: Request) => {
+	const token = req.header('Authorization')?.replace('Bearer ', '');
+	console.log(token);
+	const decoded = jwt.verify(
+		token as string,
+		process.env.TOKEN_KEY as string
+	) as JwtPayload;
+
+	return decoded;
+};
+
 router.post('/logout', auth, async (req: Request, res: Response) => {
+	const token2 = await tokenCatcher(req);
 	try {
-		req.body.user.tokens = req.body.user.tokens.filter(
-			(token: { token: string }) => {
-				return token.token !== req.body.token;
-			}
-		);
-		res.send(req.body.user.tokens);
-		await req.body.user.save();
+		let user = await User.findOne({ _id: token2._id });
+
+		if (user && token2) {
+			user.tokens = user.tokens.filter((token: any) => {
+				return token.token !== token2;
+			});
+
+			await user.save();
+			res.clearCookie('loggedIn');
+			res.send(200);
+		}
 
 		//Det går att logga ut genom thunderclient om du använder bearer auth med token. Så uppenbarligen går det att logga ut men behöver veta hur jag skickar in den i hans kod han gjort-
 
 		//Ta bort cookie, gör en mongoose metod för att jämföra token och sedan ta bort token i databas.
-		res.clearCookie('loggedIn');
-		res.send(req.cookies);
+
 		// res.send({ user: req.body.user });
 	} catch (error) {
 		res.status(500).send();
