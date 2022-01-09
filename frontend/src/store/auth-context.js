@@ -28,7 +28,7 @@ export const AuthContextProvider = (props) => {
 		setIsLoggedIn(true);
 	};
 
-	const logoutHandler = async (token) => {
+	const logoutHandler = async () => {
 		setIsLoggedIn(false);
 	};
 

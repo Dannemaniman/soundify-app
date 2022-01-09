@@ -35,6 +35,7 @@ router.post('/login', async (req: Request, res: Response) => {
 		);
 
 		const token = await user.generateAuthToken();
+		console.log(token);
 		res.cookie('loggedIn', token, { maxAge: 900000, httpOnly: true });
 		res.send({ user: user.getPublicProfile() });
 	} catch (e: any) {
@@ -63,9 +64,8 @@ router.post('/logout', auth, async (req: Request, res: Response) => {
 			user.tokens = user.tokens.filter((token: any) => {
 				return token.token !== token2;
 			});
-
-			await user.save();
 			res.clearCookie('loggedIn');
+			await user.save();
 			res.send(200);
 		}
 
