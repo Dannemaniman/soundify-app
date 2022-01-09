@@ -1,9 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose'
-import { User, UserModel } from '../models/User'
-import { ReturnUser } from '../models/ReturnUser'
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
-import Song from '../models/Song'
+import { Song } from '../models/Song'
 
 const songSchema = new Schema<Song>({
   name: { type: String, required: true, trim: true, unique: true },

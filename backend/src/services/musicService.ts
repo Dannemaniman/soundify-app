@@ -1,31 +1,34 @@
+import Album from '../db/models/Album'
+import Artist from '../db/models/Artist'
+import Song from '../db/models/Song'
 
 
-export const saveSong = () => {
-
-}
-
-export const deleteSong = () => {
-
-}
-
-
-export const saveAlbum = () => {
+export const saveSong = (song: Song) => {
 
 }
 
-export const saveArtist = () => {
+export const deleteSong = (id: string) => {
 
 }
 
-export const getSong = () => {
+
+export const saveAlbum = (album: Album) => {
 
 }
 
-export const getArtist = () => {
+export const saveArtist = (artist: Artist) => {
 
 }
 
-export const getAlbum = () => {
+export const getSong = (id: string) => {
+
+}
+
+export const getArtist = (artist: Artist) => {
+
+}
+
+export const getAlbum = (album: Album) => {
 
 }
 
