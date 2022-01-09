@@ -10,7 +10,7 @@ const SongListItem = ({ index, song, setPlaylist }) => {
           {song.name.substring(0, 20)}
           {song.name.length >= 30 ? ' ...' : ''}
         </h2>
-        <h4>{song.artist.name}</h4>
+        <h4>{song.artist.name ? song.artist.name : song.artist}</h4>
       </section>
 
       <figure
