@@ -45,7 +45,6 @@ router.post('/login', async (req: Request, res: Response) => {
 
 const tokenCatcher = async (req: Request) => {
 	const token = req.header('Authorization')?.replace('Bearer ', '');
-	console.log(token);
 	const decoded = jwt.verify(
 		token as string,
 		process.env.TOKEN_KEY as string
@@ -55,9 +54,10 @@ const tokenCatcher = async (req: Request) => {
 };
 
 router.post('/logout', auth, async (req: Request, res: Response) => {
-	const token2 = await tokenCatcher(req);
+	const token_payload = await tokenCatcher(req);
+	const token2 = req.header('Authorization')?.replace('Bearer ', '');
 	try {
-		let user = await User.findOne({ _id: token2._id });
+		let user = await User.findOne({ _id: token_payload._id });
 
 		if (user && token2) {
 			user.tokens = user.tokens.filter((token: any) => {
