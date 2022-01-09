@@ -8,14 +8,24 @@
 }
 
 .playerContainer {
+<<<<<<< HEAD
   position: absolute;
   bottom: 0;
   left: 0;
+=======
+  position: fixed;
+  top: calc(100vh - 85px);
+  left: 50%;
+>>>>>>> 0daea0579d2636e098cfcf1e7c98b8d9d3c3100f
   z-index: 1000;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+<<<<<<< HEAD
   grid-template-rows: 1fr 5rem;
+=======
+  grid-template-rows: 5fr 2fr;
+>>>>>>> 0daea0579d2636e098cfcf1e7c98b8d9d3c3100f
   justify-items: center;
   align-items: center;
 
@@ -25,7 +35,16 @@
 
   height: 85px;
   width: 100%;
+<<<<<<< HEAD
   background-color: var(--color-primary-light);
+=======
+  max-width: 500px;
+  transform: translate(-50%, 0);
+  background-color: var(--color-primary-light);
+  transition: all 0.2s ease-in-out;
+
+  /* overflow: hidden; */
+>>>>>>> 0daea0579d2636e098cfcf1e7c98b8d9d3c3100f
 }
 
 .buttonContainer {
@@ -85,7 +104,11 @@
 }
 
 .progressBarDone {
+<<<<<<< HEAD
   width: 30%;
+=======
+  width: 0;
+>>>>>>> 0daea0579d2636e098cfcf1e7c98b8d9d3c3100f
   background-color: var(--color-primary-orange);
   border-radius: 5px;
   height: 5px;
@@ -93,11 +116,38 @@
 }
 
 .progressContainer {
+<<<<<<< HEAD
   position: absolute;
   bottom: 5px;
   left: 0;
+=======
+>>>>>>> 0daea0579d2636e098cfcf1e7c98b8d9d3c3100f
   grid-column: 1/4;
   display: flex;
   align-items: center;
   width: 100%;
 }
+<<<<<<< HEAD
+=======
+
+.hide {
+  cursor: pointer;
+  position: absolute;
+  top: -2rem;
+
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  height: 2rem;
+  width: 5rem;
+  background-color: var(--color-primary-orange);
+  color: var(--color-primary-silver);
+  border-top: 2px solid var(--color-primary);
+  border-left: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+}
+>>>>>>> 0daea0579d2636e098cfcf1e7c98b8d9d3c3100f

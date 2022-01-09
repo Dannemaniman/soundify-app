@@ -1,7 +1,17 @@
 import React from 'react'
 import styles from './Sidebar.module.css'
+import { useNavigate } from "react-router-dom"
+
 
 const Sidebar = ({ hideSidebar, animation }) => {
+
+  let navigate = useNavigate()
+
+  const handleClick = (page) => {
+    navigate(`/${page}`, { replace: true })
+    hideSidebar()
+  }
+
   return (
     <>
       <div
@@ -32,7 +42,7 @@ const Sidebar = ({ hideSidebar, animation }) => {
               <i className={`fas fa-list-ul ${styles.symbol}`}></i>
               PLAYLIST
             </li>
-            <li className={styles.listItem}>
+            <li className={styles.listItem} onClick={() => handleClick("search")}>
               <i className={`fas fa-search ${styles.symbol}`}></i>
               SEARCH
             </li>

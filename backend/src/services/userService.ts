@@ -1,4 +1,4 @@
-import { UserInterface } from '../db/models/User'
+import { User as IUser } from '../db/models/User'
 import User from '../db/schemas/userSchema'
 
 const jwt = require("jsonwebtoken")
@@ -7,7 +7,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 
-const createNewUser = async (user: UserInterface) => {
+const createNewUser = async (user: IUser) => {
   try {
 
     if (await findUser(user.email)) return
