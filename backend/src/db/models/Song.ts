@@ -1,7 +1,7 @@
 import { Artist } from './Artist'
 
 // Document interface
-export default interface Song {
+export interface Song {
   name: string
   artist: Artist[]
   lenght: number

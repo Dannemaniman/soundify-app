@@ -23,7 +23,7 @@ const userSchema = new Schema<User, UserModel>(
         ref: 'Playlist',
       },
     ],
-    email: { type: String, unique: true },
+    email: { type: String, unique: true, required: true, trim: true },
   },
   {
     timestamps: true,
@@ -68,14 +68,13 @@ userSchema.methods.getPublicProfile = function () {
 userSchema.static(
   'findByCredentials',
   async function findByCredentials(email: string, password: string) {
-    console.log(email)
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email }).populate('playlists').exec()
 
-    if (!user) throw new Error('Unable to login')
+    if (!user) throw new Error('User doesnt exist.')
 
     const isMatch = await bcrypt.compare(password, user.password)
 
-    if (!isMatch) throw new Error('Unable to login')
+    if (!isMatch) throw new Error('Wrong password.')
 
     return user
   }
