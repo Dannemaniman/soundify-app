@@ -35,16 +35,13 @@
   display: flex;
   width: 4rem;
   height: 4rem;
-
   border-radius: 50%;
   border: 0.2rem solid var(--color-primary-light);
   filter: brightness(1.4);
-
   justify-self: center;
-
   cursor: pointer;
-      align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .play {
