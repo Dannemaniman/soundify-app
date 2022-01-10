@@ -4,8 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 import s from './ViewMore.module.css'
 import backIcon from '../../assets/icons/back.png'
 
-import SongList from '../../components/songlist/SongList'
-
 const ViewMore = () => {
 
   let navigate = useNavigate()
@@ -34,13 +32,12 @@ const ViewMore = () => {
 
   const handleGoback = () => {
     navigate(`/search/${name}`, { replace: true })
-
   }
 
 
   return (
     <div className={s.container}>
-
+      {console.log(dataToRender)}
       <div className={s.header} onClick={() => { handleGoback() }}>
         <img src={backIcon} alt="" />
         <h1>{type.charAt(0).toUpperCase()}{type.slice(1)} found:</h1>
@@ -53,12 +50,11 @@ const ViewMore = () => {
               <h1 className={s.artistTitle}>{ele.name.substring(0, 20)} {ele.name.length > 20 ? "..." : ""}</h1>
               <img src={ele.thumbnails[0].url} alt="artist or album" />
             </div>
-            {ele.artist && <p>By: {ele.artist}</p>}
+            {typeof ele.artist === 'string' && <p>By: {ele.artist}</p>}
             {!ele.artist && <p>Go to artist page</p>}
             {/* <button>{type.charAt(0).toUpperCase()}{type.slice(1, -1)}</button> */}
           </div>)
       })}
-
     </div>
   )
 

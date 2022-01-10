@@ -3,6 +3,7 @@ import SongListItem from './SongListItem'
 import styles from './SongList.module.css'
 import { PlayerContext } from '../../store/playerContext'
 
+
 const SongList = ({ songs, header, thumbnails }) => {
   const player = useContext(PlayerContext)
 

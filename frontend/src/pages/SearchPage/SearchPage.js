@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
+import SongSlider from '../../components/searchPage/SongSlider'
 import SongList from '../../components/songlist/SongList'
 import s from './SearchPage.module.css'
 
@@ -55,7 +56,6 @@ const SearchPage = () => {
     }, waitTime)
 
   }
-
 
   const sortFetchedData = (data) => {
     let newSongs = []
@@ -115,15 +115,15 @@ const SearchPage = () => {
             {(albums.length > 0 && !isLoading) && (
               <div>
                 <AlbumSlider albums={albums} header={`Album results on "${search}"`} />
-
               </div>
             )}
-            <div>
-              {(songs.length > 0 && !isLoading) && (
-                <SongList songs={songs} header={`Song results on "${search}"`} />
-              )}
 
-            </div>
+            {(songs.length > 0 && !isLoading) && (
+              <div>
+                <SongSlider songs={songs} header={`Songs results on "${search}"`} />
+              </div>
+            )}
+
           </div>
 
 
