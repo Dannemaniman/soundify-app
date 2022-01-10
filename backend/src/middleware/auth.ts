@@ -5,7 +5,8 @@ import User from '../db/schemas/userSchema';
 const auth = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		//Får vårt token i req.header
-		const token = req.header('Authorization')?.replace('Bearer ', '');
+		const token = req.cookies.loggedIn;
+		// req.header('Authorization')?.replace('Bearer ', '');
 		const decoded = jwt.verify(
 			token as string,
 			process.env.TOKEN_KEY as string
