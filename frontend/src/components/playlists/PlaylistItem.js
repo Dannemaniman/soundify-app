@@ -7,13 +7,19 @@ const PlaylistItem = (props) => {
   const ctx = useContext(PlayerContext)
   let navigate = useNavigate()
 
-  const createPlaylist = () => {
+  const createPlaylist = async () => {
     console.log('create')
+    let response = await fetch('/api/playlist/createplaylist', {
+      method: 'POST',
+      data: JSON.stringify({ name: 'testing' }),
+    })
+    let test = response.json()
+    console.log(test)
   }
 
   const playListHandler = () => {
-    ctx.setPlaylistPage(props.playlist)
-    navigate(`/playlist`, { replace: true })
+    // ctx.setPlaylistPage(props.playlist)
+    //  navigate(`/playlist`, { replace: true })
   }
 
   return (
@@ -22,7 +28,11 @@ const PlaylistItem = (props) => {
         {!props.create ? (
           <img
             className={styles.img}
-            src={props.playlist.songs[0].thumbnail}
+            src={
+              props.playlist.songs.length < 1
+                ? ''
+                : props.playlist.songs[0].thumbnail
+            }
             alt='photo'
           />
         ) : (

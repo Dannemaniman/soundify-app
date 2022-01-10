@@ -1,6 +1,7 @@
 import styles from './Playlist.module.css'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import PlaylistItem from './PlaylistItem'
+import AuthContext from '../../store/auth-context'
 //Först måste vi hämta den aktiva användaren
 //const activeUser = await fetch('/');
 
@@ -9,16 +10,22 @@ import PlaylistItem from './PlaylistItem'
 
 //Rendera sedan ut alla spellistorna som finns innuti arrayen
 const Playlists = (lists) => {
+  const auth = useContext(AuthContext)
+
   const [playlists, setplaylists] = useState([])
   //TEMP SKIT
   useEffect(() => {
     async function fetcch() {
-      const playlistss = await fetch('/api/playlist/getallplaylists')
+      const playlistss = await fetch(`/api/playlist/getallplaylists`)
       let test = await playlistss.json()
       setplaylists(test)
+      console.log(test)
     }
     fetcch()
-  }, [])
+
+    //setplaylists(auth.user.playlists)
+    //console.log(auth.user.playlists)
+  }, [auth.user])
 
   return (
     <div className={styles.container}>

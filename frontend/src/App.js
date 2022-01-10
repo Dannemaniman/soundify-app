@@ -10,14 +10,26 @@ import SearchPage from './pages/SearchPage/SearchPage'
 import PlaylistPage from './pages/PlaylistPage/PlaylistPage'
 import PlaylistSongPage from './pages/PlaylistSongPage/PlaylistSongPage'
 import { Route, Routes } from 'react-router-dom'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import SoundifyContext from './store/soundify-context'
-import { AuthContextProvider } from './store/auth-context'
+import AuthContext from './store/auth-context'
 import { PlayerContext } from './store/playerContext'
 
 const App = () => {
   const [sidebar, setsidebar] = useState(false)
   const player = useContext(PlayerContext)
+  const auth = useContext(AuthContext)
+
+  useEffect(() => {
+    if (auth.user !== null) return
+    const getUser = async () => {
+      let response = await fetch('/api/user/whoami')
+      let user = await response.json()
+      auth.setUserHandler(user)
+      console.log(user)
+    }
+    getUser()
+  }, [])
 
   const showSidebar = () => {
     setsidebar(!sidebar)
