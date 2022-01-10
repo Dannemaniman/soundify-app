@@ -3,24 +3,58 @@ import { PlaylistInterface } from '../db/models/Playlist'
 import Playlist from '../db/schemas/playlistSchema'
 import playlistService from '../services/playlistService'
 import userService from '../services/userService'
+import jwt, { JwtPayload } from 'jsonwebtoken'
+import User from '../db/schemas/userSchema'
 
 const router: Router = Router()
 
 //create a new playlist (empty)
 router.post('/createplaylist', async (req: Request, res: Response) => {
   try {
+    const token = req.header('Authorization')?.replace('Bearer ', '')
+
+    if (!token || !process.env.TOKEN_KEY) return
+
+    const decoded = jwt.verify(
+      token as string,
+      process.env.TOKEN_KEY as string
+    ) as JwtPayload
+
+    const currentUser = await User.findById(decoded._id)
+    if (!currentUser) {
+      return
+    }
+
     const newPlaylist = await playlistService.createNewPlaylist(
-      req.body as PlaylistInterface
+      req.body as PlaylistInterface,
+      currentUser
     )
+    if (newPlaylist) {
+      currentUser.playlists.push(newPlaylist)
+      currentUser.save()
+    }
+
     res.sendStatus(200)
   } catch (error: any) {
     res.sendStatus(500).json(error.message)
   }
 })
-//get all playlists
+//get all playlists by user
 router.get('/getallplaylists', async (req: Request, res: Response) => {
-  const doc = await Playlist.find()
-  res.send(doc)
+  try {
+    const token = req.cookies.loggedIn
+    const decoded = jwt.verify(
+      token as string,
+      process.env.TOKEN_KEY as string
+    ) as JwtPayload
+
+    const doc = await Playlist.find({ user: decoded })
+    console.log(doc)
+
+    res.send(doc)
+  } catch (error: any) {
+    res.sendStatus(500).json(error.message)
+  }
 })
 
 //get specific playlist by name

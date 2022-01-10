@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import User from '../db/schemas/userSchema';
 import auth from '../middleware/auth';
+const { promisify } = require('util');
 
 const router: Router = Router();
 
@@ -66,14 +67,45 @@ router.post('/logout', auth, async (req: Request, res: Response) => {
 			});
 			res.clearCookie('loggedIn');
 			await user.save();
-			res.sendStatus(200);
+			res.send(200);
 		}
+
+		//Det går att logga ut genom thunderclient om du använder bearer auth med token. Så uppenbarligen går det att logga ut men behöver veta hur jag skickar in den i hans kod han gjort-
+
+		//Ta bort cookie, gör en mongoose metod för att jämföra token och sedan ta bort token i databas.
+
+		// res.send({ user: req.body.user });
 	} catch (error) {
 		res.status(500).send();
 	}
 });
 
-router.get('/whoami', (req: Request, res: Response) => {
-	res.send(req.cookies);
+router.get('/whoami', async (req: Request, res: Response) => {
+	if (req.cookies.loggedIn) {
+		console.log('--------------');
+
+		console.log(req.cookies.loggedIn);
+		try {
+			// 1) verify token
+			const decoded = await promisify(jwt.verify)(
+				req.cookies.loggedIn,
+				process.env.TOKEN_KEY
+			);
+
+			// 2) Check if user still exists
+			const currentUser = await User.findById(decoded._id);
+			if (!currentUser) {
+				return;
+			}
+
+			// THERE IS A LOGGED IN USER
+			//res.locals.user = currentUser
+
+			res.send({ user: currentUser.getPublicProfile() });
+			return;
+		} catch (err) {
+			res.status(500).send();
+		}
+	}
 });
 export = router;

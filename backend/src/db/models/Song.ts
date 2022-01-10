@@ -6,4 +6,5 @@ export default interface Song {
   artist: Artist[]
   lenght: number
   thumbnail: string
+  videoId: string
 }

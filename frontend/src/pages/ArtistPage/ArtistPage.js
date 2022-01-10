@@ -17,7 +17,9 @@ const ArtistPage = () => {
       let response = await fetch(
         'https://yt-music-api.herokuapp.com/api/yt/artist/UCGexNm_Kw4rdQjLxmpb2EKw'
       )
-      setartist(await response.json())
+      let artists = await response.json()
+      setartist(artists)
+      console.log(artists)
     }
 
     fetch1()
@@ -47,11 +49,12 @@ const ArtistPage = () => {
           </section>
 
           <section className={styles.songs}>
-            {console.log(artist.products)}
+            {console.log(artist.products.singles.content)}
             <SongList
-              songs={artist.products.songs.content}
+              songs={artist.products.singles.content}
               header={`Top 5 songs by  ${artist.name}`}
               thumbnails={artist.thumbnails}
+              artist={artist.name}
             />
           </section>
 

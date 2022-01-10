@@ -3,7 +3,7 @@ import SongListItem from './SongListItem'
 import styles from './SongList.module.css'
 import { PlayerContext } from '../../store/playerContext'
 
-const SongList = ({ songs, header, thumbnails }) => {
+const SongList = ({ songs, header, thumbnails, artist }) => {
   const player = useContext(PlayerContext)
 
   const setPlaylistHandler = (data) => {
@@ -21,6 +21,7 @@ const SongList = ({ songs, header, thumbnails }) => {
           key={index}
           index={index}
           song={song}
+          artist={artist}
           setPlaylist={setPlaylistHandler}
         />
       ))}
