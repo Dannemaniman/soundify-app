@@ -54,7 +54,6 @@ const ArtistPage = () => {
           </section>
 
           <section className={styles.songs}>
-            {console.log(artist.products)}
             <SongList
               songs={artist.products.songs.content}
               header={`Top 5 songs by  ${artist.name}`}
