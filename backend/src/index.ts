@@ -1,20 +1,19 @@
-import app from "./app"
-import dotenv from "dotenv"
-import connectToDB from "./db/connectMongoDB"
+import app from './app';
+import dotenv from 'dotenv';
+import connectToDB from './db/connectMongoDB';
 
-dotenv.config()
+dotenv.config();
 
 const startServer = async () => {
+	connectToDB();
+	const server = await app();
+	const port = process.env.PORT;
 
-  connectToDB()
-  const server = await app()
-  const port = process.env.PORT
+	console.log(port);
 
-  console.log(port)
+	server.listen(port, () => {
+		console.log(`App running on port ${port}`);
+	});
+};
 
-  server.listen(port, () => {
-    console.log(`App running on port ${port}`)
-  })
-}
-
-startServer()
+startServer();

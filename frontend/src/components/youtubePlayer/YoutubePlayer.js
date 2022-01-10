@@ -37,7 +37,9 @@ const YoutubePlayer = (props) => {
     setplaylist(context.playlist.content.songs)
     setsong({
       song: context.playlist.content.songs[context.playlist.index],
-      thumbnail: context.playlist.content.thumbnails[1],
+      thumbnail: context.playlist.content.thumbnails
+        ? context.playlist.content.thumbnails[1]
+        : context.playlist.content.songs[context.playlist.index].thumbnail,
     })
   }, [context])
 
@@ -46,7 +48,10 @@ const YoutubePlayer = (props) => {
     checkTime = setInterval(() => {
       if (player.getCurrentTime() === null) return
 
-      setstartTime(getTime(player.getCurrentTime()))
+      setstartTime(
+        getTime(player.getCurrentTime()) ||
+          player.getCurrentTime() === undefined
+      )
       setdoneProgress(
         (player.getCurrentTime() / player.getDuration()) * 100 + '%'
       )
@@ -59,28 +64,42 @@ const YoutubePlayer = (props) => {
   }
 
   const onChange = (event) => {
-    if (event.data == window.YT.PlayerState.ENDED) {
+    if (event.data === window.YT.PlayerState.ENDED) {
       return nextSong()
     }
     setTimes()
     setendTime(getTime(event.target.getDuration()))
   }
 
+  //Change to next song
   const nextSong = () => {
     if (index + 1 >= playlist.length) {
       setindex((prevIndex) => prevIndex - (playlist.length - 1))
       player.loadVideoById(playlist[0].videoId)
       setplaying(true)
-      setsong((prevState) => ({ ...prevState, song: playlist[0] }))
+      setsong((prevState) => ({
+        ...prevState,
+        song: playlist[0],
+        thumbnail: playlist[0].thumbnails
+          ? playlist[0].thumbnails[1].url
+          : playlist[0].thumbnail,
+      }))
       return
     }
 
     player.loadVideoById(playlist[index + 1].videoId)
     setplaying(true)
-    setsong((prevState) => ({ ...prevState, song: playlist[index + 1] }))
+    setsong((prevState) => ({
+      ...prevState,
+      song: playlist[index + 1],
+      thumbnail: playlist[index + 1].thumbnails
+        ? playlist[index + 1].thumbnails[1].url
+        : playlist[index + 1].thumbnail,
+    }))
     setindex((prevIndex) => prevIndex + 1)
   }
 
+  //Change to prev song
   const prevSong = () => {
     if (index - 1 < 0) {
       setindex((prevIndex) => prevIndex + (playlist.length - 1))
@@ -89,16 +108,26 @@ const YoutubePlayer = (props) => {
       setsong((prevState) => ({
         ...prevState,
         song: playlist[playlist.length - 1],
+        thumbnail: playlist[playlist.length - 1].thumbnails
+          ? playlist[playlist.length - 1].thumbnails[1].url
+          : playlist[playlist.length - 1].thumbnail,
       }))
       return
     }
 
     player.loadVideoById(playlist[index - 1].videoId)
     setplaying(true)
-    setsong((prevState) => ({ ...prevState, song: playlist[index - 1] }))
+    setsong((prevState) => ({
+      ...prevState,
+      song: playlist[index - 1],
+      thumbnail: playlist[index - 1].thumbnails
+        ? playlist[index - 1].thumbnails[1].url
+        : playlist[index - 1].thumbnail,
+    }))
     setindex((prevIndex) => prevIndex - 1)
   }
 
+  //Sets the time for the progress bar
   const getTime = (secondsTotal) => {
     var totalSec = secondsTotal
     var minutes = parseInt(totalSec / 60) % 60
@@ -111,10 +140,13 @@ const YoutubePlayer = (props) => {
     )
   }
 
+  //Pause the player
   const pausePlayer = () => {
     player.pauseVideo()
     setplaying(false)
   }
+
+  //Start the player
   const startPlayer = () => {
     player.playVideo()
     setplaying(true)
@@ -166,7 +198,16 @@ const YoutubePlayer = (props) => {
           </div>
 
           <div className={styles.songContainer}>
-            <img className={styles.img} src={song.thumbnail?.url} alt='' />
+            {song.thumbnail ? (
+              <img
+                className={styles.img}
+                src={song.thumbnail.url ? song.thumbnail?.url : song.thumbnail}
+                alt=''
+              />
+            ) : (
+              ''
+            )}
+
             <div className={styles.name}>
               <p className={styles.artistName}>{song.song.artist?.name}</p>
               <p className={styles.songName}>{song.song?.name}</p>

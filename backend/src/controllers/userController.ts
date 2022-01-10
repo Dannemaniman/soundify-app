@@ -2,8 +2,10 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { User as IUser } from '../db/models/User';
 import userService from '../services/userService';
 import bcrypt from 'bcrypt';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import User from '../db/schemas/userSchema';
 import auth from '../middleware/auth';
+const { promisify } = require('util');
 
 const router: Router = Router();
 
@@ -32,28 +34,71 @@ router.post('/login', async (req: Request, res: Response) => {
 			req.body.email,
 			req.body.password
 		);
-		const token = await user.generateAuthToken();
 
-		res.send({ user: user.getPublicProfile(), token });
-	} catch (e) {
-		res.status(400).send();
+		const token = await user.generateAuthToken();
+		console.log(token);
+		res.cookie('loggedIn', token, { maxAge: 900000, httpOnly: true });
+		res.send({ user: user.getPublicProfile() });
+	} catch (e: any) {
+		res.sendStatus(500).json(e.msg);
 	}
 });
+//auth
+
+const tokenCatcher = async (req: Request) => {
+	const token = req.cookies.loggedIn;
+	// req.header('Authorization')?.replace('Bearer ', '');
+	const decoded = jwt.verify(
+		token as string,
+		process.env.TOKEN_KEY as string
+	) as JwtPayload;
+
+	return decoded;
+};
 
 router.post('/logout', auth, async (req: Request, res: Response) => {
+	const token_payload = await tokenCatcher(req);
+	const token2 = req.cookies.loggedIn;
 	try {
-		console.log(req.body);
-		req.body.user.tokens = req.body.user.tokens.filter(
-			(token: { token: string }) => {
-				return token.token !== req.body.token;
-			}
-		);
-		await req.body.user.save();
+		let user = await User.findOne({ _id: token_payload._id });
 
-		res.status(200).send();
+		if (user && token2) {
+			user.tokens = user.tokens.filter((token: any) => {
+				return token.token !== token2;
+			});
+			res.clearCookie('loggedIn');
+			await user.save();
+			res.send(200);
+		}
 	} catch (error) {
 		res.status(500).send();
 	}
 });
 
+router.get('/whoami', async (req: Request, res: Response) => {
+	if (req.cookies.loggedIn) {
+		try {
+			// 1) verify token
+			const decoded = await promisify(jwt.verify)(
+				req.cookies.loggedIn,
+				process.env.TOKEN_KEY
+			);
+
+			// 2) Check if user still exists
+			const currentUser = await User.findById(decoded._id);
+
+			if (!currentUser) {
+				return;
+			}
+
+			// THERE IS A LOGGED IN USER
+			//res.locals.user = currentUser
+
+			res.send({ user: currentUser.getPublicProfile() });
+			return;
+		} catch (err) {
+			res.status(500).send();
+		}
+	}
+});
 export = router;

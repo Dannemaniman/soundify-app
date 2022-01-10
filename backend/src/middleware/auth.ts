@@ -1,25 +1,32 @@
-import { NextFunction, Request, Response } from 'express'
-import jwt, { JwtPayload } from 'jsonwebtoken'
-import User from '../db/schemas/userSchema'
+import { NextFunction, Request, Response } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import User from '../db/schemas/userSchema';
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const token = req.header('Authorization')?.replace('Bearer ', '')
-    const decoded = jwt.verify(token as string, process.env.TOKEN_KEY as string) as JwtPayload
-    const user = await User.findOne({ _id: decoded._id, 'tokens.token': token })
+	try {
+		//Får vårt token i req.header
+		const token = req.cookies.loggedIn;
+		// req.header('Authorization')?.replace('Bearer ', '');
+		const decoded = jwt.verify(
+			token as string,
+			process.env.TOKEN_KEY as string
+		) as JwtPayload;
+		const user = await User.findOne({
+			_id: decoded._id,
+			// 'tokens.token': token,
+		});
+		//hittar användaren men visar alla tokens istället för att visa den aktuella?
 
-    if (!user) {
-      throw new Error()
-    }
+		if (!user) {
+			throw new Error();
+		}
 
-    req.body.token = token
-    req.body.user = user
+		req.body.token = token;
+		req.body.user = user;
+	} catch (error) {
+		res.status(401).send({ error: 'Please authenticate.' });
+	}
+	next();
+};
 
-    console.log(token)
-  } catch (error) {
-    res.status(401).send({ error: 'Please authenticate.' })
-  }
-  next()
-}
-
-export default auth
+export default auth;
