@@ -3,7 +3,6 @@ import styles from './SongListItem.module.css'
 import { PlayerContext } from '../../store/playerContext'
 
 const SongListItem = ({ index, song, setPlaylist, artist }) => {
-  console.log(song)
   const addSongPlaylist = () => {
     //const {}
     console.log('add song', song)
@@ -23,7 +22,7 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
           <section>
             <h2>
               {song.name.substring(0, 20)}
-              {song.name.length >= 30 ? ' ...' : ''}
+              {song.name.length >= 21 ? ' ...' : ''}
             </h2>
             <h4>
               {artist

@@ -18,12 +18,17 @@ const ArtistPage = () => {
         'https://yt-music-api.herokuapp.com/api/yt/artist/UCGexNm_Kw4rdQjLxmpb2EKw'
       )
       let artists = await response.json()
+      artists.products.songs.content = await Promise.all(
+        artists.products.songs.content.map(async (song) => {
+          let url =
+            'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId
+          let result = await fetch(url)
+          return result.json()
+        })
+      )
       setartist(artists)
-      console.log(artists)
     }
-
     fetch1()
-    console.log(artist)
   }, [param])
 
   return (
@@ -49,9 +54,9 @@ const ArtistPage = () => {
           </section>
 
           <section className={styles.songs}>
-            {console.log(artist.products.singles.content)}
+            {console.log(artist.products)}
             <SongList
-              songs={artist.products.singles.content}
+              songs={artist.products.songs.content}
               header={`Top 5 songs by  ${artist.name}`}
               thumbnails={artist.thumbnails}
               artist={artist.name}
