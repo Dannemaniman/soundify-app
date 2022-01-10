@@ -11,7 +11,7 @@ const router: Router = Router()
 //create a new playlist (empty)
 router.post('/createplaylist', async (req: Request, res: Response) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '')
+    const token = req.cookies.loggedIn
 
     if (!token || !process.env.TOKEN_KEY) return
 
@@ -34,7 +34,7 @@ router.post('/createplaylist', async (req: Request, res: Response) => {
       currentUser.save()
     }
 
-    res.sendStatus(200)
+    res.send(currentUser.getPublicProfile())
   } catch (error: any) {
     res.sendStatus(500).json(error.message)
   }
@@ -49,7 +49,6 @@ router.get('/getallplaylists', async (req: Request, res: Response) => {
     ) as JwtPayload
 
     const doc = await Playlist.find({ user: decoded })
-    console.log(doc)
 
     res.send(doc)
   } catch (error: any) {
@@ -72,13 +71,32 @@ router.get('/getplaylist/:name', (req: Request, res: Response) => {
     }
   )
 })
+//add Song to playlist
+router.post('/playlistAddSong/:id', (req: Request, res: Response) => {
+  let paramName = req.params.id
+
+  Playlist.findOne(
+    { playlist_name: paramName },
+    function (err: any, docs: any) {
+      if (err) {
+        res.send(err.message)
+      } else {
+        res.send(docs)
+      }
+    }
+  )
+})
 //delete a specific playlist
 router.delete('/deleteplaylist/:id', async (req: Request, res: Response) => {
+  const id = req.params.id
+  const doc = await Playlist.findById(id)
+  doc?.delete()
+
   res.send(req.params)
 })
 
 //update a specific playlist
-router.put('/playlist/update/:id', async (req: Request, res: Response) => {
+router.put('/playlist/update/:name', async (req: Request, res: Response) => {
   //hämta listan med id
   res.json(req.body)
 })

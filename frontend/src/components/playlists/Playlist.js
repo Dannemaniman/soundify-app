@@ -2,6 +2,7 @@ import styles from './Playlist.module.css'
 import React, { useEffect, useState, useContext } from 'react'
 import PlaylistItem from './PlaylistItem'
 import AuthContext from '../../store/auth-context'
+import PlaylistModal from './PlaylistModal'
 //Först måste vi hämta den aktiva användaren
 //const activeUser = await fetch('/');
 
@@ -12,20 +13,17 @@ import AuthContext from '../../store/auth-context'
 const Playlists = (lists) => {
   const auth = useContext(AuthContext)
 
+  const [showModal, setshowModal] = useState(false)
   const [playlists, setplaylists] = useState([])
   //TEMP SKIT
   useEffect(() => {
-    async function fetcch() {
-      const playlistss = await fetch(`/api/playlist/getallplaylists`)
-      let test = await playlistss.json()
-      setplaylists(test)
-      console.log(test)
-    }
-    fetcch()
-
-    //setplaylists(auth.user.playlists)
-    //console.log(auth.user.playlists)
+    if (!auth.user) return
+    setplaylists(auth.user.playlists)
   }, [auth.user])
+
+  const setModalHandler = () => {
+    setshowModal((prevModal) => setshowModal(!prevModal))
+  }
 
   return (
     <div className={styles.container}>
@@ -33,7 +31,8 @@ const Playlists = (lists) => {
       {playlists.map((playlist, index) => {
         return <PlaylistItem key={index} playlist={playlist} create={false} />
       })}
-      <PlaylistItem create={true} />
+      <PlaylistItem create={true} setModalHandler={setModalHandler} />
+      {showModal && <PlaylistModal setModalHandler={setModalHandler} />}
     </div>
   )
 }

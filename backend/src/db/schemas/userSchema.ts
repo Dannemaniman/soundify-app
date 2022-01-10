@@ -69,7 +69,7 @@ userSchema.static(
   'findByCredentials',
   async function findByCredentials(email: string, password: string) {
     console.log(email)
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email }).populate('playlists').exec()
 
     if (!user) throw new Error('Unable to login')
 
