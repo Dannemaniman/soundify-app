@@ -22,11 +22,11 @@ export const AuthContextProvider = (props) => {
 				headers: { 'Content-type': 'application/json' },
 				body: JSON.stringify({ email, password }),
 			})
-				.then((res) => {
-					if (!res) throw new Error('Could not create new User.')
-					res.json()
-				})
-				.then((user) => success = validateLoginByCookie(user))
+			.then((res) => {
+				if (!res.ok) throw new Error('Could not login User.');
+				res.json()
+			})
+			.then((user) => success = validateLoginByCookie(user))
 			.catch(err => console.log(err))
 		return success
 	};
@@ -38,8 +38,8 @@ export const AuthContextProvider = (props) => {
 				headers: { 'Content-type': 'application/json' },
 				body: JSON.stringify( { email, user_name, password }),
 			})
-				.then((res) => {
-					if (!res) throw new Error('Could not create new User.')
+			.then((res) => {
+				if (!res.ok) throw new Error('Could not create new User.');
 					res.json()
 				})
 			.then((user) => success = validateLoginByCookie(user))

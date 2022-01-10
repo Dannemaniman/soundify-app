@@ -19,6 +19,10 @@ const LoginPage = () => {
 		}
 	};
 
+	const onNavigateRegisterPage = () => {
+		navigate('/signup', { replace: true })
+	}
+
 	return (
 		<div className={styles['login-page__container']}>
 			<div className={styles['login-page__content']}>
@@ -28,7 +32,7 @@ const LoginPage = () => {
 						ref={usernameRef}
 						type='text'
 						required
-						placeholder='Username..'
+						placeholder='Email..'
 					/>
 					<input
 						ref={passwordRef}
@@ -38,7 +42,7 @@ const LoginPage = () => {
 					/>
 					<button type='submit'>CONTINUE</button>
 				</form>
-				<button>SIGN UP</button>
+				<button onClick={onNavigateRegisterPage}>SIGN UP</button>
 			</div>
 			<div className={styles['login-page__oauth']}>
 				<h2>Or login with</h2>
