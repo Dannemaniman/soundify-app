@@ -4,15 +4,19 @@ import twitterLogo from '../../assets/icons/twitter.png';
 import googleLogo from '../../assets/icons/google.png';
 import { useContext, useRef } from 'react';
 import AuthContext from '../../store/auth-context';
+import { useNavigate } from 'react-router';
 
 const LoginPage = () => {
 	const usernameRef = useRef();
 	const passwordRef = useRef();
 	const ctx = useContext(AuthContext);
+	const navigate = useNavigate()
 
-	const loginUser = (e) => {
+	const loginUser = async (e) => {
 		e.preventDefault();
-		ctx.loginHandler(usernameRef.current.value, passwordRef.current.value);
+		if (await ctx.loginHandler(usernameRef.current.value, passwordRef.current.value)) {
+			navigate('/', { replace: true })
+		}
 	};
 
 	return (
