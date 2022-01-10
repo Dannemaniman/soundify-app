@@ -28,7 +28,18 @@ export const AuthContextProvider = (props) => {
 		setIsLoggedIn(true);
 	};
 
-	const logoutHandler = async () => {
+	const logoutHandler = async (req, res) => {
+		//Fetch the cookie
+		const userCookie = req.cookies.loggedIn;
+		console.log(userCookie);
+		try {
+			await fetch('/api/user/logout').then((data) => {
+				console.log('From logoutHandler');
+				console.log(data);
+			});
+		} catch (e) {
+			console.log(e);
+		}
 		setIsLoggedIn(false);
 	};
 

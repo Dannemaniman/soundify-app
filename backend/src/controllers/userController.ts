@@ -66,14 +66,8 @@ router.post('/logout', auth, async (req: Request, res: Response) => {
 			});
 			res.clearCookie('loggedIn');
 			await user.save();
-			res.send(200);
+			res.sendStatus(200);
 		}
-
-		//Det går att logga ut genom thunderclient om du använder bearer auth med token. Så uppenbarligen går det att logga ut men behöver veta hur jag skickar in den i hans kod han gjort-
-
-		//Ta bort cookie, gör en mongoose metod för att jämföra token och sedan ta bort token i databas.
-
-		// res.send({ user: req.body.user });
 	} catch (error) {
 		res.status(500).send();
 	}
