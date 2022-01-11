@@ -10,18 +10,23 @@ const LoginPage = () => {
 	const usernameRef = useRef();
 	const passwordRef = useRef();
 	const ctx = useContext(AuthContext);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const loginUser = async (e) => {
 		e.preventDefault();
-		if (await ctx.loginHandler(usernameRef.current.value, passwordRef.current.value)) {
-			navigate('/', { replace: true })
+		if (
+			await ctx.loginHandler(
+				usernameRef.current.value,
+				passwordRef.current.value
+			)
+		) {
+			navigate('/', { replace: true });
 		}
 	};
 
 	const onNavigateRegisterPage = () => {
-		navigate('/signup', { replace: true })
-	}
+		navigate('/signup', { replace: true });
+	};
 
 	return (
 		<div className={styles['login-page__container']}>
@@ -30,7 +35,7 @@ const LoginPage = () => {
 				<form onSubmit={loginUser}>
 					<input
 						ref={usernameRef}
-						type='text'
+						type='email'
 						required
 						placeholder='Email..'
 					/>
