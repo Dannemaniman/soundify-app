@@ -35,7 +35,7 @@ const SearchPage = () => {
 
       sortFetchedData(res.content)
       if (res) setIsLoading(false)
-      navigate(`/search/${search}`, { replace: true })
+      navigate(`/search/${search}`)
     }
     fetchSearch()
 

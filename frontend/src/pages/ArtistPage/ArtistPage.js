@@ -23,12 +23,6 @@ const ArtistPage = () => {
       let response = await fetch(
         ` https://yt-music-api.herokuapp.com/api/yt/artist/${param.id}`
       )
-      const data = await response.json()
-      setartist(data)
-      sortFetchedData(data.products)
-      console.log(data)
-    }
-    /* ROBINS -----> fetchArtist()
       let artists = await response.json()
       artists.products.songs.content = await Promise.all(
         artists.products.songs.content.map(async (song) => {
@@ -39,8 +33,11 @@ const ArtistPage = () => {
         })
       )
       setartist(artists)
-    } */
+      sortFetchedData(artists.products)
+    }
+
     fetchArtist()
+
   }, [param])
 
   const sortFetchedData = (products) => {
