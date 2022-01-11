@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import { User as IUser } from '../db/models/User'
 import userService from '../services/userService'
-import bcrypt from 'bcrypt'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import User from '../db/schemas/userSchema'
 import auth from '../middleware/auth'
@@ -9,19 +8,18 @@ const { promisify } = require('util')
 
 const router: Router = Router()
 
-// router.get('/users', auth, async (req: Request, res: Response) => {
-//   res.send(req.body.user)
-// })
-
 router.post(
   '/register',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const newUser = await userService.createNewUser(req.body as IUser)
-      if (!newUser) throw new Error('User Already Exist. Please Login')
-      const token = await newUser.generateAuthToken()
 
-      res.status(200).json({ user: newUser.getPublicProfile(), token })
+      if (!newUser) throw new Error('User Already Exist. Please Login')
+
+      const token = await newUser.generateAuthToken()
+      res.cookie('loggedIn', token, { maxAge: 900000, httpOnly: true })
+
+      res.status(200).json({ user: newUser.getPublicProfile() })
     } catch (error: any) {
       res.sendStatus(500).json(error.msg)
     }
@@ -32,11 +30,14 @@ router.post('/login', async (req: Request, res: Response) => {
   try {
     const user = await User.findByCredentials(req.body.email, req.body.password)
 
+    if (!user) throw new Error('Could not log in. Please check credentials.')
+
     const token = await user.generateAuthToken()
-    console.log(token)
+
     res.cookie('loggedIn', token, { maxAge: 900000, httpOnly: true })
     res.send({ user: user.getPublicProfile() })
   } catch (e: any) {
+    console.log(e)
     res.sendStatus(500).json(e.msg)
   }
 })
@@ -83,8 +84,6 @@ router.get('/whoami', async (req: Request, res: Response) => {
 
       // 2) Check if user still exists
       const currentUser = await User.findById(decoded._id)
-        .populate('playlists')
-        .exec()
 
       if (!currentUser) {
         return
