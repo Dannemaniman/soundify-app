@@ -14,6 +14,7 @@ import { useContext, useState, useEffect } from 'react'
 import SoundifyContext from './store/soundify-context'
 import AuthContext from './store/auth-context'
 import { PlayerContext } from './store/playerContext'
+import ViewMore from './pages/viewMorePage/ViewMore'
 
 const App = () => {
   const [sidebar, setsidebar] = useState(false)
@@ -25,7 +26,9 @@ const App = () => {
     const getUser = async () => {
       let response = await fetch('/api/user/whoami')
       let user = await response.json()
+
       auth.setUserHandler(user)
+      auth.setLoggedIn()
       console.log(user)
     }
     getUser()
@@ -42,6 +45,9 @@ const App = () => {
       <Header showSidebar={showSidebar} />
       <Sidebar hideSidebar={showSidebar} animation={sidebar} />
       {player && <YoutubePlayer />}
+      {player.overlay && (
+        <div className='overlay' onClick={() => player.setOverlay(false)}></div>
+      )}
       <main className='main'>
         <Routes>
           <Route exact path='/' element={<Home />} />
@@ -49,6 +55,8 @@ const App = () => {
           <Route path='/artist/:id' element={<ArtistPage />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/search/:query' element={<SearchPage />} />
+          <Route path='/search/show-more' element={<ViewMore />} />
           <Route path='/myplaylists' element={<PlaylistPage />} />
           <Route path='/playlist' element={<PlaylistSongPage />} />
         </Routes>

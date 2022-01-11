@@ -1,23 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router'
+import { useLocation, useNavigate } from "react-router-dom"
+
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
-import SongList from '../../components/songlist/SongList'
+import SongSlider from '../../components/searchPage/SongSlider'
+
 import s from './SearchPage.module.css'
 
 const SearchPage = () => {
-  /* const param = useParams() */
-  let timer
-  const waitTime = 1000
+  const param = useParams()
+  let navigate = useNavigate()
 
-  const [search, setSearch] = useState('')
+  let timer
+  const waitTime = 800
+
+  const [search, setSearch] = useState(param.query ? param.query : "")
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
 
   useEffect(() => {
+
     const fetchSearch = async () => {
       if (!search) return
+      setIsLoading(true)
 
       let response = await fetch(
         `https://yt-music-api.herokuapp.com/api/yt/search/${search}`
@@ -25,21 +34,29 @@ const SearchPage = () => {
       let res = await response.json()
 
       sortFetchedData(res.content)
+      if (res) setIsLoading(false)
+      navigate(`/search/${search}`)
     }
     fetchSearch()
-  }, [search])
 
-  const handleChange = async (e) => {
+  }, [navigate, search])
+
+
+  const handleChangeInput = async (e) => {
+
+    if (e.key === "Enter") setSearch(e.target.value)
     clearTimeout(timer)
 
     //Waiting for user finished typing
     timer = setTimeout(() => {
       if (!e.target.value.length > 0) {
-        resetAll()
+        resetAllSearchTerms()
       }
       setSearch(e.target.value)
     }, waitTime)
+
   }
+
 
   const sortFetchedData = (data) => {
     let newSongs = []
@@ -61,7 +78,8 @@ const SearchPage = () => {
     setAlbums(newAlbums)
   }
 
-  const resetAll = () => {
+
+  const resetAllSearchTerms = () => {
     setArtist([])
     setSongs([])
     setAlbums([])
@@ -75,9 +93,10 @@ const SearchPage = () => {
           <input
             className={`${s.searchInput} ${s.icon}`}
             placeholder='Artists, songs or albums'
-            onChange={handleChange}
+            onChange={handleChangeInput}
+            onKeyDown={handleChangeInput}
           />
-          {!albums.length > 0 && (
+          {!search.length > 0 && (
             <div className={s.yourMostPlayed}>
               <h1>Your most played albums</h1>
               <div className={s.cards}>
@@ -87,21 +106,27 @@ const SearchPage = () => {
             </div>
           )}
 
-          {artists.length > 0 && (
-            <div>
-              <ArtistSlider artists={artists} />
-            </div>
-          )}
-          {albums.length > 0 && (
-            <div>
-              <AlbumSlider albums={albums} />
-            </div>
-          )}
-          <div>
-            {songs.length > 0 && (
-              <SongList songs={songs} header={`Song results on "${search}"`} />
+          <div className={isLoading ? 'loader' : ''}>
+            {(artists.length > 0 && !isLoading) && (
+              <div>
+                <ArtistSlider artists={artists} header={`Artist results on "${search}"`} />
+              </div>
             )}
+            {(albums.length > 0 && !isLoading) && (
+              <div>
+                <AlbumSlider albums={albums} header={`Album results on "${search}"`} />
+              </div>
+            )}
+
+            {(songs.length > 0 && !isLoading) && (
+              <div>
+                <SongSlider songs={songs} header={`Songs results on "${search}"`} />
+              </div>
+            )}
+
           </div>
+
+
         </div>
       }
     </>

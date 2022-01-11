@@ -1,0 +1,18 @@
+.modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: -10rem;
+  left: -15rem;
+  width: 15rem;
+  height: 10rem;
+  z-index: 2001;
+  background-color: black;
+}
+
+.header {
+  color: var(--color-primary-floor);
+  text-align: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--color-primary-floor);
+}

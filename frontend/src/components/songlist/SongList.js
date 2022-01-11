@@ -26,6 +26,7 @@ const SongList = ({ songs, header, thumbnails, artist }) => {
           setPlaylist={setPlaylistHandler}
         />
       ))}
+      <p style={{ textDecoration: "underline" }} >View more songs</p>
     </div>
   )
 }

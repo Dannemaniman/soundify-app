@@ -7,9 +7,12 @@ const songSchema = new Schema<Song>(
     artist: [
       { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Artist' },
     ],
-    length: { type: Number, required: true, trim: true },
+    duration: { type: Number, required: true, trim: true },
     thumbnail: { type: String, required: true },
     videoId: { type: String, required: true },
+    type: { type: String },
+    params: { type: String },
+    album: { type: Object },
   },
   {
     timestamps: true,

@@ -37,9 +37,9 @@ const YoutubePlayer = (props) => {
     setplaylist(context.playlist.content.songs)
     setsong({
       song: context.playlist.content.songs[context.playlist.index],
-      thumbnail: context.playlist.content.thumbnails
-        ? context.playlist.content.thumbnails[1]
-        : context.playlist.content.songs[context.playlist.index].thumbnail,
+      thumbnail: context.playlist.content.thumbnails[0]
+        ? context.playlist.content.thumbnails[0].url
+        : context.playlist.content.thumbnails.url,
     })
   }, [context])
 
@@ -92,9 +92,9 @@ const YoutubePlayer = (props) => {
     setsong((prevState) => ({
       ...prevState,
       song: playlist[index + 1],
-      thumbnail: playlist[index + 1].thumbnails
-        ? playlist[index + 1].thumbnails[1].url
-        : playlist[index + 1].thumbnail,
+      thumbnail: playlist[index + 1].thumbnails[0]
+        ? playlist[index + 1].thumbnails[0].url
+        : playlist[index + 1].thumbnails.url,
     }))
     setindex((prevIndex) => prevIndex + 1)
   }
@@ -108,9 +108,9 @@ const YoutubePlayer = (props) => {
       setsong((prevState) => ({
         ...prevState,
         song: playlist[playlist.length - 1],
-        thumbnail: playlist[playlist.length - 1].thumbnails
-          ? playlist[playlist.length - 1].thumbnails[1].url
-          : playlist[playlist.length - 1].thumbnail,
+        thumbnail: playlist[playlist.length - 1].thumbnails[0]
+          ? playlist[playlist.length - 1].thumbnails[0].url
+          : playlist[playlist.length - 1].thumbnails.url,
       }))
       return
     }
@@ -209,8 +209,12 @@ const YoutubePlayer = (props) => {
             )}
 
             <div className={styles.name}>
-              <p className={styles.artistName}>{song.song.artist?.name}</p>
-              <p className={styles.songName}>{song.song?.name}</p>
+              <p className={styles.artistName}>
+                {song.song.artist?.name.substring(0, 20)}
+              </p>
+              <p className={styles.songName}>
+                {song.song?.name.substring(0, 20)}
+              </p>
             </div>
           </div>
 

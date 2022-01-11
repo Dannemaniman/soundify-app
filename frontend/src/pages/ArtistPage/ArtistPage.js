@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
+import { useNavigate } from "react-router-dom"
+
 import HeroImg from '../../components/heroImg/HeroImg'
 import SongList from '../../components/songlist/SongList'
 import Carousel from '../../components/carousel/Carousel'
@@ -7,15 +9,19 @@ import styles from './ArtistPage.module.css'
 
 const ArtistPage = () => {
   const param = useParams()
+  let navigate = useNavigate()
 
   const [artist, setartist] = useState('')
   const [viewMore, setviewMore] = useState(false)
+  const [albums, setAlbums] = useState([])
+  const [songs, setSongs] = useState("")
+  const [singles, setSingles] = useState("")
 
-  //Detta är bara tillfälligt för att testa denna page.
   useEffect(() => {
-    const fetch1 = async () => {
+    const fetchArtist = async () => {
+
       let response = await fetch(
-        'https://yt-music-api.herokuapp.com/api/yt/artist/UCGexNm_Kw4rdQjLxmpb2EKw'
+        ` https://yt-music-api.herokuapp.com/api/yt/artist/${param.id}`
       )
       let artists = await response.json()
       artists.products.songs.content = await Promise.all(
@@ -27,9 +33,32 @@ const ArtistPage = () => {
         })
       )
       setartist(artists)
+      sortFetchedData(artists.products)
     }
-    fetch1()
+
+    fetchArtist()
+
   }, [param])
+
+  const sortFetchedData = (products) => {
+    let newSongs = []
+    let newAlbums = []
+    let newSingles = []
+
+    for (const property in products) {
+      if (property === 'songs' || property === 'videos') {
+        newSongs = products[property].content
+      } else if (property === 'albums') {
+        newAlbums = products[property].content
+      } else if (property === 'single') {
+        newSingles = products[property].content
+      }
+    }
+
+    setSongs(newSongs)
+    setAlbums(newAlbums)
+    setSingles(newSingles)
+  }
 
   return (
     <>
@@ -43,7 +72,7 @@ const ArtistPage = () => {
               className={styles.text}
               style={{ height: viewMore ? 'auto' : null }}
             >
-              {artist.description}
+              {artist.description ? artist.description : "No avaiable info"}
             </p>
             <button
               className={styles.button}
@@ -53,17 +82,28 @@ const ArtistPage = () => {
             </button>
           </section>
 
-          <section className={styles.songs}>
+          {songs.length > 0 && artist &&
+            <section className={styles.songs}>
+              <SongList
+                songs={songs.slice(0, 5)}
+                header={`Top 5 songs by  ${artist.name}`}
+                thumbnails={artist.thumbnails}
+              />
+              <p style={{ textDecoration: "underline" }} onClick={() => { navigate(`/search/show-more?query=songs&name=${artist.name}`) }}>View more</p>
+            </section>}
+
+
+          {/* ROBINS-----> <section className={styles.songs}>
             <SongList
               songs={artist.products.songs.content}
               header={`Top 5 songs by  ${artist.name}`}
               thumbnails={artist.thumbnails}
               artist={artist.name}
             />
-          </section>
+          </section> */}
 
-          <Carousel title={'albums'} list={artist.products.albums.content} />
-          <Carousel title={'singles'} list={artist.products.singles.content} />
+          {albums.length > 0 && <Carousel title={'albums'} list={albums} />}
+          {singles.length > 0 && <Carousel title={'singles'} list={singles} />}
         </div>
       )}
     </>

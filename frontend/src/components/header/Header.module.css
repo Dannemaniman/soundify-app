@@ -1,4 +1,5 @@
 .header {
+  grid-row: 1/2;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
@@ -11,10 +12,12 @@
 }
 
 .img {
+  grid-column: 2 /3;
   cursor: pointer;
 }
 
 .hamburgerContainer {
+  grid-column: 1/2;
   justify-self: flex-start;
   display: grid;
   align-items: center;
