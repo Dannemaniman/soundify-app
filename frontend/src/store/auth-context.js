@@ -75,7 +75,7 @@ export const AuthContextProvider = (props) => {
   }
 
   const setUserHandler = (data) => {
-    setUser(data.user)
+    setUser(data)
   }
 
   const setLoggedIn = () => {

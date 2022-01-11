@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styles from './PlaylistModal.module.css'
+import AuthContext from '../../store/auth-context'
 
 const PlaylistModal = ({ setModalHandler }) => {
   const [name, setname] = useState('')
+  const auth = useContext(AuthContext)
 
   const addPlaylist = async () => {
     console.log('click', name)
@@ -13,7 +15,10 @@ const PlaylistModal = ({ setModalHandler }) => {
       body: JSON.stringify({ playlist_name: name }),
     })
       .then((data) => data.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        auth.setUserHandler(data)
+        console.log(data)
+      })
 
     setModalHandler()
     //console.log(await response.json())

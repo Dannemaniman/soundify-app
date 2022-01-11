@@ -5,7 +5,6 @@ import { User } from './User'
 export interface PlaylistInterface {
   playlist_name: string
   songs: any[]
-  user: User
   created_at: Date
   modified_at: Date
 }

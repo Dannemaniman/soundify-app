@@ -3,10 +3,9 @@ import { PlaylistInterface } from '../db/models/Playlist'
 import Playlist from '../db/schemas/playlistSchema'
 import User from '../db/schemas/userSchema'
 
-const createNewPlaylist = async (playlist: PlaylistInterface, user: any) => {
+const createNewPlaylist = async (playlist: PlaylistInterface) => {
   try {
     const doc = new Playlist(playlist)
-    doc.user = user
     await doc.save()
     return doc
   } catch (error) {

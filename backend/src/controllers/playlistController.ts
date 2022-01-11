@@ -21,13 +21,14 @@ router.post('/createplaylist', async (req: Request, res: Response) => {
     ) as JwtPayload
 
     const currentUser = await User.findById(decoded._id)
+      .populate('playlists')
+      .exec()
     if (!currentUser) {
       return
     }
 
     const newPlaylist = await playlistService.createNewPlaylist(
-      req.body as PlaylistInterface,
-      currentUser
+      req.body as PlaylistInterface
     )
     if (newPlaylist) {
       currentUser.playlists.push(newPlaylist)
