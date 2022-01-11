@@ -58,18 +58,22 @@ router.get('/getallplaylists', async (req: Request, res: Response) => {
 
 //get specific playlist by name
 router.get('/getplaylist/:name', (req: Request, res: Response) => {
-  let paramName = req.params.name
+  try {
+    let paramName = req.params.name
 
-  Playlist.findOne(
-    { playlist_name: paramName },
-    function (err: any, docs: any) {
-      if (err) {
-        res.send(err.message)
-      } else {
-        res.send(docs)
+    Playlist.findOne(
+      { playlist_name: paramName },
+      function (err: any, docs: any) {
+        if (err) {
+          res.send(err.message)
+        } else {
+          res.send(docs)
+        }
       }
-    }
-  )
+    )
+  } catch (error: any) {
+    res.sendStatus(500).json(error.message)
+  }
 })
 //add Song to playlist
 router.post('/playlistAddSong/:id', (req: Request, res: Response) => {

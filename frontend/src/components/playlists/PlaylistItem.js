@@ -31,7 +31,6 @@ const PlaylistItem = (props) => {
   return (
     <div className={styles.container} onClick={playListHandler}>
       <figure className={styles.figure}>
-        {console.log(props.playlist)}
         {props.create ? (
           <div className={styles.plus}>
             <i className='far fa-plus'></i>

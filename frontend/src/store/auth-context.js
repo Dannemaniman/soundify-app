@@ -24,10 +24,14 @@ export const AuthContextProvider = (props) => {
     })
       .then((res) => {
         if (!res.ok) throw new Error('Could not login User.')
-        res.json()
+        return res.json()
       })
-      .then((user) => (success = validateLoginByCookie(user)))
+      .then((user) => {
+        success = validateLoginByCookie(user)
+        setUser(user)
+      })
       .catch((err) => console.log(err))
+
     return success
   }
 
@@ -40,9 +44,12 @@ export const AuthContextProvider = (props) => {
     })
       .then((res) => {
         if (!res.ok) throw new Error('Could not create new User.')
-        res.json()
+        return res.json()
       })
-      .then((user) => (success = validateLoginByCookie(user)))
+      .then((user) => {
+        success = validateLoginByCookie(user)
+        setUser(user)
+      })
       .catch((err) => console.log(err))
     return success
   }
