@@ -17,7 +17,7 @@ router.post(
       if (!newUser) throw new Error('User Already Exist. Please Login')
 
       const token = await newUser.generateAuthToken()
-      res.cookie('loggedIn', token, { maxAge: 900000, httpOnly: true })
+      res.cookie('loggedIn', token, { maxAge: 9000000, httpOnly: true })
 
       res.status(200).json({ user: newUser.getPublicProfile() })
     } catch (error: any) {
@@ -34,7 +34,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
     const token = await user.generateAuthToken()
 
-    res.cookie('loggedIn', token, { maxAge: 900000, httpOnly: true })
+    res.cookie('loggedIn', token, { maxAge: 9000000, httpOnly: true })
     res.send({ user: user.getPublicProfile() })
   } catch (e: any) {
     console.log(e)

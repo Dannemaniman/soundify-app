@@ -11,6 +11,7 @@ const PlaylistItem = (props) => {
     if (props.create) {
       console.log('modal')
       props.setModalHandler(true)
+      return
     }
     ctx.setPlaylistPage(props.playlist)
     navigate(`/playlist`)
@@ -30,17 +31,18 @@ const PlaylistItem = (props) => {
   return (
     <div className={styles.container} onClick={playListHandler}>
       <figure className={styles.figure}>
+        {console.log(props.playlist)}
         {props.create ? (
           <div className={styles.plus}>
             <i className='far fa-plus'></i>
           </div>
-        ) : props.playlist.song ? (
+        ) : props.playlist.songs.length > 0 ? (
           <img
             className={styles.img}
             src={
               props.playlist.songs?.length < 1
                 ? ''
-                : props.playlist.songs[0].thumbnail
+                : props.playlist.songs[0].thumbnails[0].url
             }
             alt='photo'
           />
