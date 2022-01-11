@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './Header.module.css'
+import AuthContext from '../../store/auth-context'
 
 const Header = ({ showSidebar }) => {
+  const loggedIn = useContext(AuthContext)
+  console.log(loggedIn.isLoggedIn)
   return (
     <div className={styles.header}>
-      <div className={styles.hamburgerContainer} onClick={showSidebar}>
-        <div className={styles.hamburger}></div>
-      </div>
+      {loggedIn.isLoggedIn && (
+        <div className={styles.hamburgerContainer} onClick={showSidebar}>
+          <div className={styles.hamburger}></div>
+        </div>
+      )}
 
       <div className={styles.img}>
         <svg

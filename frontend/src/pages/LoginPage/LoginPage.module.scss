@@ -1,5 +1,5 @@
 .login-page__container {
-  margin-top: 8rem;
+  margin-top: 4rem;
   .login-page__content {
     display: flex;
     flex-direction: column;
@@ -8,6 +8,7 @@
     h1 {
       margin-bottom: 6rem;
       font-size: 2.4rem;
+      color: var(--color-primary);
     }
 
     form {
@@ -32,7 +33,7 @@
     button {
       font-weight: 600;
       background-color: var(--color-primary-light);
-      color: var( --color-bg-white);
+      color: var(--color-bg-white);
       border-radius: 40px;
       height: 6rem;
       width: 85%;
@@ -50,7 +51,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 4rem;
-    h2 {  
+    h2 {
       margin-bottom: 2rem;
       font-size: 1.7rem;
       font-weight: 100;
@@ -61,7 +62,7 @@
       flex-direction: row;
       align-items: center;
       gap: 2rem;
-      li { 
+      li {
         list-style: none;
         row-gap: 4rem;
         border-radius: 50%;
@@ -80,4 +81,3 @@
     }
   }
 }
-    
