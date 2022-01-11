@@ -28,7 +28,18 @@ const ArtistPage = () => {
       sortFetchedData(data.products)
       console.log(data)
     }
-
+    /* ROBINS -----> fetchArtist()
+      let artists = await response.json()
+      artists.products.songs.content = await Promise.all(
+        artists.products.songs.content.map(async (song) => {
+          let url =
+            'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId
+          let result = await fetch(url)
+          return result.json()
+        })
+      )
+      setartist(artists)
+    } */
     fetchArtist()
   }, [param])
 
@@ -83,6 +94,16 @@ const ArtistPage = () => {
               />
               <p style={{ textDecoration: "underline" }} onClick={() => { navigate(`/search/show-more?query=songs&name=${artist.name}`) }}>View more</p>
             </section>}
+
+
+          {/* ROBINS-----> <section className={styles.songs}>
+            <SongList
+              songs={artist.products.songs.content}
+              header={`Top 5 songs by  ${artist.name}`}
+              thumbnails={artist.thumbnails}
+              artist={artist.name}
+            />
+          </section> */}
 
           {albums.length > 0 && <Carousel title={'albums'} list={albums} />}
           {singles.length > 0 && <Carousel title={'singles'} list={singles} />}

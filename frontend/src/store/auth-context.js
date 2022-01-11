@@ -1,39 +1,80 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom"
 
 const AuthContext = React.createContext({
 	isLoggedIn: '',
-	loginHandler: (username, password) => {},
-	logoutHandler: () => {},
+	user: {},
+	setUserHandler: (user) => {},
+	loginHandler: async (email, password) => {},
+	logoutHandler: (token) => {},
+	registerHandler: async ({ email, user_name, password }) => {},
 });
 
 export const AuthContextProvider = (props) => {
-	console.log('from AuthContextProvider');
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const baseUrl = 'http://localhost:8000/';
+	const [user, setUser] = useState(null);
 
-	const loginHandler = (username, password) => {
-		const data = { username, password };
-		fetch(`/api/user/login`, {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify(data),
-		})
-			.then((data) => data.json())
-			.then((data) => console.log(data))
-			.catch((err) => console.log(err));
-		setIsLoggedIn(true);
+
+	const loginHandler = async (email, password) => {
+		let success = false
+		await fetch('/api/user/login', {
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				body: JSON.stringify({ email, password }),
+			})
+			.then((res) => {
+				if (!res.ok) throw new Error('Could not login User.');
+				res.json()
+			})
+			.then((user) => success = validateLoginByCookie(user))
+			.catch(err => console.log(err))
+		return success
 	};
 
-	const logoutHandler = () => {
+	const registerHandler = async ({ email, user_name, password }) => {
+		let success = false
+		await	fetch('/api/user/register', {
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				body: JSON.stringify( { email, user_name, password }),
+			})
+			.then((res) => {
+				if (!res.ok) throw new Error('Could not create new User.');
+					res.json()
+				})
+			.then((user) => success = validateLoginByCookie(user))
+			.catch(err => console.log(err))
+		return success
+	}
+
+	const validateLoginByCookie = (user) => {
+		if (document.cookie.replace(/(?:(?:^|.*;\s*)loggedIn\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== null) {
+			setUser(user)
+			setIsLoggedIn(true);
+			return true
+		}
+	}
+
+	const logoutHandler = async () => {
+		await fetch('/api/user/logout', {
+			method: 'POST',
+		});
 		setIsLoggedIn(false);
+	};
+
+	const setUserHandler = (data) => {
+		setUser(data.user);
 	};
 
 	return (
 		<AuthContext.Provider
 			value={{
 				isLoggedIn: isLoggedIn,
+				user: user,
+				setUserHandler: setUserHandler,
 				loginHandler: loginHandler,
 				logoutHandler: logoutHandler,
+				registerHandler: registerHandler
 			}}>
 			{props.children}
 		</AuthContext.Provider>

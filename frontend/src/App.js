@@ -7,43 +7,57 @@ import ArtistPage from './pages/ArtistPage/ArtistPage'
 import Signup from './pages/SignUpPage/SignUpPage'
 import YoutubePlayer from './components/youtubePlayer/YoutubePlayer'
 import SearchPage from './pages/SearchPage/SearchPage'
-import ViewMore from './pages/viewMorePage/ViewMore'
 import PlaylistPage from './pages/PlaylistPage/PlaylistPage'
+import PlaylistSongPage from './pages/PlaylistSongPage/PlaylistSongPage'
 import { Route, Routes } from 'react-router-dom'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import SoundifyContext from './store/soundify-context'
-import { AuthContextProvider } from './store/auth-context'
+import AuthContext from './store/auth-context'
 import { PlayerContext } from './store/playerContext'
+import ViewMore from './pages/viewMorePage/ViewMore'
 
 const App = () => {
-	const [sidebar, setsidebar] = useState(false)
-	const player = useContext(PlayerContext)
+  const [sidebar, setsidebar] = useState(false)
+  const player = useContext(PlayerContext)
+  const auth = useContext(AuthContext)
 
-	const showSidebar = () => {
-		setsidebar(!sidebar)
-	}
+  useEffect(() => {
+    if (auth.user !== null) return
+    const getUser = async () => {
+      let response = await fetch('/api/user/whoami')
+      let user = await response.json()
+      auth.setUserHandler(user)
+      console.log(user)
+    }
+    getUser()
+  }, [])
 
-	const ctx = useContext(SoundifyContext)
+  const showSidebar = () => {
+    setsidebar(!sidebar)
+  }
 
-	return (
-		<div className='App'>
-			<Header showSidebar={showSidebar} />
-			<Sidebar hideSidebar={showSidebar} animation={sidebar} />
-			{player && <YoutubePlayer />}
-			<main className='main'>
-				<Routes>
-					<Route exact path='/' element={<Home />} />
-					<Route path='/login' element={<Login />} />
-					<Route path='/artist/:id' element={<ArtistPage />} />
-					<Route path='/search' element={<SearchPage />} />
-					<Route path='/search/:query' element={<SearchPage />} />
-					<Route path='/search/show-more' element={<ViewMore />} />
-					<Route path='/signup' element={<Signup />} />
-					<Route path='/myplaylists' element={<PlaylistPage />} />
-				</Routes>
-			</main>
-		</div>
-	)
+  const ctx = useContext(SoundifyContext)
+
+  return (
+    <div className='App'>
+      <Header showSidebar={showSidebar} />
+      <Sidebar hideSidebar={showSidebar} animation={sidebar} />
+      {player && <YoutubePlayer />}
+      <main className='main'>
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/artist/:id' element={<ArtistPage />} />
+          <Route path='/search' element={<SearchPage />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/search/:query' element={<SearchPage />} />
+          <Route path='/search/show-more' element={<ViewMore />} />
+          <Route path='/myplaylists' element={<PlaylistPage />} />
+          <Route path='/playlist' element={<PlaylistSongPage />} />
+        </Routes>
+      </main>
+    </div>
+  )
 }
 
 export default App

@@ -1,6 +1,8 @@
 import './form.css';
 import { useState } from 'react';
-
+import {useContext} from "react"
+import AuthContext from '../../store/auth-context'
+import { useNavigate } from "react-router-dom"
 const Form = () => {
 	const defaultValues = {
 		user_name: '',
@@ -9,18 +11,12 @@ const Form = () => {
 	};
 
 	const [newUser, setNewUser] = useState(defaultValues);
+	const ctx = useContext(AuthContext)
+	const navigate = useNavigate()
 
-	function saveNewUser() {
-		try {
-			fetch('/api/user/register', {
-				method: 'POST',
-				headers: { 'Content-type': 'application/json' },
-				body: JSON.stringify(newUser),
-			})
-				.then((res) => res.json())
-				.then((data) => console.log(data));
-		} catch (e) {
-			console.log(e);
+	const saveNewUser = async () => {
+		if (await ctx.registerHandler(newUser)) {
+			navigate('/', { replace: true })
 		}
 	}
 
