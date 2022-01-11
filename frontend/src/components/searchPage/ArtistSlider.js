@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 import s from './ArtistSlider.module.css'
 
 const ArtistSlider = ({ artists, header }) => {
-
   const artsistsArray = artists
-  const searchTerm = header.substring(header.indexOf('"') + 1, header.lastIndexOf('"'))
+  const searchTerm = header.substring(
+    header.indexOf('"') + 1,
+    header.lastIndexOf('"')
+  )
   let navigate = useNavigate()
 
   const handleClick = (query) => {
@@ -19,28 +21,43 @@ const ArtistSlider = ({ artists, header }) => {
   return (
     <>
       <div className={s.artistSliderContainer}>
-        <h1 >{header}</h1>
+        <h1>{header}</h1>
         <div className={s.cardsContainer}>
           {artsistsArray.map((ele, index) => {
             return (
-              <div className={s.artistCard} key={index} style={{
-                backgroundImage: `url(${ele.thumbnails[1].url})`,
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-              }}
+              <div
+                className={s.artistCard}
+                key={index}
+                style={{
+                  backgroundImage: `url(${
+                    ele.thumbnails[0]
+                      ? ele.thumbnails[0].url
+                      : ele.thumbnails.url
+                  })`,
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
+                }}
                 onClick={() => handleClick(ele.browseId)}
               >
-                <h2 className={s.artistTitle} key={index}>{ele.name}</h2>
-              </div>)
+                <h2 className={s.artistTitle} key={index}>
+                  {ele.name}
+                </h2>
+              </div>
+            )
           })}
-          <p style={{ textDecoration: "underline" }} onClick={() => { handleClickToViewMore(searchTerm) }}>View more</p>
+          <p
+            style={{ textDecoration: 'underline' }}
+            onClick={() => {
+              handleClickToViewMore(searchTerm)
+            }}
+          >
+            View more
+          </p>
         </div>
       </div>
-
     </>
   )
-
 }
 
 export default ArtistSlider

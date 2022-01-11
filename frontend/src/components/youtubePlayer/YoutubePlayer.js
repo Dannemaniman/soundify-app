@@ -89,7 +89,6 @@ const YoutubePlayer = (props) => {
 
     player.loadVideoById(playlist[index + 1].videoId)
     setplaying(true)
-    console.log(playlist)
     setsong((prevState) => ({
       ...prevState,
       song: playlist[index + 1],
