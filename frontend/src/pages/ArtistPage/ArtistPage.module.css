@@ -10,8 +10,7 @@
 
 .description {
   grid-column: 2/8;
-  color: var(--color-primary);
-  padding: 1rem;
+  color: var(--color-primary);  
 }
 
 .text {

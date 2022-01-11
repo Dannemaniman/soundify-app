@@ -54,7 +54,7 @@ const Carousel = ({ title, list }) => {
   const Real = () => {
     return (
       <Slider {...settings} className={styles.carousel}>
-        {list.map((item, index) => (
+        {list && list.map((item, index) => (
           <CarouselItem key={index} imgUrl={item.thumbnails[1].url} />
         ))}
       </Slider>

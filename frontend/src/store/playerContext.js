@@ -15,7 +15,7 @@ export const PlayerContext = React.createContext({
   setOverlay: () => {},
 })
 
-export default (props) => {
+const PlayerCtx = (props) => {
   const [playing, setplaying] = useState(false)
   const [song, setsong] = useState({})
   const [playlist, setplaylist] = useState({})
@@ -64,3 +64,5 @@ export default (props) => {
     </PlayerContext.Provider>
   )
 }
+
+export default PlayerCtx

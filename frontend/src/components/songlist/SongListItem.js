@@ -26,13 +26,7 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
               {song.name.substring(0, 20)}
               {song.name.length >= 21 ? ' ...' : ''}
             </h2>
-            <h4>
-              {artist
-                ? artist
-                : song.artist.name
-                ? song.artist.name
-                : song.artist}
-            </h4>
+            <h4>{song.artist?.name ? song.artist.name : song.author}</h4>
           </section>
 
           <figure

@@ -1,9 +1,12 @@
 import React, { useContext } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
 import AuthContext from '../../store/auth-context'
 
 const Header = ({ showSidebar }) => {
   const loggedIn = useContext(AuthContext)
+
+  let navigate = useNavigate()
 
   return (
     <div className={styles.header}>
@@ -13,7 +16,12 @@ const Header = ({ showSidebar }) => {
         </div>
       )}
 
-      <div className={styles.img}>
+      <div
+        className={styles.img}
+        onClick={() => {
+          navigate('/')
+        }}
+      >
         <svg
           width='115'
           height='60'

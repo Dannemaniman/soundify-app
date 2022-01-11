@@ -50,7 +50,7 @@ const YoutubePlayer = (props) => {
 
       setstartTime(
         getTime(player.getCurrentTime()) ||
-          player.getCurrentTime() === undefined
+        player.getCurrentTime() === undefined
       )
       setdoneProgress(
         (player.getCurrentTime() / player.getDuration()) * 100 + '%'
