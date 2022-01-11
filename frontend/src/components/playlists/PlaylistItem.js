@@ -30,7 +30,11 @@ const PlaylistItem = (props) => {
   return (
     <div className={styles.container} onClick={playListHandler}>
       <figure className={styles.figure}>
-        {!props.create ? (
+        {props.create ? (
+          <div className={styles.plus}>
+            <i className='far fa-plus'></i>
+          </div>
+        ) : props.playlist.song ? (
           <img
             className={styles.img}
             src={
@@ -41,8 +45,8 @@ const PlaylistItem = (props) => {
             alt='photo'
           />
         ) : (
-          <div className={styles.plus}>
-            <i className='far fa-plus'></i>
+          <div className={styles.phone}>
+            <i className='fas fa-headphones-alt'></i>
           </div>
         )}
       </figure>

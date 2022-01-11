@@ -44,6 +44,9 @@ const App = () => {
       <Header showSidebar={showSidebar} />
       <Sidebar hideSidebar={showSidebar} animation={sidebar} />
       {player && <YoutubePlayer />}
+      {player.overlay && (
+        <div className='overlay' onClick={() => player.setOverlay(false)}></div>
+      )}
       <main className='main'>
         <Routes>
           <Route exact path='/' element={<Home />} />

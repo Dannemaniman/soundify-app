@@ -96,9 +96,29 @@ router.delete('/deleteplaylist/:id', async (req: Request, res: Response) => {
 })
 
 //update a specific playlist
-router.put('/playlist/update/:name', async (req: Request, res: Response) => {
+router.put('/update/:name', async (req: Request, res: Response) => {
   //hämta listan med id
-  res.json(req.body)
+  try {
+    const song = req.body
+    const playlist = await Playlist.find({ playlist_name: req.params.name })
+
+    playlist[0].songs.push(song)
+    playlist[0].save()
+
+    // playlist[0].songs = playlist[0].songs.filter(
+    //   (track: any) => track.videoId !== song.videoId
+    // )
+
+    // playlist[0].songs = test
+    // playlist[0].save()
+    //console.log('test', test)
+
+    //console.log('playlist', playlist[0]
+
+    res.json(playlist[0])
+  } catch (error: any) {
+    res.send(error.message)
+  }
 })
 
 export = router

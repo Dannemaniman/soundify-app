@@ -45,3 +45,10 @@
   align-self: center;
   justify-self: center;
 }
+
+.phone {
+  justify-self: center;
+  align-self: center;
+  color: var(--color-primary);
+  font-size: 3rem;
+}

@@ -4,7 +4,7 @@ import { User } from './User'
 // Document interface
 export interface PlaylistInterface {
   playlist_name: string
-  songs: Song[]
+  songs: any[]
   user: User
   created_at: Date
   modified_at: Date

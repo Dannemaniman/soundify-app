@@ -1,18 +1,20 @@
 import React, { useContext } from 'react'
 import styles from './SongListItem.module.css'
-import { PlayerContext } from '../../store/playerContext'
+import SongListOption from './SongListOptions'
 
 const SongListItem = ({ index, song, setPlaylist, artist }) => {
-  const addSongPlaylist = () => {
-    //const {}
+  const addSongPlaylist = async () => {
     console.log('add song', song)
-    /*
-  name: string
-  artist: Artist[]
-  lenght: number
-  thumbnail: string
-  videoId: string        
- */
+    let res = await fetch(`/api/playlist/update/${'Rock'}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(song),
+    })
+    let playlist = await res.json()
+    console.log(playlist)
   }
 
   return (
@@ -41,9 +43,7 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
               <i className='fas fa-play'></i>
             </div>
           </figure>
-          <div className={styles.options} onClick={addSongPlaylist}>
-            <i className='fas fa-ellipsis-v'></i>
-          </div>
+          <SongListOption addSongPlaylist={addSongPlaylist} song={song} />
         </>
       )}
     </div>

@@ -6,11 +6,13 @@ export const PlayerContext = React.createContext({
   album: [],
   playlist: {},
   playlistPage: [],
+  overlay: false,
   setSong: (song) => {},
   startPlaying: () => {},
   stopPlaying: () => {},
   setPlaylist: () => {},
   setPlaylistPage: () => {},
+  setOverlay: () => {},
 })
 
 export default (props) => {
@@ -18,6 +20,7 @@ export default (props) => {
   const [song, setsong] = useState({})
   const [playlist, setplaylist] = useState({})
   const [playlistPage, setplaylistPage] = useState([])
+  const [overlay, setoverlay] = useState(false)
 
   const setSongHandler = (track, img) => {
     setsong({ song: track, img: img })
@@ -37,6 +40,10 @@ export default (props) => {
     setplaylistPage(data)
   }
 
+  const setOverlay = (data) => {
+    setoverlay(data)
+  }
+
   return (
     <PlayerContext.Provider
       value={{
@@ -44,11 +51,13 @@ export default (props) => {
         song: song,
         playlist: playlist,
         playlistPage: playlistPage,
+        overlay: overlay,
         setSong: setSongHandler,
         startPlaying: startPlayingHandler,
         stopPlaying: stopPlayingHandler,
         setPlaylist: setPlaylistHandler,
         setPlaylistPage: setPlaylistPageHandler,
+        setOverlay: setOverlay,
       }}
     >
       {props.children}
