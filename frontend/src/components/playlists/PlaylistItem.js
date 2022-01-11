@@ -34,7 +34,7 @@ const PlaylistItem = (props) => {
           <img
             className={styles.img}
             src={
-              props.playlist.songs.length < 1
+              props.playlist.songs?.length < 1
                 ? ''
                 : props.playlist.songs[0].thumbnail
             }

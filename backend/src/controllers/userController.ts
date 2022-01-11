@@ -84,6 +84,8 @@ router.get('/whoami', async (req: Request, res: Response) => {
 
       // 2) Check if user still exists
       const currentUser = await User.findById(decoded._id)
+        .populate('playlists')
+        .exec()
 
       if (!currentUser) {
         return

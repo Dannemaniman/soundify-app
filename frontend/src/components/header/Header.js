@@ -4,7 +4,7 @@ import AuthContext from '../../store/auth-context'
 
 const Header = ({ showSidebar }) => {
   const loggedIn = useContext(AuthContext)
-  console.log(loggedIn.isLoggedIn)
+
   return (
     <div className={styles.header}>
       {loggedIn.isLoggedIn && (

@@ -25,7 +25,9 @@ const App = () => {
     const getUser = async () => {
       let response = await fetch('/api/user/whoami')
       let user = await response.json()
+
       auth.setUserHandler(user)
+      auth.setLoggedIn()
       console.log(user)
     }
     getUser()
