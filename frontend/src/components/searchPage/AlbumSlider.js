@@ -29,7 +29,7 @@ const AlbumSlider = ({ albums, header }) => {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-              }}>
+              }} onClick={() => handleClick(ele.browseId)} >
                 <h2 className={s.albumTitle} key={ele.name + index}>{ele.name}</h2>
               </div>)
           })}

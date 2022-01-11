@@ -11,7 +11,7 @@ export const PlayerContext = React.createContext({
   setPlaylist: () => { },
 })
 
-const Test = (props) => {
+const PlayerCtx = (props) => {
   const [playing, setplaying] = useState(false)
   const [song, setsong] = useState({})
   const [playlist, setplaylist] = useState({})
@@ -47,4 +47,4 @@ const Test = (props) => {
   )
 }
 
-export default Test
+export default PlayerCtx

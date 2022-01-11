@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router'
 import { useLocation, useNavigate } from "react-router-dom"
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
 import SongSlider from '../../components/searchPage/SongSlider'
-import SongList from '../../components/songlist/SongList'
+
 import s from './SearchPage.module.css'
 
 const SearchPage = () => {
@@ -57,6 +57,7 @@ const SearchPage = () => {
 
   }
 
+
   const sortFetchedData = (data) => {
     let newSongs = []
     let newArtists = []
@@ -83,7 +84,6 @@ const SearchPage = () => {
     setSongs([])
     setAlbums([])
   }
-
 
   return (
     <>

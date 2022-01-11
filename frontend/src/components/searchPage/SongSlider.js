@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom"
 import s from './SongSlider.module.css'
 import SongListItem from '../songlist/SongListItem'
 import { PlayerContext } from '../../store/playerContext'
+import PlayBtn from '../songlist/PlayBtn'
 
 const SongSlider = ({ songs, header }) => {
 
-  const artsistsArray = songs
+  const songsArray = songs
   const searchTerm = header.substring(header.indexOf('"') + 1, header.lastIndexOf('"'))
   let navigate = useNavigate()
 
@@ -23,20 +24,13 @@ const SongSlider = ({ songs, header }) => {
       <div className={s.songSliderContainer}>
         <h1 >{header}</h1>
         <div className={s.cardsContainer}>
-          {artsistsArray.map((song, index) => {
-            console.log(song)
+          {songsArray.map((song, index) => {
             return (
               <div className={s.songCard} key={index}
-                onClick={() => handleClick(song.browseId)}
               >
-                <h2 className={s.songTitle} key={index}>{song.name}</h2>
-                <figure
-                  className={s.figure}
-                >
-                  <div className={s.play}>
-                    <i className='fas fa-play'></i>
-                  </div>
-                </figure>
+                <h2 className={s.songTitle}>{song.name.substring(0, 20)} {song.name.length > 20 ? "..." : ""}</h2>
+                <PlayBtn songs={songs} index={index}
+                  song={song} thumbnails={song.thumbnails} />
 
               </div>
             )

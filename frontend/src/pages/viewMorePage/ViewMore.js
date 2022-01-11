@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import { useLocation, useNavigate } from "react-router-dom"
 import s from './ViewMore.module.css'
 import backIcon from '../../assets/icons/back.png'
+import PlayBtn from '../../components/songlist/PlayBtn'
 
 const ViewMore = () => {
 
@@ -47,12 +48,13 @@ const ViewMore = () => {
         return (
           <div className={s.viewMoreItem} key={index}>
             <div className={s.mainContent}>
-              <h1 className={s.artistTitle}>{ele.name.substring(0, 20)} {ele.name.length > 20 ? "..." : ""}</h1>
-              <img src={ele.thumbnails[0].url} alt="artist or album" />
+              <h1 className={ele.type !== 'song' ? s.artistTitle : s.songTitle}>{ele.name.substring(0, 20)} {ele.name.length > 20 ? "..." : ""}</h1>
+              {ele.type !== 'song' && <img src={ele.thumbnails[0].url} alt="artist or album" />}
+              {ele.type === 'song' && <PlayBtn songs={dataToRender} index={index}
+                song={ele} thumbnails={ele.thumbnails} />}
             </div>
             {typeof ele.artist === 'string' && <p>By: {ele.artist}</p>}
             {!ele.artist && <p>Go to artist page</p>}
-            {/* <button>{type.charAt(0).toUpperCase()}{type.slice(1, -1)}</button> */}
           </div>)
       })}
     </div>
