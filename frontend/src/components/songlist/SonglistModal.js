@@ -12,8 +12,6 @@ const SongListModal = (props) => {
   }, [auth.user])
 
   const playlistHandler = async (name) => {
-    console.log('playlist', name)
-    console.log('song', props.song)
     let res = await fetch(`/api/playlist/update/${name}`, {
       method: 'PUT',
       headers: {

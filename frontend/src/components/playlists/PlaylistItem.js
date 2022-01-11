@@ -12,8 +12,8 @@ const PlaylistItem = (props) => {
       console.log('modal')
       props.setModalHandler(true)
     }
-    // ctx.setPlaylistPage(props.playlist)
-    //  navigate(`/playlist`, { replace: true })
+    ctx.setPlaylistPage(props.playlist)
+    navigate(`/playlist`)
   }
 
   const deletePlaylist = async () => {

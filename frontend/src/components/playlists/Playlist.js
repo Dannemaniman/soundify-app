@@ -3,19 +3,13 @@ import React, { useEffect, useState, useContext } from 'react'
 import PlaylistItem from './PlaylistItem'
 import AuthContext from '../../store/auth-context'
 import PlaylistModal from './PlaylistModal'
-//Först måste vi hämta den aktiva användaren
-//const activeUser = await fetch('/');
 
-//sen måste vi välja arrayen med spellistor från den specifika användaren
-//const allPlaylists = activeUser.playlists;
-
-//Rendera sedan ut alla spellistorna som finns innuti arrayen
-const Playlists = (lists) => {
+const Playlists = () => {
   const auth = useContext(AuthContext)
 
   const [showModal, setshowModal] = useState(false)
   const [playlists, setplaylists] = useState([])
-  //TEMP SKIT
+
   useEffect(() => {
     if (!auth.user) return
     setplaylists(auth.user.playlists)
