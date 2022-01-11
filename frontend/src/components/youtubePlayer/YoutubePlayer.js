@@ -210,8 +210,12 @@ const YoutubePlayer = (props) => {
             )}
 
             <div className={styles.name}>
-              <p className={styles.artistName}>{song.song.artist?.name}</p>
-              <p className={styles.songName}>{song.song?.name}</p>
+              <p className={styles.artistName}>
+                {song.song.artist?.name.substring(0, 20)}
+              </p>
+              <p className={styles.songName}>
+                {song.song?.name.substring(0, 20)}
+              </p>
             </div>
           </div>
 

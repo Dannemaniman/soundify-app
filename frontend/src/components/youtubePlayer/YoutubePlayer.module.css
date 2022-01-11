@@ -14,7 +14,7 @@
   z-index: 1000;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 15rem;
   grid-template-rows: 5fr 2fr;
   justify-items: center;
   align-items: center;
