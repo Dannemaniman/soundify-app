@@ -17,16 +17,22 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
     console.log(playlist)
   }
 
+  function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000)
+    var seconds = ((millis % 60000) / 1000).toFixed(0)
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
+  }
+
   return (
     <div className={styles.item}>
       {song && (
         <>
           <section>
             <h2>
-              {song.name.substring(0, 20)}
-              {song.name.length >= 21 ? ' ...' : ''}
+              {song.name?.substring(0, 20).replace("Video", "")}
+              {song.name?.length >= 21 ? ' ...' : ''}
             </h2>
-            <h4>{song.artist?.name ? song.artist.name : song.author}</h4>
+            <h4>{song.artist?.name ? song.artist.name : song.author} - {millisToMinutesAndSeconds(song.duration)}</h4>
           </section>
 
           <figure
