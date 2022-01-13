@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import s from './ArtistSlider.module.css'
 
@@ -30,8 +30,8 @@ const ArtistSlider = ({ artists, header }) => {
                 key={index}
                 style={{
                   backgroundImage: `url(${ele.thumbnails[1]
-                      ? ele.thumbnails[1].url
-                      : ele.thumbnails.url
+                    ? ele.thumbnails[1].url
+                    : ele.thumbnails.url
                     })`,
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',

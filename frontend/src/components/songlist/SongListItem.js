@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './SongListItem.module.css'
 import SongListOption from './SongListOptions'
 
@@ -23,6 +23,12 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
   }
 
+  function getArtistName() {
+    let name = song.artist?.name ? song.artist.name : song.author
+    if (!name) name = artist
+    return name
+  }
+
   return (
     <div className={styles.item}>
       {song && (
@@ -32,7 +38,7 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
               {song.name?.substring(0, 20).replace("Video", "")}
               {song.name?.length >= 21 ? ' ...' : ''}
             </h2>
-            <h4>{song.artist?.name ? song.artist.name : song.author} - {millisToMinutesAndSeconds(song.duration)}</h4>
+            <h4>{getArtistName()} - {millisToMinutesAndSeconds(song.duration)}</h4>
           </section>
 
           <figure

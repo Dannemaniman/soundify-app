@@ -57,6 +57,7 @@ const ArtistPage = () => {
 
     fetchArtist()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param.id])
 
 
@@ -101,7 +102,7 @@ const ArtistPage = () => {
               {console.log('true!')}
               <SongList
                 songs={songs.slice(0, 5)}
-                header={`Top 5 songs by  ${artist.name}`}
+                header={`Songs by  ${artist.name}`}
                 thumbnails={artist.thumbnails}
                 artist={artist.name}
               />

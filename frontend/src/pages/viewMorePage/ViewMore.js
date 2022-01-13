@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
 import { useLocation, useNavigate } from 'react-router-dom'
 import s from './ViewMore.module.css'
 import backIcon from '../../assets/icons/back.png'
@@ -35,14 +34,19 @@ const ViewMore = () => {
     navigate(-1)
   }
 
-  const goTo = (type, id) => {
-    navigate(`/artist/`)
-  }
-
   function millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000)
     var seconds = ((millis % 60000) / 1000).toFixed(0)
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
+  }
+
+  function goTo(ele) {
+    console.log('GoTo:', ele)
+    if (ele.type === 'album' || ele.type === 'single') {
+      navigate(`/artist/${ele.artist}/album/${ele.browseId}`)
+    } else if (ele.type === 'artist') {
+      navigate(`/artist/${ele.browseId}`)
+    }
   }
 
 
@@ -64,7 +68,7 @@ const ViewMore = () => {
       {!isLoading &&
         dataToRender.map((ele, index) => {
           return (
-            <div className={s.viewMoreItem} key={index} >
+            <div className={s.viewMoreItem} key={index} onClick={() => { goTo(ele) }} >
               {console.log(ele)}
               <div className={s.mainContent}>
                 <h1

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom"
 import s from './AlbumSlider.module.css'
 
@@ -8,8 +8,8 @@ const AlbumSlider = ({ albums, header }) => {
   const searchTerm = header.substring(header.indexOf('"') + 1, header.lastIndexOf('"'))
   let navigate = useNavigate()
 
-  const handleClick = (query) => {
-    navigate(`/artist/${query}`, { replace: true })
+  const handleClick = (albumId) => {
+    navigate(`/artist/${searchTerm}/album/${albumId}`)
   }
 
   const handleClickToViewMore = (query) => {
