@@ -32,7 +32,7 @@ const ViewMore = () => {
   }, [type, name])
 
   const handleGoback = () => {
-    navigate(`/search/${name}`, { replace: true })
+    navigate(-1)
   }
 
   const goTo = (type, id) => {

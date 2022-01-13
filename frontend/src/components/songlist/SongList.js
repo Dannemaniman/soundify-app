@@ -18,7 +18,6 @@ const SongList = ({ songs, header, thumbnails, artist }) => {
   }
 
   const handleClickToViewMore = (query) => {
-    console.log("Yo")
     navigate(`/search/show-more?query=songs&name=${query}`)
   }
 
@@ -35,7 +34,7 @@ const SongList = ({ songs, header, thumbnails, artist }) => {
           setPlaylist={setPlaylistHandler}
         />
       ))}
-      <p style={{ textDecoration: "underline" }} onClick={() => { handleClickToViewMore(artist) }}>View more</p>
+      {artist && <p style={{ textDecoration: "underline", color: 'black' }} onClick={() => { handleClickToViewMore(artist) }}>View more</p>}
     </div>
   )
 }

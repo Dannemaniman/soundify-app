@@ -11,28 +11,36 @@ const ArtistPage = () => {
   const param = useParams()
   const navigate = useNavigate()
 
-  const [artist, setartist] = useState('')
-  const [viewMore, setviewMore] = useState(false)
+  const [artist, setArtist] = useState('')
+  const [viewMore, setViewMore] = useState(false)
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
   const [singles, setSingles] = useState("")
 
   useEffect(() => {
+
     const fetchArtist = async () => {
 
       const response = await fetch(
         `https://yt-music-api.herokuapp.com/api/yt/artist/${param.id}`
       )
       const artists = await response.json()
+      const songArray = artists.products['songs']?.content
 
-      setartist(artists)
+      setArtist(artists)
       setAlbums(artists.products['albums']?.content)
-      setSingles(artists.products['single']?.content)
-      setSongs(await fetchMoreSongs(artists.name))
+      setSingles(artists.products['singles']?.content)
+      setSongs(await fetchMoreDetaliedSongs(songArray))
+
+      //If artist does not have any songs
+      if (songArray?.length <= 0) {
+        setSongs(await fetchMoreSongs(artists.name))
+      }
     }
 
+
     const fetchMoreSongs = async (name) => {
-      console.log(name)
+
       let response = await fetch(
         `https://yt-music-api.herokuapp.com/api/yt/videos/${name.toLowerCase()}`
       )
@@ -49,7 +57,19 @@ const ArtistPage = () => {
   }, [param.id])
 
 
+  async function fetchMoreDetaliedSongs(songArray) {
+    let fiveSongsArr = await Promise.all(
+      songArray.map(async (song) => {
+        let url =
+          'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId
+        let result = await fetch(url)
+        return result.json()
+      })
+    )
 
+    return fiveSongsArr
+
+  }
 
   return (
     <>
@@ -67,7 +87,7 @@ const ArtistPage = () => {
             </p>
             <button
               className={styles.button}
-              onClick={() => setviewMore(!viewMore)}
+              onClick={() => setViewMore(!viewMore)}
             >
               {viewMore ? 'View less' : 'View more'}
             </button>
@@ -80,8 +100,8 @@ const ArtistPage = () => {
                 songs={songs.slice(0, 5)}
                 header={`Top 5 songs by  ${artist.name}`}
                 thumbnails={artist.thumbnails}
+                artist={artist.name}
               />
-              <p style={{ textDecoration: "underline" }} onClick={() => { navigate(`/search/show-more?query=songs&name=${artist.name}`) }}>View more</p>
             </section>}
 
           {albums && <Carousel title={'albums'} list={albums} />}
