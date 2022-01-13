@@ -1,10 +1,13 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { PlayerContext } from '../../store/playerContext'
 import SongListItem from './SongListItem'
 import styles from './SongList.module.css'
-import { PlayerContext } from '../../store/playerContext'
 
 const SongList = ({ songs, header, thumbnails, artist, playlist }) => {
   const player = useContext(PlayerContext)
+  let navigate = useNavigate()
 
   const setPlaylistHandler = (data) => {
     player.setPlaylist({
@@ -12,6 +15,10 @@ const SongList = ({ songs, header, thumbnails, artist, playlist }) => {
       index: data.index,
       artistImg: artist,
     })
+  }
+
+  const handleClickToViewMore = (query) => {
+    navigate(`/search/show-more?query=songs&name=${query}`)
   }
 
   return (
@@ -27,7 +34,16 @@ const SongList = ({ songs, header, thumbnails, artist, playlist }) => {
           playlist={playlist}
         />
       ))}
-      {/* <p style={{ textDecoration: "underline" }} >View more songs</p> */}
+      {artist && (
+        <p
+          style={{ textDecoration: 'underline', color: 'black' }}
+          onClick={() => {
+            handleClickToViewMore(artist)
+          }}
+        >
+          View more
+        </p>
+      )}
     </div>
   )
 }
