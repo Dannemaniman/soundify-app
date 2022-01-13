@@ -7,8 +7,6 @@ const PlaylistModal = ({ setModalHandler }) => {
   const auth = useContext(AuthContext)
 
   const addPlaylist = async () => {
-    console.log('click', name)
-
     fetch('/api/playlist/createplaylist', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
@@ -17,7 +15,6 @@ const PlaylistModal = ({ setModalHandler }) => {
       .then((data) => data.json())
       .then((data) => {
         auth.setUserHandler(data)
-        console.log(data)
       })
 
     setModalHandler()

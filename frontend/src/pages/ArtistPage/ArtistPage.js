@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 
 import HeroImg from '../../components/heroImg/HeroImg'
 import SongList from '../../components/songlist/SongList'
@@ -15,18 +15,17 @@ const ArtistPage = () => {
   const [viewMore, setViewMore] = useState(false)
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
-  const [singles, setSingles] = useState("")
+  const [singles, setSingles] = useState('')
 
   useEffect(() => {
-
     const fetchArtist = async () => {
-
       const response = await fetch(
         `https://yt-music-api.herokuapp.com/api/yt/artist/${param.id}`
       )
       const artists = await response.json()
-      console.log(artists)
-      if (artists.error) { navigate(-1) }
+      if (artists.error) {
+        navigate(-1)
+      }
 
       const songArray = artists.products['songs']?.content
 
@@ -41,9 +40,7 @@ const ArtistPage = () => {
       }
     }
 
-
     const fetchMoreSongs = async (name) => {
-
       let response = await fetch(
         `https://yt-music-api.herokuapp.com/api/yt/videos/${name.toLowerCase()}`
       )
@@ -56,9 +53,7 @@ const ArtistPage = () => {
     }
 
     fetchArtist()
-
   }, [param.id])
-
 
   async function fetchMoreDetaliedSongs(songArray) {
     let fiveSongsArr = await Promise.all(
@@ -71,7 +66,6 @@ const ArtistPage = () => {
     )
 
     return fiveSongsArr
-
   }
 
   return (
@@ -86,7 +80,7 @@ const ArtistPage = () => {
               className={styles.text}
               style={{ height: viewMore ? 'auto' : null }}
             >
-              {artist.description ? artist.description : "No available info"}
+              {artist.description ? artist.description : 'No available info'}
             </p>
             <button
               className={styles.button}
@@ -96,16 +90,16 @@ const ArtistPage = () => {
             </button>
           </section>
 
-          {songs.length > 0 &&
+          {songs.length > 0 && (
             <section className={styles.songs}>
-              {console.log('true!')}
               <SongList
                 songs={songs.slice(0, 5)}
                 header={`Top 5 songs by  ${artist.name}`}
                 thumbnails={artist.thumbnails}
                 artist={artist.name}
               />
-            </section>}
+            </section>
+          )}
 
           {albums && <Carousel title={'albums'} list={albums} />}
           {singles && <Carousel title={'singles'} list={singles} />}

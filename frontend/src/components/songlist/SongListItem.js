@@ -12,7 +12,6 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
       body: JSON.stringify(song),
     })
     let playlist = await res.json()
-    console.log(playlist)
   }
 
   function millisToMinutesAndSeconds(millis) {

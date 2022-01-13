@@ -7,7 +7,6 @@ const PlaylistItem = (props) => {
 
   const playListHandler = () => {
     if (props.create) {
-      console.log('modal')
       props.setModalHandler(true)
       return
     }
@@ -22,7 +21,6 @@ const PlaylistItem = (props) => {
       }
     )
     let resp = await res.json()
-    console.log(resp)
   }
 
   return (
