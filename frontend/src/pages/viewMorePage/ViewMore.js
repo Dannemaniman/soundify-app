@@ -49,6 +49,19 @@ const ViewMore = () => {
     }
   }
 
+  function getLastThumbnail(ele) {
+
+    //Taking last index cause extern API returns the best quality image last.
+    const last = ele.thumbnails?.length - 1
+
+    if (ele.thumbnails?.url) {
+      return ele.thumbnails.url
+    }
+    else if (ele?.thumbnails[last].url) {
+      return ele.thumbnails[last].url
+    }
+  }
+
 
   return (
     <div className={s.container}>
@@ -79,7 +92,7 @@ const ViewMore = () => {
                 </h1>
 
                 {ele.type !== 'song' && (
-                  <img src={ele.thumbnails[0].url} alt='artist or album' />
+                  <img src={getLastThumbnail(ele)} alt='artist or album' />
                 )}
                 {(ele.type === 'song') && (
                   <div className={s.interaction}>

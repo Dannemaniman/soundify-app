@@ -12,6 +12,7 @@ const AlbumPage = () => {
   const navigate = useNavigate()
 
   const [album, setAlbum] = useState(null)
+  const [artist, setArtist] = useState("")
 
   useEffect(() => {
 
@@ -40,7 +41,7 @@ const AlbumPage = () => {
     <>
       {album && (
         <div className={styles.artistpage}>
-          <HeroImg imgUrl={getLastThumbnail()} caption={album.artist[0].name} />
+          <HeroImg imgUrl={getLastThumbnail()} caption={album.title} />
 
           {<section className={styles.songs}>
 

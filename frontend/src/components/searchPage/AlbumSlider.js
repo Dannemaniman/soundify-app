@@ -8,12 +8,13 @@ const AlbumSlider = ({ albums, header }) => {
   const searchTerm = header.substring(header.indexOf('"') + 1, header.lastIndexOf('"'))
   let navigate = useNavigate()
 
-  const handleClick = (albumId) => {
-    navigate(`/artist/${searchTerm}/album/${albumId}`)
+  const handleClick = (album) => {
+    console.log(album)
+    navigate(`/artist/${album.artist.toLowerCase()}/album/${album.browseId}`)
   }
 
   const handleClickToViewMore = (query) => {
-    navigate(`/search/show-more?query=albums&name=${query}`, { replace: true })
+    navigate(`/search/show-more?query=albums&name=${query}`)
   }
 
   return (
@@ -21,16 +22,16 @@ const AlbumSlider = ({ albums, header }) => {
       <div className={s.albumSliderContainer}>
         <h1>{header}</h1>
         {albumsArray && <div className={s.cardsContainer}>
-          {albumsArray.map((ele, index) => {
+          {albumsArray.map((album, index) => {
             return (
 
               <div className={s.albumCard} key={index} style={{
-                backgroundImage: `url(${ele.thumbnails[2].url})`,
+                backgroundImage: `url(${album.thumbnails[album.thumbnails.length - 1].url})`,
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-              }} onClick={() => handleClick(ele.browseId)} >
-                <h2 className={s.albumTitle} key={ele.name + index}>{ele.name}</h2>
+              }} onClick={() => handleClick(album)} >
+                <h2 className={s.albumTitle} key={album.name + index}>{album.name}</h2>
               </div>)
           })}
           <p style={{ textDecoration: "underline" }} onClick={() => { handleClickToViewMore(searchTerm) }}>View more</p>

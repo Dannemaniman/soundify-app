@@ -44,7 +44,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%; 
-  align-items: center;  
+  /* align-items: center;   */
   border-left: 4px solid var(--color-primary-orange); 
   padding-left: 1rem;
 }
@@ -57,6 +57,7 @@
 .viewMoreItem img{
   display: flex;
   border-radius: 50%; 
+  width: 4rem;
 }
 
 .viewMoreItem p{
