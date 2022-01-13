@@ -35,7 +35,7 @@ router.post('/login', async (req: Request, res: Response) => {
     const token = await user.generateAuthToken()
     const resUser = await user.getPublicProfile()
 
-    res.cookie('loggedIn', token, { maxAge: 9000000, httpOnly: true })
+    res.cookie('loggedIn', token, { maxAge: 900000000, httpOnly: true })
     res.send(resUser)
   } catch (e: any) {
     console.log(e)

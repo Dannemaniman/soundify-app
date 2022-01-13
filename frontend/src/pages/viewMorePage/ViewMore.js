@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import s from './ViewMore.module.css'
 import backIcon from '../../assets/icons/back.png'
 import PlayBtn from '../../components/songlist/PlayBtn'
+import SongListOption from '../../components/songlist/SongListOptions'
 
 const ViewMore = () => {
   let navigate = useNavigate()
@@ -31,8 +32,19 @@ const ViewMore = () => {
   }, [type, name])
 
   const handleGoback = () => {
-    navigate(`/search/${name}`, { replace: true })
+    navigate(-1)
   }
+
+  const goTo = (type, id) => {
+    navigate(`/artist/`)
+  }
+
+  function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000)
+    var seconds = ((millis % 60000) / 1000).toFixed(0)
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
+  }
+
 
   return (
     <div className={s.container}>
@@ -52,7 +64,8 @@ const ViewMore = () => {
       {!isLoading &&
         dataToRender.map((ele, index) => {
           return (
-            <div className={s.viewMoreItem} key={index}>
+            <div className={s.viewMoreItem} key={index} >
+              {console.log(ele)}
               <div className={s.mainContent}>
                 <h1
                   className={ele.type !== 'song' ? s.artistTitle : s.songTitle}
@@ -60,20 +73,25 @@ const ViewMore = () => {
                   {ele.name.substring(0, 20)}{' '}
                   {ele.name.length > 20 ? '...' : ''}
                 </h1>
+
                 {ele.type !== 'song' && (
                   <img src={ele.thumbnails[0].url} alt='artist or album' />
                 )}
-                {ele.type === 'song' && (
-                  <PlayBtn
-                    songs={dataToRender}
-                    index={index}
-                    song={ele}
-                    thumbnails={ele.thumbnails}
-                  />
+                {(ele.type === 'song') && (
+                  <div className={s.interaction}>
+                    <PlayBtn
+                      songs={dataToRender}
+                      index={index}
+                      song={ele}
+                      thumbnails={ele.thumbnails}
+                    />
+                    <SongListOption />
+                  </div>
                 )}
               </div>
               {typeof ele.artist === 'string' && <p>By: {ele.artist}</p>}
               {!ele.artist && <p>Go to artist page</p>}
+              {ele.type === 'song' && <p>{ele.artist?.name ? ele.artist?.name : ""} - {millisToMinutesAndSeconds(ele.duration)}</p>}
             </div>
           )
         })}

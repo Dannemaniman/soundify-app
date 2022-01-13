@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
 import SongSlider from '../../components/searchPage/SongSlider'
+import SongList from '../../components/songlist/SongList'
 
 import s from './SearchPage.module.css'
 
@@ -19,6 +20,7 @@ const SearchPage = () => {
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
+  const [singles, setSingles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
 
@@ -34,6 +36,7 @@ const SearchPage = () => {
       let res = await response.json()
 
       sortFetchedData(res.content)
+
       if (res) setIsLoading(false)
       navigate(`/search/${search}`)
     }
@@ -64,7 +67,7 @@ const SearchPage = () => {
     let newAlbums = []
 
     data.forEach((element) => {
-      if (element.type === 'song' || element.type === 'single') {
+      if (element.type === 'song' || element.type === 'video') {
         newSongs.push(element)
       } else if (element.type === 'artist') {
         newArtists.push(element)
@@ -118,11 +121,18 @@ const SearchPage = () => {
               </div>
             )}
 
-            {(songs.length > 0 && !isLoading) && (
+            {(songs.length > 0 && !isLoading && artists) && (
+              <div>
+                <SongList songs={songs.slice(0, 5)} header={`Songs results on "${search}"`} artist={search} />
+              </div>
+            )}
+
+
+            {/* {(songs.length > 0 && !isLoading) && (
               <div>
                 <SongSlider songs={songs} header={`Songs results on "${search}"`} />
               </div>
-            )}
+            )} */}
 
           </div>
 

@@ -9,55 +9,69 @@ import styles from './ArtistPage.module.css'
 
 const ArtistPage = () => {
   const param = useParams()
-  let navigate = useNavigate()
+  const navigate = useNavigate()
 
-  const [artist, setartist] = useState('')
-  const [viewMore, setviewMore] = useState(false)
+  const [artist, setArtist] = useState('')
+  const [viewMore, setViewMore] = useState(false)
   const [albums, setAlbums] = useState([])
-  const [songs, setSongs] = useState("")
+  const [songs, setSongs] = useState([])
   const [singles, setSingles] = useState("")
 
   useEffect(() => {
+
     const fetchArtist = async () => {
 
+      const response = await fetch(
+        `https://yt-music-api.herokuapp.com/api/yt/artist/${param.id}`
+      )
+      const artists = await response.json()
+      console.log(artists)
+      if (artists.error) { navigate(-1) }
+
+      const songArray = artists.products['songs']?.content
+
+      setArtist(artists)
+      setAlbums(artists.products['albums']?.content)
+      setSingles(artists.products['singles']?.content)
+      setSongs(await fetchMoreDetaliedSongs(songArray))
+
+      //If artist does not have any songs
+      if (songArray?.length <= 0) {
+        setSongs(await fetchMoreSongs(artists.name))
+      }
+    }
+
+
+    const fetchMoreSongs = async (name) => {
+
       let response = await fetch(
-        ` https://yt-music-api.herokuapp.com/api/yt/artist/${param.id}`
+        `https://yt-music-api.herokuapp.com/api/yt/videos/${name.toLowerCase()}`
       )
-      let artists = await response.json()
-      artists.products.songs.content = await Promise.all(
-        artists.products.songs.content.map(async (song) => {
-          let url =
-            'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId
-          let result = await fetch(url)
-          return result.json()
-        })
-      )
-      setartist(artists)
-      sortFetchedData(artists.products)
+      const res = await response.json()
+      const moreSongs = res.content
+      console.log(moreSongs)
+
+      //Returns array with songs
+      return moreSongs
     }
 
     fetchArtist()
 
-  }, [param])
+  }, [param.id])
 
-  const sortFetchedData = (products) => {
-    let newSongs = []
-    let newAlbums = []
-    let newSingles = []
 
-    for (const property in products) {
-      if (property === 'songs' || property === 'videos') {
-        newSongs = products[property].content
-      } else if (property === 'albums') {
-        newAlbums = products[property].content
-      } else if (property === 'single') {
-        newSingles = products[property].content
-      }
-    }
+  async function fetchMoreDetaliedSongs(songArray) {
+    let fiveSongsArr = await Promise.all(
+      songArray.map(async (song) => {
+        let url =
+          'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId
+        let result = await fetch(url)
+        return result.json()
+      })
+    )
 
-    setSongs(newSongs)
-    setAlbums(newAlbums)
-    setSingles(newSingles)
+    return fiveSongsArr
+
   }
 
   return (
@@ -72,38 +86,29 @@ const ArtistPage = () => {
               className={styles.text}
               style={{ height: viewMore ? 'auto' : null }}
             >
-              {artist.description ? artist.description : "No avaiable info"}
+              {artist.description ? artist.description : "No available info"}
             </p>
             <button
               className={styles.button}
-              onClick={() => setviewMore(!viewMore)}
+              onClick={() => setViewMore(!viewMore)}
             >
               {viewMore ? 'View less' : 'View more'}
             </button>
           </section>
 
-          {songs.length > 0 && artist &&
+          {songs.length > 0 &&
             <section className={styles.songs}>
+              {console.log('true!')}
               <SongList
                 songs={songs.slice(0, 5)}
                 header={`Top 5 songs by  ${artist.name}`}
                 thumbnails={artist.thumbnails}
+                artist={artist.name}
               />
-              <p style={{ textDecoration: "underline" }} onClick={() => { navigate(`/search/show-more?query=songs&name=${artist.name}`) }}>View more</p>
             </section>}
 
-
-          {/* ROBINS-----> <section className={styles.songs}>
-            <SongList
-              songs={artist.products.songs.content}
-              header={`Top 5 songs by  ${artist.name}`}
-              thumbnails={artist.thumbnails}
-              artist={artist.name}
-            />
-          </section> */}
-
-          {albums.length > 0 && <Carousel title={'albums'} list={albums} />}
-          {singles.length > 0 && <Carousel title={'singles'} list={singles} />}
+          {albums && <Carousel title={'albums'} list={albums} />}
+          {singles && <Carousel title={'singles'} list={singles} />}
         </div>
       )}
     </>
