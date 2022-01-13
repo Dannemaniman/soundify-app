@@ -29,11 +29,10 @@ const ArtistSlider = ({ artists, header }) => {
                 className={s.artistCard}
                 key={index}
                 style={{
-                  backgroundImage: `url(${
-                    ele.thumbnails[0]
-                      ? ele.thumbnails[0].url
+                  backgroundImage: `url(${ele.thumbnails[1]
+                      ? ele.thumbnails[1].url
                       : ele.thumbnails.url
-                  })`,
+                    })`,
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'cover',
