@@ -58,7 +58,7 @@ const App = () => {
           <Route path='/search/:query' element={<SearchPage />} />
           <Route path='/search/show-more' element={<ViewMore />} />
           <Route path='/myplaylists' element={<PlaylistPage />} />
-          <Route path='/playlist' element={<PlaylistSongPage />} />
+          <Route path='/myplaylists/:id' element={<PlaylistSongPage />} />
         </Routes>
       </main>
     </div>

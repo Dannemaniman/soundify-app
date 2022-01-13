@@ -1,10 +1,8 @@
-import React, { useContext, useState } from 'react'
-import { PlayerContext } from '../../store/playerContext'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './PlaylistItem.module.css'
 
 const PlaylistItem = (props) => {
-  const ctx = useContext(PlayerContext)
   let navigate = useNavigate()
 
   const playListHandler = () => {
@@ -13,13 +11,12 @@ const PlaylistItem = (props) => {
       props.setModalHandler(true)
       return
     }
-    ctx.setPlaylistPage(props.playlist)
-    navigate(`/playlist`)
+    navigate(`/myplaylists/${props.playlist._id}`)
   }
 
   const deletePlaylist = async () => {
     let res = await fetch(
-      `/api/playlist//deleteplaylist/${props.playlist._id}`,
+      `/api/playlist/deleteplaylist/${props.playlist._id}`,
       {
         method: 'DELETE',
       }
@@ -41,6 +38,8 @@ const PlaylistItem = (props) => {
             src={
               props.playlist.songs?.length < 1
                 ? ''
+                : props.playlist.songs[0].thumbnails.url
+                ? props.playlist.songs[0].thumbnails.url
                 : props.playlist.songs[0].thumbnails[0].url
             }
             alt='photo'

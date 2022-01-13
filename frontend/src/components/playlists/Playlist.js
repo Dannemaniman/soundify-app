@@ -12,8 +12,6 @@ const Playlists = () => {
 
   useEffect(() => {
     if (!auth.user) return
-    console.log('set list')
-    console.log(auth.user)
     setplaylists(auth.user.playlists)
   }, [auth.user])
 

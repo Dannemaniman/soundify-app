@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styles from './SongListItem.module.css'
 import SongListOption from './SongListOptions'
 
-const SongListItem = ({ index, song, setPlaylist, artist }) => {
+const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
   const addSongPlaylist = async () => {
     console.log('add song', song)
     let res = await fetch(`/api/playlist/update/${'Rock'}`, {
@@ -37,7 +37,11 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
               <i className='fas fa-play'></i>
             </div>
           </figure>
-          <SongListOption addSongPlaylist={addSongPlaylist} song={song} />
+          <SongListOption
+            addSongPlaylist={addSongPlaylist}
+            song={song}
+            playlist={playlist}
+          />
         </>
       )}
     </div>

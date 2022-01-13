@@ -7,3 +7,9 @@
 .container {
   padding: 1rem;
 }
+
+.noSongs {
+  text-align: center;
+  color: var(--color-primary);
+  margin-top: 15rem;
+}
