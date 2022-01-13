@@ -25,6 +25,9 @@ const ArtistPage = () => {
         `https://yt-music-api.herokuapp.com/api/yt/artist/${param.id}`
       )
       const artists = await response.json()
+      console.log(artists)
+      if (artists.error) { navigate(-1) }
+
       const songArray = artists.products['songs']?.content
 
       setArtist(artists)
