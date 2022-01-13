@@ -4,12 +4,10 @@ import SongListOption from './SongListOptions'
 
 const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
   const addSongPlaylist = async () => {
-    console.log('add song', song)
     let res = await fetch(`/api/playlist/update/${'Rock'}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify(song),
     })
@@ -20,7 +18,7 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
   function millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000)
     var seconds = ((millis % 60000) / 1000).toFixed(0)
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
+    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
   }
 
   return (
@@ -29,10 +27,13 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
         <>
           <section>
             <h2>
-              {song.name?.substring(0, 20).replace("Video", "")}
+              {song.name?.substring(0, 20).replace('Video', '')}
               {song.name?.length >= 21 ? ' ...' : ''}
             </h2>
-            <h4>{song.artist?.name ? song.artist.name : song.author} - {millisToMinutesAndSeconds(song.duration)}</h4>
+            <h4>
+              {song.artist?.name ? song.artist.name : song.author} -{' '}
+              {millisToMinutesAndSeconds(song.duration)}
+            </h4>
           </section>
 
           <figure
