@@ -18,7 +18,6 @@ const PlaylistModal = ({ setModalHandler, deleteList }) => {
       })
 
     setModalHandler()
-    //console.log(await response.json())
   }
   const deletePlaylist = async () => {
     let res = await fetch(`/api/playlist/deleteplaylist/${deleteList.id}`, {
@@ -27,24 +26,6 @@ const PlaylistModal = ({ setModalHandler, deleteList }) => {
     let resp = await res.json()
     auth.updateUserPlaylist(resp.id)
     setModalHandler()
-  }
-
-  const AddList = () => {
-    return (
-      <div className={styles.form}>
-        <label className={styles.label}>New playlist</label>
-        <input
-          className={`${styles.input} ${styles.inputFocus}`}
-          type='text'
-          placeholder='enter name'
-          value={name}
-          onChange={(event) => setname(event.target.value)}
-        />
-        <button className={styles.button} onClick={addPlaylist}>
-          Confirm
-        </button>
-      </div>
-    )
   }
 
   const DeleteList = () => {
@@ -69,7 +50,21 @@ const PlaylistModal = ({ setModalHandler, deleteList }) => {
   return (
     <>
       <div className={styles.overlay} onClick={() => setModalHandler()}></div>
-      {!deleteList.delete && <AddList />}
+      {!deleteList.delete && (
+        <div className={styles.form}>
+          <label className={styles.label}>New playlist</label>
+          <input
+            className={`${styles.input} ${styles.inputFocus}`}
+            type='text'
+            placeholder='enter name'
+            value={name}
+            onChange={(event) => setname(event.target.value)}
+          />
+          <button className={styles.button} onClick={addPlaylist}>
+            Confirm
+          </button>
+        </div>
+      )}
       {deleteList.delete && <DeleteList />}
     </>
   )
