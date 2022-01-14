@@ -1,3 +1,5 @@
+import { Route, Routes } from 'react-router-dom'
+import { useContext, useState, useEffect } from 'react'
 import './App.css'
 import Header from './components/header/Header'
 import Sidebar from './components/sidebar/Sidebar'
@@ -9,12 +11,11 @@ import YoutubePlayer from './components/youtubePlayer/YoutubePlayer'
 import SearchPage from './pages/SearchPage/SearchPage'
 import PlaylistPage from './pages/PlaylistPage/PlaylistPage'
 import PlaylistSongPage from './pages/PlaylistSongPage/PlaylistSongPage'
-import { Route, Routes } from 'react-router-dom'
-import { useContext, useState, useEffect } from 'react'
 import SoundifyContext from './store/soundify-context'
 import AuthContext from './store/auth-context'
 import { PlayerContext } from './store/playerContext'
 import ViewMore from './pages/viewMorePage/ViewMore'
+import AlbumPage from './pages/AlbumPage/AlbumPage'
 
 const App = () => {
   const [sidebar, setsidebar] = useState(false)
@@ -52,6 +53,7 @@ const App = () => {
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/artist/:id/album/:browseId' element={<AlbumPage />} />
           <Route path='/artist/:id' element={<ArtistPage />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/signup' element={<Signup />} />
