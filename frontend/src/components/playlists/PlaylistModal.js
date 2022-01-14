@@ -6,24 +6,42 @@ import { toast } from 'react-toastify';
 const PlaylistModal = ({ setModalHandler }) => {
 	const [name, setname] = useState('');
 	const auth = useContext(AuthContext);
-
+	let doesTheNameExist = false;
 	//Toast satt men behöver lägga till en check om den gick igenom eller inte. Verkar som om MongoDB gör dubblettkontrollen.
 	const addPlaylist = async () => {
-		const result = fetch('/api/playlist/createplaylist', {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify({ playlist_name: name }),
-		})
-			.then((data) => data.json())
-			.then((data) => {
-				auth.setUserHandler(data);
-			});
+		playlistNameCheck(name);
 
-		toast.success('Playlist added!', {
-			autoClose: 2500,
-			hideProgressBar: true,
+		if (doesTheNameExist === true) {
+			return toast.error('Playlist already exists', {
+				autoClose: 2500,
+				hideProgressBar: true,
+			});
+		} else {
+			const result = fetch('/api/playlist/createplaylist', {
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				body: JSON.stringify({ playlist_name: name }),
+			})
+				.then((data) => data.json())
+				.then((data) => {
+					auth.setUserHandler(data);
+				});
+
+			toast.success('Playlist added!', {
+				autoClose: 2500,
+				hideProgressBar: true,
+			});
+			setModalHandler();
+		}
+	};
+
+	const playlistNameCheck = async (playlist_name) => {
+		let userPlaylists = auth.user.playlists;
+		userPlaylists.forEach((playlist) => {
+			if (playlist.playlist_name === playlist_name) {
+				return (doesTheNameExist = true);
+			}
 		});
-		setModalHandler();
 	};
 
 	return (
