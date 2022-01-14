@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
@@ -16,15 +16,13 @@ const SearchPage = () => {
   let timer
   const waitTime = 800
 
-  const [search, setSearch] = useState(param.query ? param.query : "")
+  const [search, setSearch] = useState(param.query ? param.query : '')
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
-
   useEffect(() => {
-
     const fetchSearch = async () => {
       if (!search) return
       setIsLoading(true)
@@ -40,13 +38,10 @@ const SearchPage = () => {
       navigate(`/search/${search}`)
     }
     fetchSearch()
-
   }, [navigate, search])
 
-
   const handleChangeInput = async (e) => {
-
-    if (e.key === "Enter") setSearch(e.target.value)
+    if (e.key === 'Enter') setSearch(e.target.value)
     clearTimeout(timer)
 
     //Waiting for user finished typing
@@ -56,9 +51,7 @@ const SearchPage = () => {
       }
       setSearch(e.target.value)
     }, waitTime)
-
   }
-
 
   const sortFetchedData = (data) => {
     let newSongs = []
@@ -79,7 +72,6 @@ const SearchPage = () => {
     setSongs(newSongs)
     setAlbums(newAlbums)
   }
-
 
   const resetAllSearchTerms = () => {
     setArtist([])
@@ -109,20 +101,30 @@ const SearchPage = () => {
           )}
 
           <div className={isLoading ? 'loader' : ''}>
-            {(artists.length > 0 && !isLoading) && (
+            {artists.length > 0 && !isLoading && (
               <div>
-                <ArtistSlider artists={artists} header={`Artist results on "${search}"`} />
+                <ArtistSlider
+                  artists={artists}
+                  header={`Artist results on "${search}"`}
+                />
               </div>
             )}
-            {(albums.length > 0 && !isLoading) && (
+            {albums.length > 0 && !isLoading && (
               <div>
-                <AlbumSlider albums={albums} header={`Album results on "${search}"`} />
+                <AlbumSlider
+                  albums={albums}
+                  header={`Album results on "${search}"`}
+                />
               </div>
             )}
 
-            {(songs.length > 0 && !isLoading && artists) && (
+            {songs.length > 0 && !isLoading && artists && (
               <div>
-                <SongList songs={songs.slice(0, 5)} header={`Songs results on "${search}"`} artist={search} />
+                <SongList
+                  songs={songs.slice(0, 5)}
+                  header={`Songs results on "${search}"`}
+                  artist={search}
+                />
               </div>
             )}
 
@@ -131,10 +133,7 @@ const SearchPage = () => {
                 <SongSlider songs={songs} header={`Songs results on "${search}"`} />
               </div>
             )} */}
-
           </div>
-
-
         </div>
       }
     </>

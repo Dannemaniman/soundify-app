@@ -69,10 +69,9 @@ const ArtistPage = () => {
   }
 
   function removeNullFromArray(arr) {
-    const newArr = arr.filter((ele) => {
+    return arr.filter((ele) => {
       return ele !== null
     })
-    return newArr
   }
 
   return (

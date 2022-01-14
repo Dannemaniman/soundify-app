@@ -2,13 +2,12 @@ import React from 'react'
 import styles from './SongListItem.module.css'
 import SongListOption from './SongListOptions'
 
-const SongListItem = ({ index, song, setPlaylist, artist }) => {
+const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
   const addSongPlaylist = async () => {
     let res = await fetch(`/api/playlist/update/${'Rock'}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify(song),
     })
@@ -49,7 +48,12 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
               <i className='fas fa-play'></i>
             </div>
           </figure>
-          <SongListOption addSongPlaylist={addSongPlaylist} song={song} />
+          <SongListOption
+            addSongPlaylist={addSongPlaylist}
+            song={song}
+            playlist={playlist}
+            index={index}
+          />
         </>
       )}
     </div>

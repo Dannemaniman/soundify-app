@@ -103,7 +103,7 @@ const ViewMore = () => {
                       song={ele}
                       thumbnails={ele.thumbnails}
                     />
-                    <SongListOption />
+                    <SongListOption song={ele} />
                   </div>
                 )}
               </div>

@@ -5,22 +5,22 @@ export const PlayerContext = React.createContext({
   song: {},
   album: [],
   playlist: {},
-  playlistPage: [],
   overlay: false,
+  songPlaylist: false,
   setSong: (song) => {},
   startPlaying: () => {},
   stopPlaying: () => {},
   setPlaylist: () => {},
-  setPlaylistPage: () => {},
   setOverlay: () => {},
+  setSongPlaylists: () => {},
 })
 
 const PlayerCtx = (props) => {
   const [playing, setplaying] = useState(false)
   const [song, setsong] = useState({})
   const [playlist, setplaylist] = useState({})
-  const [playlistPage, setplaylistPage] = useState([])
   const [overlay, setoverlay] = useState(false)
+  const [songPlaylist, setsongPlaylist] = useState(false)
 
   const setSongHandler = (track, img) => {
     setsong({ song: track, img: img })
@@ -36,12 +36,12 @@ const PlayerCtx = (props) => {
     setplaylist(data)
   }
 
-  const setPlaylistPageHandler = (data) => {
-    setplaylistPage(data)
-  }
-
   const setOverlay = (data) => {
     setoverlay(data)
+  }
+
+  const setSongPlaylistHandler = () => {
+    setsongPlaylist(!songPlaylist)
   }
 
   return (
@@ -50,14 +50,14 @@ const PlayerCtx = (props) => {
         player: playing,
         song: song,
         playlist: playlist,
-        playlistPage: playlistPage,
         overlay: overlay,
+        songPlaylist: songPlaylist,
         setSong: setSongHandler,
         startPlaying: startPlayingHandler,
         stopPlaying: stopPlayingHandler,
         setPlaylist: setPlaylistHandler,
-        setPlaylistPage: setPlaylistPageHandler,
         setOverlay: setOverlay,
+        setSongPlaylists: setSongPlaylistHandler,
       }}
     >
       {props.children}
