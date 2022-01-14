@@ -15,8 +15,22 @@ const ArtistSlider = ({ artists, header }) => {
   }
 
   const handleClickToViewMore = (query) => {
-    navigate(`/search/show-more?query=artists&name=${query}`, { replace: true })
+    navigate(`/search/show-more?query=artists&name=${query}`)
   }
+
+  function getLastThumbnail(ele) {
+
+    //Taking last index because extern API returns the best quality image at last index.
+    const last = ele.thumbnails?.length - 1
+
+    if (ele.thumbnails?.url) {
+      return ele.thumbnails.url
+    }
+    else if (ele?.thumbnails[last].url) {
+      return ele.thumbnails[last].url
+    }
+  }
+
 
   return (
     <>
@@ -29,10 +43,7 @@ const ArtistSlider = ({ artists, header }) => {
                 className={s.artistCard}
                 key={index}
                 style={{
-                  backgroundImage: `url(${ele.thumbnails[1]
-                    ? ele.thumbnails[1].url
-                    : ele.thumbnails.url
-                    })`,
+                  backgroundImage: `url(${getLastThumbnail(ele)})`,
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'cover',

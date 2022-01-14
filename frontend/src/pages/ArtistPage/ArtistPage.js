@@ -62,7 +62,7 @@ const ArtistPage = () => {
 
 
   async function fetchMoreDetaliedSongs(songArray) {
-    let fiveSongsArr = await Promise.all(
+    let newSongArr = await Promise.all(
       songArray.map(async (song) => {
         let url =
           'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId
@@ -70,9 +70,14 @@ const ArtistPage = () => {
         return result.json()
       })
     )
+    return removeNullFromArray(newSongArr)
+  }
 
-    return fiveSongsArr
-
+  function removeNullFromArray(arr) {
+    const newArr = arr.filter((ele) => {
+      return ele !== null
+    })
+    return newArr
   }
 
   return (
@@ -99,7 +104,7 @@ const ArtistPage = () => {
 
           {songs.length > 0 &&
             <section className={styles.songs}>
-              {console.log('true!')}
+              {console.log('true!', songs)}
               <SongList
                 songs={songs.slice(0, 5)}
                 header={`Songs by  ${artist.name}`}

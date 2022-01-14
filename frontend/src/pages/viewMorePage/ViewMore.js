@@ -51,7 +51,7 @@ const ViewMore = () => {
 
   function getLastThumbnail(ele) {
 
-    //Taking last index cause extern API returns the best quality image last.
+    //Taking last index because extern API returns the best quality image at last index.
     const last = ele.thumbnails?.length - 1
 
     if (ele.thumbnails?.url) {

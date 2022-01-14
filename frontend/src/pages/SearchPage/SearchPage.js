@@ -91,7 +91,7 @@ const SearchPage = () => {
     <>
       {
         <div className={s.container}>
-          <h1>Search {search}</h1>
+          <h1>Search "{search}"</h1>
           <input
             className={`${s.searchInput} ${s.icon}`}
             placeholder='Artists, songs or albums'
