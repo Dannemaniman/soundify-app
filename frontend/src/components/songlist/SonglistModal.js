@@ -2,6 +2,8 @@ import React, { useEffect, useContext, useState } from 'react'
 import { useParams } from 'react-router'
 import styles from './SonglistModal.module.css'
 import AuthContext from '../../store/auth-context'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { PlayerContext } from '../../store/playerContext'
 
 const SongListModal = (props) => {
@@ -26,6 +28,10 @@ const SongListModal = (props) => {
     })
     let res = await response.json()
     auth.updatePlaylistSongs(res)
+    toast.success('Song added to playlist', {
+      autoClose: 2500,
+      hideProgressBar: true,
+    })
   }
 
   const deleteSongHandler = async () => {

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './PlaylistItem.module.css'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const PlaylistItem = (props) => {
   let navigate = useNavigate()
@@ -17,6 +19,11 @@ const PlaylistItem = (props) => {
   const deletePlaylist = async () => {
     props.setDeleteListHandler({ delete: true, id: props.playlist._id })
     props.setModalHandler(true)
+    toast.info('Playlist deleted', {
+      autoClose: 2500,
+      hideProgressBar: true,
+      theme: 'dark',
+    })
   }
 
   return (

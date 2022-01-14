@@ -23,7 +23,7 @@ const SongList = ({ songs, header, thumbnails, artist, playlist }) => {
 
   return (
     <div className={styles.list}>
-      <h1 className={styles.header}>{header}</h1>
+      {header && <h1 className={styles.header}>{header}</h1>}
       {songs.map((song, index) => (
         <SongListItem
           key={index}

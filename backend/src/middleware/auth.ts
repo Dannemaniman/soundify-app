@@ -15,7 +15,6 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 			_id: decoded._id,
 			// 'tokens.token': token,
 		});
-		//hittar användaren men visar alla tokens istället för att visa den aktuella?
 
 		if (!user) {
 			throw new Error();

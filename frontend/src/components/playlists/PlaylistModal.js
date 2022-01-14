@@ -1,24 +1,48 @@
 import React, { useState, useContext } from 'react'
 import styles from './PlaylistModal.module.css'
 import AuthContext from '../../store/auth-context'
+import { toast } from 'react-toastify'
 
 const PlaylistModal = ({ setModalHandler, deleteList }) => {
   const [name, setname] = useState('')
   const auth = useContext(AuthContext)
+  let doesTheNameExist = false
 
   const addPlaylist = async () => {
-    fetch('/api/playlist/createplaylist', {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ playlist_name: name }),
-    })
-      .then((data) => data.json())
-      .then((data) => {
-        auth.setUserHandler(data)
+    playlistNameCheck(name)
+    if (doesTheNameExist === true) {
+      return toast.error('Playlist already exists', {
+        autoClose: 2500,
+        hideProgressBar: true,
       })
+    } else {
+      const result = fetch('/api/playlist/createplaylist', {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ playlist_name: name }),
+      })
+        .then((data) => data.json())
+        .then((data) => {
+          auth.setUserHandler(data)
+        })
 
-    setModalHandler()
+      toast.success('Playlist added!', {
+        autoClose: 2500,
+        hideProgressBar: true,
+      })
+      setModalHandler()
+    }
   }
+
+  const playlistNameCheck = async (playlist_name) => {
+    let userPlaylists = auth.user.playlists
+    userPlaylists.forEach((playlist) => {
+      if (playlist.playlist_name === playlist_name) {
+        return (doesTheNameExist = true)
+      }
+    })
+  }
+
   const deletePlaylist = async () => {
     let res = await fetch(`/api/playlist/deleteplaylist/${deleteList.id}`, {
       method: 'DELETE',

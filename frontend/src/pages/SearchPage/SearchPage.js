@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
-import SongSlider from '../../components/searchPage/SongSlider'
+
 import SongList from '../../components/songlist/SongList'
 
 import s from './SearchPage.module.css'
@@ -20,7 +20,6 @@ const SearchPage = () => {
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
-  const [singles, setSingles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -84,7 +83,7 @@ const SearchPage = () => {
     <>
       {
         <div className={s.container}>
-          <h1>Search {search}</h1>
+          <h1>Search "{search}"</h1>
           <input
             className={`${s.searchInput} ${s.icon}`}
             placeholder='Artists, songs or albums'
@@ -124,6 +123,7 @@ const SearchPage = () => {
                 <SongList
                   songs={songs.slice(0, 5)}
                   header={`Songs results on "${search}"`}
+                  artist={search}
                 />
               </div>
             )}

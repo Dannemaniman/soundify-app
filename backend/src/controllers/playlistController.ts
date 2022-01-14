@@ -41,21 +41,21 @@ router.post('/createplaylist', async (req: Request, res: Response) => {
   }
 })
 //get all playlists by user
-router.get('/getallplaylists', async (req: Request, res: Response) => {
-  try {
-    const token = req.cookies.loggedIn
-    const decoded = jwt.verify(
-      token as string,
-      process.env.TOKEN_KEY as string
-    ) as JwtPayload
+// router.get('/getallplaylists', async (req: Request, res: Response) => {
+// 	try {
+// 		const token = req.cookies.loggedIn;
+// 		const decoded = jwt.verify(
+// 			token as string,
+// 			process.env.TOKEN_KEY as string
+// 		) as JwtPayload;
 
-    const doc = await Playlist.find({ user: decoded })
+// 		const doc = await Playlist.find({ user: decoded });
 
-    res.send(doc)
-  } catch (error: any) {
-    res.sendStatus(500).json(error.message)
-  }
-})
+// 		res.send(doc);
+// 	} catch (error: any) {
+// 		res.sendStatus(500).json(error.message);
+// 	}
+// });
 
 //get specific playlist by name
 router.get('/getplaylist/:id', (req: Request, res: Response) => {
@@ -73,21 +73,6 @@ router.get('/getplaylist/:id', (req: Request, res: Response) => {
     res.sendStatus(500).json(error.message)
   }
 })
-//add Song to playlist
-// router.post('/playlistAddSong/:id', (req: Request, res: Response) => {
-//   let paramName = req.params.id
-
-//   Playlist.findOne(
-//     { playlist_name: paramName },
-//     function (err: any, docs: any) {
-//       if (err) {
-//         res.send(err.message)
-//       } else {
-//         res.send(docs)
-//       }
-//     }
-//   )
-// })
 
 //delete a specific song in a playlist
 router.delete(
