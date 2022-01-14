@@ -118,7 +118,6 @@ const YoutubePlayer = (props) => {
       }))
       return
     }
-    console.log(playlist[index - 1])
 
     player.loadVideoById(playlist[index - 1].videoId)
     setplaying(true)

@@ -47,6 +47,7 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
             addSongPlaylist={addSongPlaylist}
             song={song}
             playlist={playlist}
+            index={index}
           />
         </>
       )}

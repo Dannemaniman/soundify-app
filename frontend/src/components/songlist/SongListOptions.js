@@ -23,7 +23,13 @@ const SongListOption = (props) => {
       <div className={styles.options}>
         <i className='fas fa-ellipsis-v' onClick={setModalHandler}></i>
       </div>
-      {modal && <SongListModal song={props.song} playlist={props.playlist} />}
+      {modal && (
+        <SongListModal
+          song={props.song}
+          playlist={props.playlist}
+          index={props.index}
+        />
+      )}
     </div>
   )
 }

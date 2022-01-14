@@ -46,7 +46,6 @@ const ArtistPage = () => {
       )
       const res = await response.json()
       const moreSongs = res.content
-      console.log(moreSongs)
 
       //Returns array with songs
       return moreSongs

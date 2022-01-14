@@ -11,26 +11,33 @@ const SongListModal = (props) => {
   const [list, setlist] = useState([])
 
   useEffect(() => {
+    if (!auth.user) return
     setlist(auth.user.playlists)
   }, [auth.user])
 
   const playlistHandler = async (name) => {
     if (!props.song) return
-    await fetch(`/api/playlist/update/${name}`, {
+    let response = await fetch(`/api/playlist/update/${name}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(props.song),
     })
+    let res = await response.json()
+    auth.updatePlaylistSongs(res)
   }
 
   const deleteSongHandler = async () => {
-    await fetch(`/api/playlist/delete/${param.id}/${props.song.videoId}`, {
-      method: 'DELETE',
-    })
-
-    player.setSongPlaylists()
+    let response = await fetch(
+      `/api/playlist/delete/${param.id}/${props.song.videoId}`,
+      {
+        method: 'DELETE',
+      }
+    )
+    let res = await response.json()
+    auth.updatePlaylistSongs(res)
+    // player.setSongPlaylists()
   }
 
   let playlistOptions = <button onClick={deleteSongHandler}>delete</button>

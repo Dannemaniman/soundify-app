@@ -3,25 +3,25 @@ import { useParams } from 'react-router'
 import SongList from '../../components/songlist/SongList'
 import styles from './PlaylistSongPage.module.css'
 import { PlayerContext } from '../../store/playerContext'
+import AuthContext from '../../store/auth-context'
 
 const PlaylistSongPage = () => {
   const [playlist, setPlaylist] = useState([])
   const [loading, setloading] = useState(true)
 
-  const player = useContext(PlayerContext)
+  const auth = useContext(AuthContext)
   let param = useParams()
 
   useEffect(() => {
     setloading(true)
-    const fetchList = async () => {
-      let response = await fetch(`/api/playlist/getplaylist/${param.id}`)
-      let res = await response.json()
+    if (!auth.user) return
 
-      setPlaylist(res)
-      setloading(false)
+    let playlists = auth.user.playlists
+    for (let list of playlists) {
+      if (list._id === param.id) setPlaylist(list)
     }
-    fetchList()
-  }, [player.songPlaylist])
+    setloading(false)
+  }, [auth.user])
 
   return (
     <div className={styles.container}>

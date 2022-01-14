@@ -74,20 +74,20 @@ router.get('/getplaylist/:id', (req: Request, res: Response) => {
   }
 })
 //add Song to playlist
-router.post('/playlistAddSong/:id', (req: Request, res: Response) => {
-  let paramName = req.params.id
+// router.post('/playlistAddSong/:id', (req: Request, res: Response) => {
+//   let paramName = req.params.id
 
-  Playlist.findOne(
-    { playlist_name: paramName },
-    function (err: any, docs: any) {
-      if (err) {
-        res.send(err.message)
-      } else {
-        res.send(docs)
-      }
-    }
-  )
-})
+//   Playlist.findOne(
+//     { playlist_name: paramName },
+//     function (err: any, docs: any) {
+//       if (err) {
+//         res.send(err.message)
+//       } else {
+//         res.send(docs)
+//       }
+//     }
+//   )
+// })
 
 //delete a specific song in a playlist
 router.delete(
@@ -102,7 +102,6 @@ router.delete(
         doc.songs = doc?.songs.filter((song: any) => song.videoId !== songId)
         doc?.save()
       }
-      console.log(doc)
 
       res.send(doc)
     } catch (error: any) {
