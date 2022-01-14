@@ -1,13 +1,14 @@
 import React, { useEffect, useContext, useState } from 'react'
 import styles from './SonglistModal.module.css'
 import AuthContext from '../../store/auth-context'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const SongListModal = (props) => {
   const auth = useContext(AuthContext)
   const [list, setlist] = useState([])
 
   useEffect(() => {
-    console.log(auth.user.playlists)
     setlist(auth.user.playlists)
   }, [auth.user])
 
@@ -21,7 +22,10 @@ const SongListModal = (props) => {
       body: JSON.stringify(props.song),
     })
     let playlist = await res.json()
-    console.log(playlist)
+    toast.success('Song added to playlist', {
+      autoClose: 2500,
+      hideProgressBar: true,
+    })
   }
 
   return (

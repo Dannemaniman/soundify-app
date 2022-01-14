@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 
 import { PlayerContext } from '../../store/playerContext'
 import SongListItem from './SongListItem'
@@ -24,7 +24,6 @@ const SongList = ({ songs, header, thumbnails, artist }) => {
   return (
     <div className={styles.list}>
       {header && <h1 className={styles.header}>{header}</h1>}
-      {console.log(artist)}
       {songs.map((song, index) => (
         <SongListItem
           key={index}
@@ -34,7 +33,16 @@ const SongList = ({ songs, header, thumbnails, artist }) => {
           setPlaylist={setPlaylistHandler}
         />
       ))}
-      {artist && <p style={{ textDecoration: "underline", color: 'black' }} onClick={() => { handleClickToViewMore(artist) }}>View more</p>}
+      {artist && (
+        <p
+          style={{ textDecoration: 'underline', color: 'black' }}
+          onClick={() => {
+            handleClickToViewMore(artist)
+          }}
+        >
+          View more
+        </p>
+      )}
     </div>
   )
 }

@@ -37,11 +37,10 @@ const ViewMore = () => {
   function millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000)
     var seconds = ((millis % 60000) / 1000).toFixed(0)
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
+    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
   }
 
   function goTo(ele) {
-    console.log('GoTo:', ele)
     if (ele.type === 'album' || ele.type === 'single') {
       navigate(`/artist/${ele.artist}/album/${ele.browseId}`)
     } else if (ele.type === 'artist') {
@@ -50,18 +49,15 @@ const ViewMore = () => {
   }
 
   function getLastThumbnail(ele) {
-
     //Taking last index because extern API returns the best quality image at last index.
     const last = ele.thumbnails?.length - 1
 
     if (ele.thumbnails?.url) {
       return ele.thumbnails.url
-    }
-    else if (ele?.thumbnails[last].url) {
+    } else if (ele?.thumbnails[last].url) {
       return ele.thumbnails[last].url
     }
   }
-
 
   return (
     <div className={s.container}>
@@ -81,8 +77,13 @@ const ViewMore = () => {
       {!isLoading &&
         dataToRender.map((ele, index) => {
           return (
-            <div className={s.viewMoreItem} key={index} onClick={() => { goTo(ele) }} >
-              {console.log(ele)}
+            <div
+              className={s.viewMoreItem}
+              key={index}
+              onClick={() => {
+                goTo(ele)
+              }}
+            >
               <div className={s.mainContent}>
                 <h1
                   className={ele.type !== 'song' ? s.artistTitle : s.songTitle}
@@ -94,7 +95,7 @@ const ViewMore = () => {
                 {ele.type !== 'song' && (
                   <img src={getLastThumbnail(ele)} alt='artist or album' />
                 )}
-                {(ele.type === 'song') && (
+                {ele.type === 'song' && (
                   <div className={s.interaction}>
                     <PlayBtn
                       songs={dataToRender}
@@ -108,7 +109,12 @@ const ViewMore = () => {
               </div>
               {typeof ele.artist === 'string' && <p>By: {ele.artist}</p>}
               {!ele.artist && <p>Go to artist page</p>}
-              {ele.type === 'song' && <p>{ele.artist?.name ? ele.artist?.name : ""} - {millisToMinutesAndSeconds(ele.duration)}</p>}
+              {ele.type === 'song' && (
+                <p>
+                  {ele.artist?.name ? ele.artist?.name : ''} -{' '}
+                  {millisToMinutesAndSeconds(ele.duration)}
+                </p>
+              )}
             </div>
           )
         })}
