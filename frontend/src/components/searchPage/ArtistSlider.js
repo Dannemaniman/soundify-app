@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import s from './ArtistSlider.module.css'
+import { decodeImg, getThumbnail } from '../utils/mediaUtils'
 
 const ArtistSlider = ({ artists, header }) => {
   const artsistsArray = artists
@@ -18,19 +19,6 @@ const ArtistSlider = ({ artists, header }) => {
     navigate(`/search/show-more?query=artists&name=${query}`)
   }
 
-  function getLastThumbnail(ele) {
-
-    //Taking last index because extern API returns the best quality image at last index.
-    const last = ele.thumbnails?.length - 1
-
-    if (ele.thumbnails?.url) {
-      return ele.thumbnails.url
-    }
-    else if (ele?.thumbnails[last].url) {
-      return ele.thumbnails[last].url
-    }
-  }
-
 
   return (
     <>
@@ -43,7 +31,7 @@ const ArtistSlider = ({ artists, header }) => {
                 className={s.artistCard}
                 key={index}
                 style={{
-                  backgroundImage: `url(${getLastThumbnail(ele)})`,
+                  backgroundImage: `url(${getThumbnail(ele)})`,
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'cover',
