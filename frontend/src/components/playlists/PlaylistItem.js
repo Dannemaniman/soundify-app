@@ -7,6 +7,7 @@ const PlaylistItem = (props) => {
 
   const playListHandler = () => {
     if (props.create) {
+      props.setDeleteListHandler({ delete: false, id: '' })
       props.setModalHandler(true)
       return
     }
@@ -14,18 +15,13 @@ const PlaylistItem = (props) => {
   }
 
   const deletePlaylist = async () => {
-    let res = await fetch(
-      `/api/playlist/deleteplaylist/${props.playlist._id}`,
-      {
-        method: 'DELETE',
-      }
-    )
-    let resp = await res.json()
+    props.setDeleteListHandler({ delete: true, id: props.playlist._id })
+    props.setModalHandler(true)
   }
 
   return (
-    <div className={styles.container} onClick={playListHandler}>
-      <figure className={styles.figure}>
+    <div className={styles.container}>
+      <figure className={styles.figure} onClick={playListHandler}>
         {props.create ? (
           <div className={styles.plus}>
             <i className='far fa-plus'></i>
@@ -48,7 +44,7 @@ const PlaylistItem = (props) => {
           </div>
         )}
       </figure>
-      <div className={styles.name}>
+      <div className={styles.name} onClick={playListHandler}>
         <p>
           {!props.create ? props.playlist.playlist_name : 'Create new playlist'}
         </p>

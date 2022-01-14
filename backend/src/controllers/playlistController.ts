@@ -116,7 +116,6 @@ router.delete('/deleteplaylist/:id', async (req: Request, res: Response) => {
   const id = req.params.id
   const doc = await Playlist.findById(id)
   doc?.delete()
-
   res.send(req.params)
 })
 
