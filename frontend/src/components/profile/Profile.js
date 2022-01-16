@@ -10,7 +10,7 @@ const Profile = () => {
       <div className={styles.img}>
         <i className='fas fa-user'></i>
       </div>
-      <div className={styles.name}>{auth.user.user_name}</div>
+      <div className={styles.name}>{auth.user?.user_name}</div>
     </div>
   )
 }

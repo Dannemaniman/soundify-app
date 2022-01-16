@@ -108,7 +108,6 @@ const ArtistPage = () => {
           )}
 
           {albums && <Carousel title={'albums'} list={albums} />}
-          {singles && <Carousel title={'singles'} list={singles} />}
         </div>
       )}
     </>
