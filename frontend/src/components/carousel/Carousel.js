@@ -63,6 +63,7 @@ const Carousel = ({ title, list }) => {
                   ? item.thumbnails[0].url
                   : item.thumbnails.url
               }
+              item={item}
             />
           ))}
       </Slider>
