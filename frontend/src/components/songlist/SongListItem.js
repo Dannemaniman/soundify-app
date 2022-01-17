@@ -3,19 +3,16 @@ import { millisToMinutesAndSeconds } from '../utils/mediaUtils'
 import styles from './SongListItem.module.css'
 import SongListOption from './SongListOptions'
 
-const SongListItem = ({ index, song, setPlaylist, artist }) => {
+const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
   const addSongPlaylist = async () => {
-    console.log('add song', song)
     let res = await fetch(`/api/playlist/update/${'Rock'}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify(song),
     })
     let playlist = await res.json()
-    console.log(playlist)
   }
 
   function getArtistName() {
@@ -30,10 +27,12 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
         <>
           <section>
             <h2>
-              {song.name?.substring(0, 20).replace("Video", "")}
+              {song.name?.substring(0, 20).replace('Video', '')}
               {song.name?.length >= 21 ? ' ...' : ''}
             </h2>
-            <h4>{getArtistName()} - {millisToMinutesAndSeconds(song.duration)}</h4>
+            <h4>
+              {getArtistName()} - {millisToMinutesAndSeconds(song.duration)}
+            </h4>
           </section>
 
           <figure
@@ -44,7 +43,12 @@ const SongListItem = ({ index, song, setPlaylist, artist }) => {
               <i className='fas fa-play'></i>
             </div>
           </figure>
-          <SongListOption addSongPlaylist={addSongPlaylist} song={song} />
+          <SongListOption
+            addSongPlaylist={addSongPlaylist}
+            song={song}
+            playlist={playlist}
+            index={index}
+          />
         </>
       )}
     </div>

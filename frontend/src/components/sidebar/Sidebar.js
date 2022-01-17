@@ -3,6 +3,7 @@ import styles from './Sidebar.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import AuthContext from '../../store/auth-context'
+import Profile from '../profile/Profile'
 
 const Sidebar = ({ hideSidebar, animation }) => {
   let navigate = useNavigate()
@@ -31,11 +32,7 @@ const Sidebar = ({ hideSidebar, animation }) => {
         style={animation ? { width: '200px' } : { width: '0px' }}
       >
         <div className={styles.header}>
-          <div className={styles.profilePic}></div>
-          <div>
-            <h3>Robin Johansson</h3>
-            <h4>Pro user</h4>
-          </div>
+          <Profile />
         </div>
 
         <div className={styles.listContainer}>

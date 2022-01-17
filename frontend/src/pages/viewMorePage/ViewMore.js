@@ -63,8 +63,13 @@ const ViewMore = () => {
       {!isLoading &&
         dataToRender.map((ele, index) => {
           return (
-            <div className={s.viewMoreItem} key={index} onClick={() => { goTo(ele) }} >
-              {console.log(ele)}
+            <div
+              className={s.viewMoreItem}
+              key={index}
+              onClick={() => {
+                goTo(ele)
+              }}
+            >
               <div className={s.mainContent}>
                 <h1
                   className={ele.type !== 'song' ? s.artistTitle : s.songTitle}
@@ -76,7 +81,7 @@ const ViewMore = () => {
                 {ele.type !== 'song' && (
                   <img src={getThumbnailUrl(ele)} alt='artist or album' />
                 )}
-                {(ele.type === 'song') && (
+                {ele.type === 'song' && (
                   <div className={s.interaction}>
                     <PlayBtn
                       songs={dataToRender}
@@ -84,13 +89,18 @@ const ViewMore = () => {
                       song={ele}
                       thumbnails={ele.thumbnails}
                     />
-                    <SongListOption />
+                    <SongListOption song={ele} />
                   </div>
                 )}
               </div>
               {typeof ele.artist === 'string' && <p>By: {ele.artist}</p>}
               {!ele.artist && <p>Go to artist page</p>}
-              {ele.type === 'song' && <p>{ele.artist?.name ? ele.artist?.name : ""} - {millisToMinutesAndSeconds(ele.duration)}</p>}
+              {ele.type === 'song' && (
+                <p>
+                  {ele.artist?.name ? ele.artist?.name : ''} -{' '}
+                  {millisToMinutesAndSeconds(ele.duration)}
+                </p>
+              )}
             </div>
           )
         })}

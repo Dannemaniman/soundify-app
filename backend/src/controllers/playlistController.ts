@@ -41,62 +41,65 @@ router.post('/createplaylist', async (req: Request, res: Response) => {
   }
 })
 //get all playlists by user
-router.get('/getallplaylists', async (req: Request, res: Response) => {
-  try {
-    const token = req.cookies.loggedIn
-    const decoded = jwt.verify(
-      token as string,
-      process.env.TOKEN_KEY as string
-    ) as JwtPayload
+// router.get('/getallplaylists', async (req: Request, res: Response) => {
+// 	try {
+// 		const token = req.cookies.loggedIn;
+// 		const decoded = jwt.verify(
+// 			token as string,
+// 			process.env.TOKEN_KEY as string
+// 		) as JwtPayload;
 
-    const doc = await Playlist.find({ user: decoded })
+// 		const doc = await Playlist.find({ user: decoded });
 
-    res.send(doc)
-  } catch (error: any) {
-    res.sendStatus(500).json(error.message)
-  }
-})
+// 		res.send(doc);
+// 	} catch (error: any) {
+// 		res.sendStatus(500).json(error.message);
+// 	}
+// });
 
 //get specific playlist by name
-router.get('/getplaylist/:name', (req: Request, res: Response) => {
+router.get('/getplaylist/:id', (req: Request, res: Response) => {
   try {
-    let paramName = req.params.name
+    let id = req.params.id
 
-    Playlist.findOne(
-      { playlist_name: paramName },
-      function (err: any, docs: any) {
-        if (err) {
-          res.send(err.message)
-        } else {
-          res.send(docs)
-        }
-      }
-    )
-  } catch (error: any) {
-    res.sendStatus(500).json(error.message)
-  }
-})
-//add Song to playlist
-router.post('/playlistAddSong/:id', (req: Request, res: Response) => {
-  let paramName = req.params.id
-
-  Playlist.findOne(
-    { playlist_name: paramName },
-    function (err: any, docs: any) {
+    Playlist.findById({ _id: id }, function (err: any, docs: any) {
       if (err) {
         res.send(err.message)
       } else {
         res.send(docs)
       }
-    }
-  )
+    })
+  } catch (error: any) {
+    res.sendStatus(500).json(error.message)
+  }
 })
+
+//delete a specific song in a playlist
+router.delete(
+  '/delete/:playlistId/:songId',
+  async (req: Request, res: Response) => {
+    try {
+      const playlistId = req.params.playlistId
+      const songId = req.params.songId
+
+      const doc = await Playlist.findById(playlistId)
+      if (doc) {
+        doc.songs = doc?.songs.filter((song: any) => song.videoId !== songId)
+        doc?.save()
+      }
+
+      res.send(doc)
+    } catch (error: any) {
+      res.send(error.message)
+    }
+  }
+)
+
 //delete a specific playlist
 router.delete('/deleteplaylist/:id', async (req: Request, res: Response) => {
   const id = req.params.id
   const doc = await Playlist.findById(id)
   doc?.delete()
-
   res.send(req.params)
 })
 

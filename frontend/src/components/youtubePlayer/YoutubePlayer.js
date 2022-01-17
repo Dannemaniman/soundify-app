@@ -67,6 +67,10 @@ const YoutubePlayer = (props) => {
     if (event.data === window.YT.PlayerState.ENDED) {
       return nextSong()
     }
+
+    if (event.data === window.YT.PlayerState.PLAYING) {
+      setplaying(true)
+    }
     setTimes()
     setendTime(getTime(event.target.getDuration()))
   }
@@ -80,9 +84,9 @@ const YoutubePlayer = (props) => {
       setsong((prevState) => ({
         ...prevState,
         song: playlist[0],
-        thumbnail: playlist[0].thumbnails
+        thumbnail: playlist[0].thumbnails[0]
           ? playlist[0].thumbnails[1].url
-          : playlist[0].thumbnail,
+          : playlist[0].thumbnails,
       }))
       return
     }
@@ -120,9 +124,9 @@ const YoutubePlayer = (props) => {
     setsong((prevState) => ({
       ...prevState,
       song: playlist[index - 1],
-      thumbnail: playlist[index - 1].thumbnails
+      thumbnail: playlist[index - 1].thumbnails[0]
         ? playlist[index - 1].thumbnails[1].url
-        : playlist[index - 1].thumbnail,
+        : playlist[index - 1].thumbnails,
     }))
     setindex((prevIndex) => prevIndex - 1)
   }

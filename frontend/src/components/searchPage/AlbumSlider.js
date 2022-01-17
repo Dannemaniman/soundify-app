@@ -4,13 +4,14 @@ import { getThumbnailUrl } from '../utils/mediaUtils'
 import s from './AlbumSlider.module.css'
 
 const AlbumSlider = ({ albums, header }) => {
-
   const albumsArray = albums
-  const searchTerm = header.substring(header.indexOf('"') + 1, header.lastIndexOf('"'))
+  const searchTerm = header.substring(
+    header.indexOf('"') + 1,
+    header.lastIndexOf('"')
+  )
   let navigate = useNavigate()
 
   const handleClick = (album) => {
-    console.log(album)
     navigate(`/artist/${album.artist.toLowerCase()}/album/${album.browseId}`)
   }
 
@@ -38,10 +39,8 @@ const AlbumSlider = ({ albums, header }) => {
           <p style={{ textDecoration: "underline" }} onClick={() => { handleClickToViewMore(searchTerm) }}>View more</p>
         </div>}
       </div>
-
     </>
   )
-
 }
 
 export default AlbumSlider

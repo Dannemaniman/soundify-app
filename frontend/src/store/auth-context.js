@@ -9,6 +9,8 @@ const AuthContext = React.createContext({
   loginHandler: async (email, password) => {},
   logoutHandler: (token) => {},
   registerHandler: async ({ email, user_name, password }) => {},
+  updateUserPlaylist: () => {},
+  updatePlaylistSongs: () => {},
 })
 
 export const AuthContextProvider = (props) => {
@@ -75,11 +77,30 @@ export const AuthContextProvider = (props) => {
   }
 
   const setUserHandler = (data) => {
+    setUser(null)
     setUser(data)
   }
 
   const setLoggedIn = () => {
     setIsLoggedIn(true)
+  }
+
+  const updateUserPlaylist = (id) => {
+    let newUser = user
+    newUser.playlists = newUser.playlists.filter(
+      (playlist) => playlist._id !== id
+    )
+    setUserHandler(newUser)
+  }
+  const updatePlaylistSongs = (playlist) => {
+    let newUser = user
+
+    for (let i = 0; i < newUser.playlists.length; i++) {
+      if (newUser.playlists[i]._id === playlist._id) {
+        newUser.playlists[i] = playlist
+      }
+    }
+    setUserHandler(newUser)
   }
 
   return (
@@ -92,6 +113,8 @@ export const AuthContextProvider = (props) => {
         logoutHandler: logoutHandler,
         registerHandler: registerHandler,
         setLoggedIn: setLoggedIn,
+        updateUserPlaylist: updateUserPlaylist,
+        updatePlaylistSongs: updatePlaylistSongs,
       }}
     >
       {props.children}
