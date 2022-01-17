@@ -6,6 +6,7 @@ import HeroImg from '../../components/heroImg/HeroImg'
 import SongList from '../../components/songlist/SongList'
 import Carousel from '../../components/carousel/Carousel'
 import styles from './ArtistPage.module.css'
+import { toast } from 'react-toastify'
 
 const ArtistPage = () => {
   const param = useParams()
@@ -17,6 +18,7 @@ const ArtistPage = () => {
   const [songs, setSongs] = useState([])
   const [singles, setSingles] = useState('')
 
+
   useEffect(() => {
     const fetchArtist = async () => {
       const response = await fetch(
@@ -24,6 +26,10 @@ const ArtistPage = () => {
       )
       const artists = await response.json()
       if (artists.error) {
+        toast.error('Could not find info about that artist/Album', {
+          autoClose: 3000,
+          hideProgressBar: true,
+        })
         navigate(-1)
       }
 
