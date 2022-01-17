@@ -1,19 +1,20 @@
-export async function decodeImg(url) {
-  console.log(url)
-  const img = new Image()
-  img.src = url
-  return await img.decode()
-}
 
-export async function getThumbnail(ele) {
+//Find and returns the thumbnail URL from passed object.
+export function getThumbnailUrl(songObj) {
 
   //Taking last index because extern API returns the best quality image at last index.
-  const last = ele.thumbnails?.length - 1
+  const last = songObj.thumbnails?.length - 1
 
-  if (ele.thumbnails?.url) {
-    return await decodeImg(ele.thumbnails.url)
+  if (songObj.thumbnails?.url) {
+    return songObj.thumbnails?.url
   }
-  else if (ele?.thumbnails[last].url) {
-    return await decodeImg(ele.thumbnails[last].url)
+  else if (songObj?.thumbnails[last].url) {
+    return songObj?.thumbnails[last].url
   }
+}
+
+export function millisToMinutesAndSeconds(millis) {
+  var minutes = Math.floor(millis / 60000)
+  var seconds = ((millis % 60000) / 1000).toFixed(0)
+  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
 }

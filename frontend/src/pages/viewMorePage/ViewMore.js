@@ -4,6 +4,8 @@ import s from './ViewMore.module.css'
 import backIcon from '../../assets/icons/back.png'
 import PlayBtn from '../../components/songlist/PlayBtn'
 import SongListOption from '../../components/songlist/SongListOptions'
+import { getThumbnailUrl, millisToMinutesAndSeconds } from '../../components/utils/mediaUtils'
+
 
 const ViewMore = () => {
   let navigate = useNavigate()
@@ -34,34 +36,14 @@ const ViewMore = () => {
     navigate(-1)
   }
 
-  function millisToMinutesAndSeconds(millis) {
-    var minutes = Math.floor(millis / 60000)
-    var seconds = ((millis % 60000) / 1000).toFixed(0)
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
-  }
 
   function goTo(ele) {
-    console.log('GoTo:', ele)
     if (ele.type === 'album' || ele.type === 'single') {
       navigate(`/artist/${ele.artist}/album/${ele.browseId}`)
     } else if (ele.type === 'artist') {
       navigate(`/artist/${ele.browseId}`)
     }
   }
-
-  function getLastThumbnail(ele) {
-
-    //Taking last index because extern API returns the best quality image at last index.
-    const last = ele.thumbnails?.length - 1
-
-    if (ele.thumbnails?.url) {
-      return ele.thumbnails.url
-    }
-    else if (ele?.thumbnails[last].url) {
-      return ele.thumbnails[last].url
-    }
-  }
-
 
   return (
     <div className={s.container}>
@@ -92,7 +74,7 @@ const ViewMore = () => {
                 </h1>
 
                 {ele.type !== 'song' && (
-                  <img src={getLastThumbnail(ele)} alt='artist or album' />
+                  <img src={getThumbnailUrl(ele)} alt='artist or album' />
                 )}
                 {(ele.type === 'song') && (
                   <div className={s.interaction}>

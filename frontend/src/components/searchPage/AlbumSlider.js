@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
+import { getThumbnailUrl } from '../utils/mediaUtils'
 import s from './AlbumSlider.module.css'
 
 const AlbumSlider = ({ albums, header }) => {
@@ -26,7 +27,7 @@ const AlbumSlider = ({ albums, header }) => {
             return (
 
               <div className={s.albumCard} key={index} style={{
-                backgroundImage: `url(${album.thumbnails[album.thumbnails.length - 1].url})`,
+                backgroundImage: `url(${getThumbnailUrl(album)})`,
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',

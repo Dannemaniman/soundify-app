@@ -1,10 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import s from './ArtistSlider.module.css'
-import { decodeImg, getThumbnail } from '../utils/mediaUtils'
+import { getThumbnailUrl } from '../utils/mediaUtils'
 
 const ArtistSlider = ({ artists, header }) => {
   const artsistsArray = artists
+
   const searchTerm = header.substring(
     header.indexOf('"') + 1,
     header.lastIndexOf('"')
@@ -12,7 +13,7 @@ const ArtistSlider = ({ artists, header }) => {
   let navigate = useNavigate()
 
   const handleClick = (query) => {
-    navigate(`/artist/${query}`, { replace: true })
+    navigate(`/artist/${query}`)
   }
 
   const handleClickToViewMore = (query) => {
@@ -26,12 +27,13 @@ const ArtistSlider = ({ artists, header }) => {
         <h1>{header}</h1>
         <div className={s.cardsContainer}>
           {artsistsArray.map((ele, index) => {
+            console.log(ele)
             return (
               <div
                 className={s.artistCard}
                 key={index}
                 style={{
-                  backgroundImage: `url(${getThumbnail(ele)})`,
+                  backgroundImage: `url(${getThumbnailUrl(ele)})`,
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'cover',

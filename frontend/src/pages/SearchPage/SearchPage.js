@@ -4,9 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
-
 import SongList from '../../components/songlist/SongList'
-
 import s from './SearchPage.module.css'
 
 const SearchPage = () => {
@@ -37,7 +35,7 @@ const SearchPage = () => {
       sortFetchedData(res.content)
 
       if (res) setIsLoading(false)
-      navigate(`/search/${search}`)
+      navigate(`/search/${search.toLowerCase()}`)
     }
     fetchSearch()
 
@@ -53,6 +51,7 @@ const SearchPage = () => {
     timer = setTimeout(() => {
       if (!e.target.value.length > 0) {
         resetAllSearchTerms()
+        navigate(`/search/`)
       }
       setSearch(e.target.value)
     }, waitTime)
@@ -91,10 +90,10 @@ const SearchPage = () => {
     <>
       {
         <div className={s.container}>
-          <h1>Search "{search}"</h1>
+          <h1>Search {search ? `"${search}"` : null}</h1>
           <input
             className={`${s.searchInput} ${s.icon}`}
-            placeholder='Artists, songs or albums'
+            placeholder={search ? search : 'Artists, songs or albums'}
             onChange={handleChangeInput}
             onKeyDown={handleChangeInput}
           />
@@ -125,12 +124,6 @@ const SearchPage = () => {
                 <SongList songs={songs.slice(0, 5)} header={`Songs results on "${search}"`} artist={search} />
               </div>
             )}
-
-            {/* {(songs.length > 0 && !isLoading) && (
-              <div>
-                <SongSlider songs={songs} header={`Songs results on "${search}"`} />
-              </div>
-            )} */}
 
           </div>
 
