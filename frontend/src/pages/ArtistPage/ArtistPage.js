@@ -101,8 +101,6 @@ const ArtistPage = () => {
               <SongList
                 songs={songs.slice(0, 5)}
                 header={`Songs by  ${artist.name}`}
-                thumbnails={artist.thumbnails}
-                artist={artist.name}
               />
             </section>
           )}

@@ -4,11 +4,9 @@ import styles from './SonglistModal.module.css'
 import AuthContext from '../../store/auth-context'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { PlayerContext } from '../../store/playerContext'
 
 const SongListModal = (props) => {
   const auth = useContext(AuthContext)
-  const player = useContext(PlayerContext)
   let param = useParams()
   const [list, setlist] = useState([])
 

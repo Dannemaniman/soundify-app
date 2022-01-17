@@ -3,7 +3,7 @@ import styles from './YoutubePlayer.module.css'
 import YouTube from 'react-youtube'
 import { PlayerContext } from '../../store/playerContext'
 
-const YoutubePlayer = (props) => {
+const YoutubePlayer = () => {
   const context = useContext(PlayerContext)
 
   const progressBar = useRef(null)
@@ -30,16 +30,12 @@ const YoutubePlayer = (props) => {
   }
 
   useEffect(() => {
-    if (!context.playlist.content?.songs) return
+    if (!context.playlist.songs) return
+    const { songs, index } = context.playlist
 
-    setindex(context.playlist.index)
-    setplaylist(context.playlist.content.songs)
-    setsong({
-      song: context.playlist.content.songs[context.playlist.index],
-      thumbnail: context.playlist.content.thumbnails[0]
-        ? context.playlist.content.thumbnails[0].url
-        : context.playlist.content.thumbnails.url,
-    })
+    setindex(index)
+    setplaylist(songs)
+    setsong(songs[index])
   }, [context.playlist])
 
   const setTimes = () => {
@@ -70,6 +66,7 @@ const YoutubePlayer = (props) => {
   const onChange = (event) => {
     if (event.data === window.YT.PlayerState.ENDED) {
       setCurrentSong('')
+      setplaying(false)
       return nextSong()
     }
     if (event.data === window.YT.PlayerState.PAUSED) {
@@ -77,7 +74,7 @@ const YoutubePlayer = (props) => {
       setplaying(false)
     }
     if (event.data === window.YT.PlayerState.PLAYING) {
-      setCurrentSong(song.song.videoId)
+      setCurrentSong(song.videoId)
       setplaying(true)
     }
     setTimes()
@@ -89,26 +86,12 @@ const YoutubePlayer = (props) => {
     if (index + 1 >= playlist.length) {
       setindex((prevIndex) => prevIndex - (playlist.length - 1))
       player.loadVideoById(playlist[0].videoId)
-      setplaying(true)
-      setsong((prevState) => ({
-        ...prevState,
-        song: playlist[0],
-        thumbnail: playlist[0].thumbnails[0]
-          ? playlist[0].thumbnails[1].url
-          : playlist[0].thumbnails,
-      }))
+      setsong(playlist[0])
       return
     }
 
     player.loadVideoById(playlist[index + 1].videoId)
-    setplaying(true)
-    setsong((prevState) => ({
-      ...prevState,
-      song: playlist[index + 1],
-      thumbnail: playlist[index + 1].thumbnails[0]
-        ? playlist[index + 1].thumbnails[0].url
-        : playlist[index + 1].thumbnails.url,
-    }))
+    setsong(playlist[index + 1])
     setindex((prevIndex) => prevIndex + 1)
   }
 
@@ -117,26 +100,12 @@ const YoutubePlayer = (props) => {
     if (index - 1 < 0) {
       setindex((prevIndex) => prevIndex + (playlist.length - 1))
       player.loadVideoById(playlist[playlist.length - 1].videoId)
-      setplaying(true)
-      setsong((prevState) => ({
-        ...prevState,
-        song: playlist[playlist.length - 1],
-        thumbnail: playlist[playlist.length - 1].thumbnails[0]
-          ? playlist[playlist.length - 1].thumbnails[0].url
-          : playlist[playlist.length - 1].thumbnails.url,
-      }))
+      setsong(playlist[playlist.length - 1])
       return
     }
 
     player.loadVideoById(playlist[index - 1].videoId)
-    setplaying(true)
-    setsong((prevState) => ({
-      ...prevState,
-      song: playlist[index - 1],
-      thumbnail: playlist[index - 1].thumbnails[0]
-        ? playlist[index - 1].thumbnails[1].url
-        : playlist[index - 1].thumbnails,
-    }))
+    setsong(playlist[index - 1])
     setindex((prevIndex) => prevIndex - 1)
   }
 
@@ -197,7 +166,7 @@ const YoutubePlayer = (props) => {
       {song ? (
         <div className={styles.playerContainer} style={hidecss()}>
           <YouTube
-            videoId={song.song.videoId}
+            videoId={song.videoId}
             opts={opts}
             onReady={onPlayerReady}
             onStateChange={onChange}
@@ -209,23 +178,21 @@ const YoutubePlayer = (props) => {
           </div>
 
           <div className={styles.songContainer}>
-            {song.thumbnail ? (
-              <img
-                className={styles.img}
-                src={song.thumbnail.url ? song.thumbnail?.url : song.thumbnail}
-                alt=''
-              />
-            ) : (
-              ''
-            )}
+            <img
+              className={styles.img}
+              src={
+                song.thumbnails?.url
+                  ? song.thumbnails?.url
+                  : song.thumbnails[0]?.url
+              }
+              alt=''
+            />
 
             <div className={styles.name}>
               <p className={styles.artistName}>
-                {song.song.artist?.name.substring(0, 20)}
+                {song.artist?.name.substring(0, 20)}
               </p>
-              <p className={styles.songName}>
-                {song.song?.name.substring(0, 20)}
-              </p>
+              <p className={styles.songName}>{song?.name.substring(0, 20)}</p>
             </div>
           </div>
 

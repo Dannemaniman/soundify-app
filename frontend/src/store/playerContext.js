@@ -32,6 +32,22 @@ const PlayerCtx = (props) => {
     setplaying(false)
   }
   const setPlaylistHandler = (data) => {
+    if (data.random) {
+      var m = data.songs.length,
+        t,
+        i
+      // While there remain elements to shuffle…
+      while (m) {
+        // Pick a remaining element…
+        i = Math.floor(Math.random() * m--)
+        // And swap it with the current element.
+        t = data.songs[m]
+        data.songs[m] = data.songs[i]
+        data.songs[i] = t
+      }
+      setplaylist(data)
+      return
+    }
     setplaylist(data)
   }
 
@@ -44,7 +60,6 @@ const PlayerCtx = (props) => {
   }
 
   const setCurrentSongPlayingHandler = (data) => {
-    console.log(data)
     setCurrentSongPlaying(data)
   }
 

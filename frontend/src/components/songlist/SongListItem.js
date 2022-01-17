@@ -46,7 +46,7 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
               {songPlaying ? (
                 <i
                   className='fas fa-pause'
-                  onClick={() => console.log(player.ytPlayer.pauseVideo())}
+                  onClick={() => player.ytPlayer.pauseVideo()}
                 ></i>
               ) : (
                 <i
