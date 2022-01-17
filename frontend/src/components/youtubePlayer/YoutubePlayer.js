@@ -20,7 +20,6 @@ const YoutubePlayer = (props) => {
   const [playlist, setplaylist] = useState([])
 
   let checkTime
-  let style
 
   const opts = {
     height: '0',
@@ -41,7 +40,7 @@ const YoutubePlayer = (props) => {
         ? context.playlist.content.thumbnails[0].url
         : context.playlist.content.thumbnails.url,
     })
-  }, [context])
+  }, [context.playlist])
 
   const setTimes = () => {
     clearInterval(checkTime)
@@ -58,17 +57,27 @@ const YoutubePlayer = (props) => {
     }, 500)
   }
 
+  const setCurrentSong = (data) => {
+    context.setCurrentSongPlaying(data)
+  }
+
   const onPlayerReady = (event) => {
     event.target.pauseVideo()
     setplayer(event.target)
+    context.setYTplayer(event.target)
   }
 
   const onChange = (event) => {
     if (event.data === window.YT.PlayerState.ENDED) {
+      setCurrentSong('')
       return nextSong()
     }
-
+    if (event.data === window.YT.PlayerState.PAUSED) {
+      setCurrentSong('')
+      setplaying(false)
+    }
     if (event.data === window.YT.PlayerState.PLAYING) {
+      setCurrentSong(song.song.videoId)
       setplaying(true)
     }
     setTimes()
@@ -147,13 +156,11 @@ const YoutubePlayer = (props) => {
   //Pause the player
   const pausePlayer = () => {
     player.pauseVideo()
-    setplaying(false)
   }
 
   //Start the player
   const startPlayer = () => {
     player.playVideo()
-    setplaying(true)
   }
 
   //Change time on song with progress bar

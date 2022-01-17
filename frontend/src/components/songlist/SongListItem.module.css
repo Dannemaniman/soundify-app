@@ -11,6 +11,17 @@
   padding: 0.5rem 0.5rem 0.5rem 0;
 
   color: var(--color-primary);
+
+  transition: all 0.4s;
+}
+
+.active {
+  background-color: var(--color-primary-orange);
+  /* color: var(--color-primary-floor); */
+  padding-left: 1rem;
+  border-radius: 5px;
+  -webkit-animation: color-change-2x 1.5s linear infinite alternate both;
+  animation: color-change-2x 1.5s linear infinite alternate both;
 }
 
 .figure {
@@ -36,4 +47,21 @@
   color: var(--color-primary-light);
   justify-self: center;
   align-self: center;
+}
+
+@-webkit-keyframes color-change-2x {
+  0% {
+    background: var(--color-primary-orange);
+  }
+  100% {
+    background: #eb5f288c;
+  }
+}
+@keyframes color-change-2x {
+  0% {
+    background: var(--color-primary-orange);
+  }
+  100% {
+    background: #eb5f288c;
+  }
 }

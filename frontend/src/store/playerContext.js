@@ -2,30 +2,29 @@ import React, { useState } from 'react'
 
 export const PlayerContext = React.createContext({
   player: false,
-  song: {},
   album: [],
   playlist: {},
   overlay: false,
   songPlaylist: false,
-  setSong: (song) => {},
+  currentSongPlaying: '',
+  youtubePlayer: {},
   startPlaying: () => {},
   stopPlaying: () => {},
   setPlaylist: () => {},
   setOverlay: () => {},
   setSongPlaylists: () => {},
+  setCurrentSongPlaying: () => {},
+  setYTplayer: () => {},
 })
 
 const PlayerCtx = (props) => {
   const [playing, setplaying] = useState(false)
-  const [song, setsong] = useState({})
   const [playlist, setplaylist] = useState({})
   const [overlay, setoverlay] = useState(false)
   const [songPlaylist, setsongPlaylist] = useState(false)
+  const [currentSongPlaying, setCurrentSongPlaying] = useState('')
+  const [ytPlayer, setytPlayer] = useState({})
 
-  const setSongHandler = (track, img) => {
-    setsong({ song: track, img: img })
-    setplaying(true)
-  }
   const startPlayingHandler = () => {
     setplaying(true)
   }
@@ -44,20 +43,31 @@ const PlayerCtx = (props) => {
     setsongPlaylist(!songPlaylist)
   }
 
+  const setCurrentSongPlayingHandler = (data) => {
+    console.log(data)
+    setCurrentSongPlaying(data)
+  }
+
+  const setYTPlayer = (data) => {
+    setytPlayer(data)
+  }
+
   return (
     <PlayerContext.Provider
       value={{
         player: playing,
-        song: song,
         playlist: playlist,
         overlay: overlay,
         songPlaylist: songPlaylist,
-        setSong: setSongHandler,
+        currentSongPlaying: currentSongPlaying,
+        ytPlayer: ytPlayer,
         startPlaying: startPlayingHandler,
         stopPlaying: stopPlayingHandler,
         setPlaylist: setPlaylistHandler,
         setOverlay: setOverlay,
         setSongPlaylists: setSongPlaylistHandler,
+        setCurrentSongPlaying: setCurrentSongPlayingHandler,
+        setYTplayer: setYTPlayer,
       }}
     >
       {props.children}

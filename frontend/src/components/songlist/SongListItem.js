@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styles from './SongListItem.module.css'
+import { PlayerContext } from '../../store/playerContext'
 import SongListOption from './SongListOptions'
 
 const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
-  const addSongPlaylist = async () => {
-    let res = await fetch(`/api/playlist/update/${'Rock'}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(song),
-    })
-    let playlist = await res.json()
-  }
+  const player = useContext(PlayerContext)
+  const [songPlaying, setSongPlaying] = useState(false)
+
+  useEffect(() => {
+    if (player.currentSongPlaying === song.videoId) {
+      setSongPlaying(true)
+      return
+    }
+    setSongPlaying(false)
+  }, [player.currentSongPlaying])
 
   function millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000)
@@ -27,7 +28,7 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
   }
 
   return (
-    <div className={styles.item}>
+    <div className={`${styles.item} ${songPlaying && styles.active} `}>
       {song && (
         <>
           <section>
@@ -40,20 +41,24 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
             </h4>
           </section>
 
-          <figure
-            className={styles.figure}
-            onClick={() => setPlaylist({ index: index, img: song.thumbnails })}
-          >
+          <figure className={styles.figure}>
             <div className={styles.play}>
-              <i className='fas fa-play'></i>
+              {songPlaying ? (
+                <i
+                  className='fas fa-pause'
+                  onClick={() => console.log(player.ytPlayer.pauseVideo())}
+                ></i>
+              ) : (
+                <i
+                  className='fas fa-play'
+                  onClick={() =>
+                    setPlaylist({ index: index, img: song.thumbnails })
+                  }
+                ></i>
+              )}
             </div>
           </figure>
-          <SongListOption
-            addSongPlaylist={addSongPlaylist}
-            song={song}
-            playlist={playlist}
-            index={index}
-          />
+          <SongListOption song={song} playlist={playlist} index={index} />
         </>
       )}
     </div>
