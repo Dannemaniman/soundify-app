@@ -87,15 +87,16 @@ const ArtistPage = () => {
 					<HeroImg imgUrl={artist.thumbnails[0].url} caption={artist.name} />
 
 					<section className={styles.description}>
-						<h1 style={{ paddingBottom: '1rem' }}>
-							About {artist.name}
+						<div className={styles.titleIconContainer}>
+							<h1 style={{ paddingBottom: '1rem' }}>About {artist.name}</h1>
 							<i
-								className={`fas fa-clone ${styles.symbol}`}
+								className={`fa fa-clone ${styles.symbol}`}
 								aria-hidden='true'
 								onClick={() =>
 									navigator.clipboard.writeText(copyToClipboard())
 								}></i>
-						</h1>
+						</div>
+
 						<p
 							className={styles.text}
 							style={{ height: viewMore ? 'auto' : null }}>

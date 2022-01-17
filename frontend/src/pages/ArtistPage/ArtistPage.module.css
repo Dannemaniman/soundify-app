@@ -33,5 +33,12 @@
 }
 
 .symbol {
-	float: right;
+	flex: 1;
+	margin-left: 20px;
+	font-size: 2rem;
+}
+
+.titleIconContainer {
+	display: flex;
+	justify-content: space-between;
 }
