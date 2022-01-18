@@ -4,7 +4,7 @@ import s from './ViewMore.module.css'
 import backIcon from '../../assets/icons/back.png'
 import PlayBtn from '../../components/songlist/PlayBtn'
 import SongListOption from '../../components/songlist/SongListOptions'
-import { getThumbnailUrl, millisToMinutesAndSeconds } from '../../components/utils/mediaUtils'
+import { getThumbnailUrl, millisToMinutesAndSeconds } from '../../components/utils/utils'
 
 
 const ViewMore = () => {

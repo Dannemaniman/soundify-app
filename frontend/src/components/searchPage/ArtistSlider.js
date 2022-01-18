@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import s from './ArtistSlider.module.css'
-import { getThumbnailUrl } from '../utils/mediaUtils'
+import { getThumbnailUrl } from '../utils/utils'
 
 const ArtistSlider = ({ artists, header }) => {
   const artsistsArray = artists
@@ -27,7 +27,6 @@ const ArtistSlider = ({ artists, header }) => {
         <h1>{header}</h1>
         <div className={s.cardsContainer}>
           {artsistsArray.map((ele, index) => {
-            console.log(ele)
             return (
               <div
                 className={s.artistCard}

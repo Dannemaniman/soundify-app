@@ -7,11 +7,12 @@ import SongList from '../../components/songlist/SongList'
 import Carousel from '../../components/carousel/Carousel'
 import styles from './ArtistPage.module.css'
 import { toast } from 'react-toastify'
+import { removeNullFromArray } from '../../components/utils/utils'
 
 const ArtistPage = () => {
   const param = useParams()
   const navigate = useNavigate()
-
+  // 
   const [artist, setArtist] = useState('')
   const [viewMore, setViewMore] = useState(false)
   const [albums, setAlbums] = useState([])
@@ -26,21 +27,22 @@ const ArtistPage = () => {
       )
       const artists = await response.json()
       if (artists.error) {
-        toast.error('Could not find info about that artist/Album', {
+        console.log(artists.error)
+        toast.error(artists.error, {
           autoClose: 3000,
           hideProgressBar: true,
         })
         navigate(-1)
       }
 
-      const songArray = artists.products['songs']?.content
+      const songArray = artists?.products['songs']?.content
 
       setArtist(artists)
       setAlbums(artists.products['albums']?.content)
       setSingles(artists.products['singles']?.content)
       setSongs(await fetchMoreDetaliedSongs(songArray))
 
-      //If artist does not have any songs
+      //If artist obj from API does not have any songs
       if (songArray?.length <= 0) {
         setSongs(await fetchMoreSongs(artists.name))
       }
@@ -74,11 +76,7 @@ const ArtistPage = () => {
     return removeNullFromArray(newSongArr)
   }
 
-  function removeNullFromArray(arr) {
-    return arr.filter((ele) => {
-      return ele !== null
-    })
-  }
+
 
   return (
     <>

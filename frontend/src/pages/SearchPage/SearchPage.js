@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, } from 'react-router-dom'
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
 import SongList from '../../components/songlist/SongList'
+import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
 import s from './SearchPage.module.css'
 
 const SearchPage = () => {
-  const param = useParams()
+
   let navigate = useNavigate()
 
   let timer
-  const waitTime = 800
+  const waitTime = 1200
 
-  const [search, setSearch] = useState(param.query ? param.query : '')
+  const [search, setSearch] = useState('')
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [searchHistory, setLatestSearchHistory] = useState([])
 
   useEffect(() => {
     const fetchSearch = async () => {
@@ -35,8 +36,15 @@ const SearchPage = () => {
       if (res) setIsLoading(false)
       navigate(`/search/${search.toLowerCase()}`)
     }
+
+    const getSearchHistory = () => {
+      setLatestSearchHistory(getDataLocalStorage("latestSearches"))
+    }
+
     fetchSearch()
+    getSearchHistory()
   }, [navigate, search])
+
 
   const handleChangeInput = async (e) => {
     if (e.key === 'Enter') setSearch(e.target.value)
@@ -49,8 +57,10 @@ const SearchPage = () => {
         navigate(`/search/`)
       }
       setSearch(e.target.value)
+      createNewSearch(e.target.value)
     }, waitTime)
   }
+
 
   const sortFetchedData = (data) => {
     let newSongs = []
@@ -78,6 +88,29 @@ const SearchPage = () => {
     setAlbums([])
   }
 
+
+  const createNewSearch = (query) => {
+    let newSearches = searchHistory ? searchHistory : []
+    if (query?.length <= 0) return
+
+    newSearches = newSearches.filter((ele) => {
+      return ele !== query
+    })
+
+    newSearches.push(query.toLowerCase())
+
+    if (newSearches.length > 5) {
+      newSearches = newSearches.slice(1)
+      console.log(newSearches.slice(1))
+    }
+
+    populateLocalStorage('latestSearches', newSearches.reverse())
+    setLatestSearchHistory(newSearches.reverse())
+    return newSearches
+  }
+
+
+
   return (
     <>
       {
@@ -89,12 +122,17 @@ const SearchPage = () => {
             onChange={handleChangeInput}
             onKeyDown={handleChangeInput}
           />
-          {!search.length > 0 && (
-            <div className={s.yourMostPlayed}>
-              <h1>Your most played albums</h1>
-              <div className={s.cards}>
-                <div className={s.albumCard}>Metallica</div>
-                <div className={s.albumCard}>Rammstein</div>
+          {(
+            <div className={s.latestSearchesContainer}>
+              {
+                console.log()
+              }
+              <h1>Your latest searches:</h1>
+              <div className={s.latestSearches}>
+                {searchHistory?.length > 0 && searchHistory.map((ele, index) => {
+                  return (
+                    <div className={s.searchCard} key={index} onClick={(e) => { setSearch(ele) }}><h2>{ele}</h2></div>)
+                })}
               </div>
             </div>
           )}

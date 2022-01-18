@@ -1,5 +1,5 @@
 import React from 'react'
-import { millisToMinutesAndSeconds } from '../utils/mediaUtils'
+import { millisToMinutesAndSeconds } from '../utils/utils'
 import styles from './SongListItem.module.css'
 import SongListOption from './SongListOptions'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
-import { getThumbnailUrl } from '../utils/mediaUtils'
+import { getThumbnailUrl } from '../utils/utils'
 import s from './AlbumSlider.module.css'
 
 const AlbumSlider = ({ albums, header }) => {
@@ -14,7 +14,6 @@ const AlbumSlider = ({ albums, header }) => {
   const handleClick = (album) => {
     navigate(`/artist/${album.artist.toLowerCase()}/album/${album.browseId}`)
   }
-
   const handleClickToViewMore = (query) => {
     navigate(`/search/show-more?query=albums&name=${query}`)
   }
