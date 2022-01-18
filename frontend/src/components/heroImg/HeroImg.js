@@ -3,7 +3,6 @@ import styles from './HeroImg.module.css';
 import { toast } from 'react-toastify';
 
 function copyToClipboard(url) {
-	console.log(url);
 	toast.info('Copied to clipboard!');
 	return url;
 }
@@ -19,14 +18,18 @@ const HeroImg = ({ imgUrl, size, caption, url }) => {
 			/>
 			<figcaption className={styles.caption}>{caption}</figcaption>
 
-			<figcaption className={styles.iconCaption}>
-				<i
-					className={`fa fa-clone ${styles.symbol}`}
-					aria-hidden='true'
-					onClick={() =>
-						navigator.clipboard.writeText(copyToClipboard(url))
-					}></i>
-			</figcaption>
+			{/* Kolla om man kan ta router/home för att göra denna kontrollen dynamisk*/}
+
+			{window.location.href !== 'http://localhost:3000/' && (
+				<figcaption className={styles.iconCaption}>
+					<i
+						className={`fa fa-clone ${styles.symbol}`}
+						aria-hidden='true'
+						onClick={() =>
+							navigator.clipboard.writeText(copyToClipboard(url))
+						}></i>
+				</figcaption>
+			)}
 		</figure>
 	);
 };
