@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
@@ -8,18 +8,21 @@ import { getDataLocalStorage, populateLocalStorage } from '../../components/util
 import s from './SearchPage.module.css'
 
 const SearchPage = () => {
+  let param = useParams()
 
   let navigate = useNavigate()
+  let location = useLocation()
 
   let timer
   const waitTime = 1200
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(param.query)
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [searchHistory, setLatestSearchHistory] = useState([])
+
 
   useEffect(() => {
     const fetchSearch = async () => {
@@ -57,7 +60,7 @@ const SearchPage = () => {
         navigate(`/search/`)
       }
       setSearch(e.target.value)
-      createNewSearch(e.target.value)
+      addNewSearchToLoaclStorage(e.target.value)
     }, waitTime)
   }
 
@@ -86,10 +89,11 @@ const SearchPage = () => {
     setArtist([])
     setSongs([])
     setAlbums([])
+    setSearch("")
   }
 
 
-  const createNewSearch = (query) => {
+  const addNewSearchToLoaclStorage = (query) => {
     let newSearches = searchHistory ? searchHistory : []
     if (query?.length <= 0) return
 
@@ -122,11 +126,9 @@ const SearchPage = () => {
             onChange={handleChangeInput}
             onKeyDown={handleChangeInput}
           />
-          {(
+          {(location.pathname === '/search' || location.pathname === '/search/') &&
             <div className={s.latestSearchesContainer}>
-              {
-                console.log()
-              }
+              {console.log(location.pathname)}
               <h1>Your latest searches:</h1>
               <div className={s.latestSearches}>
                 {searchHistory?.length > 0 && searchHistory.map((ele, index) => {
@@ -135,7 +137,7 @@ const SearchPage = () => {
                 })}
               </div>
             </div>
-          )}
+          }
 
           <div className={isLoading ? 'loader' : ''}>
             {artists.length > 0 && !isLoading && (
