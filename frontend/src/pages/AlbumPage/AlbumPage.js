@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import HeroImg from '../../components/heroImg/HeroImg';
 import SongList from '../../components/songlist/SongList';
-import Carousel from '../../components/carousel/Carousel';
 import styles from './ArtistPage.module.css';
 
 const AlbumPage = () => {
@@ -12,7 +11,7 @@ const AlbumPage = () => {
 	const navigate = useNavigate();
 
 	const [album, setAlbum] = useState(null);
-	const [artist, setArtist] = useState('');
+	const [albumSongs, setalbumSongs] = useState([]);
 
 	useEffect(() => {
 		const fetchAlbum = async () => {
@@ -24,12 +23,31 @@ const AlbumPage = () => {
 				navigate(-1);
 			}
 			setAlbum(newAlbum);
+			setalbumSongs(await fetchMoreDetaliedSongs(newAlbum.tracks));
 		};
 
 		fetchAlbum();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [param.id]);
+
+	async function fetchMoreDetaliedSongs(songArray) {
+		let newSongArr = await Promise.all(
+			songArray.map(async (song) => {
+				let url =
+					'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId;
+				let result = await fetch(url);
+				return result.json();
+			})
+		);
+		return removeNullFromArray(newSongArr);
+	}
+
+	function removeNullFromArray(arr) {
+		return arr.filter((ele) => {
+			return ele !== null;
+		});
+	}
 
 	function getLastThumbnail() {
 		const last = album?.thumbnails?.length - 1;
@@ -45,16 +63,12 @@ const AlbumPage = () => {
 						caption={album.title}
 						url={window.location.href}
 					/>
-
-					{
-						<section className={styles.songs}>
-							<SongList
-								songs={album.tracks}
-								thumbnails={album.thumbnails}
-								artist={album.artist[0].name}
-							/>
-						</section>
-					}
+					<section className={styles.songs}>
+						<SongList
+							header={album.title}
+							songs={albumSongs.slice(0, albumSongs.length)}
+						/>
+					</section>
 				</div>
 			)}
 		</>

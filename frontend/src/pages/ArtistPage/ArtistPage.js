@@ -86,10 +86,7 @@ const ArtistPage = () => {
 					/>
 
 					<section className={styles.description}>
-						<div className={styles.titleIconContainer}>
-							<h1 style={{ paddingBottom: '1rem' }}>About {artist.name}</h1>
-						</div>
-
+						<h1 style={{ paddingBottom: '1rem' }}>About {artist.name}</h1>
 						<p
 							className={styles.text}
 							style={{ height: viewMore ? 'auto' : null }}>
@@ -107,8 +104,6 @@ const ArtistPage = () => {
 							<SongList
 								songs={songs.slice(0, 5)}
 								header={`Songs by  ${artist.name}`}
-								thumbnails={artist.thumbnails}
-								artist={artist.name}
 							/>
 						</section>
 					)}

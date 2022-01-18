@@ -97,12 +97,7 @@ const ViewMore = () => {
                 )}
                 {ele.type === 'song' && (
                   <div className={s.interaction}>
-                    <PlayBtn
-                      songs={dataToRender}
-                      index={index}
-                      song={ele}
-                      thumbnails={ele.thumbnails}
-                    />
+                    <PlayBtn songs={dataToRender} index={index} />
                     <SongListOption song={ele} />
                   </div>
                 )}
