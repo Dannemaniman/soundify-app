@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './HeroImg.module.css';
+import { toast } from 'react-toastify';
 
-const HeroImg = ({ imgUrl, size, caption }) => {
+function copyToClipboard(url) {
+	console.log(url);
+	toast.info('Copied to clipboard!');
+	return url;
+}
+
+const HeroImg = ({ imgUrl, size, caption, url }) => {
 	return (
 		<figure className={styles.figure}>
 			<img
@@ -11,6 +18,15 @@ const HeroImg = ({ imgUrl, size, caption }) => {
 				style={{ height: size === 'big' ? '25rem' : '' }}
 			/>
 			<figcaption className={styles.caption}>{caption}</figcaption>
+
+			<figcaption className={styles.iconCaption}>
+				<i
+					className={`fa fa-clone ${styles.symbol}`}
+					aria-hidden='true'
+					onClick={() =>
+						navigator.clipboard.writeText(copyToClipboard(url))
+					}></i>
+			</figcaption>
 		</figure>
 	);
 };

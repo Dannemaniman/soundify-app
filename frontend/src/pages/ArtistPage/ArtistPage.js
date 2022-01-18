@@ -75,26 +75,19 @@ const ArtistPage = () => {
 		});
 	}
 
-	function copyToClipboard() {
-		toast.info('Copied to clipboard!');
-		return `http://localhost:3000/artist/${param.id}`;
-	}
-
 	return (
 		<>
 			{artist && (
 				<div className={styles.artistpage}>
-					<HeroImg imgUrl={artist.thumbnails[0].url} caption={artist.name} />
+					<HeroImg
+						imgUrl={artist.thumbnails[0].url}
+						caption={artist.name}
+						url={window.location.href}
+					/>
 
 					<section className={styles.description}>
 						<div className={styles.titleIconContainer}>
 							<h1 style={{ paddingBottom: '1rem' }}>About {artist.name}</h1>
-							<i
-								className={`fa fa-clone ${styles.symbol}`}
-								aria-hidden='true'
-								onClick={() =>
-									navigator.clipboard.writeText(copyToClipboard())
-								}></i>
 						</div>
 
 						<p

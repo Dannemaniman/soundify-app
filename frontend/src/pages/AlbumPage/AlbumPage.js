@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
 import HeroImg from '../../components/heroImg/HeroImg';
 import SongList from '../../components/songlist/SongList';
 import Carousel from '../../components/carousel/Carousel';
@@ -36,22 +36,15 @@ const AlbumPage = () => {
 		return album.thumbnails[last].url;
 	}
 
-	function copyToClipboard() {
-		toast.info('Copied to clipboard!');
-		return `http://localhost:3000/artist/${param.id}`;
-	}
-
 	return (
 		<>
 			{album && (
 				<div className={styles.artistpage}>
-					{/* <i
-						className={`fa fa-clone ${styles.symbol}`}
-						aria-hidden='true'
-						onClick={() =>
-							navigator.clipboard.writeText(copyToClipboard())
-						}></i> */}
-					<HeroImg imgUrl={getLastThumbnail()} caption={album.title} />
+					<HeroImg
+						imgUrl={getLastThumbnail()}
+						caption={album.title}
+						url={window.location.href}
+					/>
 
 					{
 						<section className={styles.songs}>
