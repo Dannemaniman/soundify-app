@@ -2,18 +2,19 @@ import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { PlayerContext } from '../../store/playerContext'
+import ShuffleBtn from '../buttons/ShuffleBtn'
 import SongListItem from './SongListItem'
 import styles from './SongList.module.css'
 
-const SongList = ({ songs, header, thumbnails, artist, playlist }) => {
+const SongList = ({ songs, header, artist, playlist }) => {
   const player = useContext(PlayerContext)
   let navigate = useNavigate()
 
   const setPlaylistHandler = (data) => {
     player.setPlaylist({
-      content: { songs: songs, thumbnails: data.img ? data.img : thumbnails },
+      songs: songs,
       index: data.index,
-      artistImg: artist,
+      random: data.random,
     })
   }
 
@@ -24,6 +25,7 @@ const SongList = ({ songs, header, thumbnails, artist, playlist }) => {
   return (
     <div className={styles.list}>
       {header && <h1 className={styles.header}>{header}</h1>}
+      <ShuffleBtn shufflePlaylist={setPlaylistHandler} />
       {songs.map((song, index) => (
         <SongListItem
           key={index}
