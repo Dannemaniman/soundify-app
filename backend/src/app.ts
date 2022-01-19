@@ -1,15 +1,20 @@
-import express from 'express';
-import Express, { Application } from 'express';
-import Routes from './routes';
+import express from 'express'
+import Express, { Application } from 'express'
+import Routes from './routes'
 
-const cookieParser = require('cookie-parser');
+const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
+const app: Application = Express()
+const { redisClient } = require('./db/redis')
 
-const app: Application = Express();
 
 export default async function (): Promise<Application> {
-	app.use(cookieParser());
-	app.use(express.json());
+	app.use(cookieParser())
+	app.use(morgan('combined'))
+	app.use(express.json())
+	redisClient.connect()
 
-	Routes(app);
-	return app;
+	Routes(app)
+	return app
 }
+
