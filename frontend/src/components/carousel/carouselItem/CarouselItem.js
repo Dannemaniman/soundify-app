@@ -6,15 +6,17 @@ const CarouselItem = ({ imgUrl, item }) => {
   let navigate = useNavigate()
 
   const itemHandler = () => {
-    switch (item.type) {
-      case 'Album': {
+    switch (item.type.toLowerCase()) {
+      case 'album': {
         navigate(`/artist/${item.name.toLowerCase()}/album/${item.browseId}`)
         break
       }
-      case 'single': {
+      case 'artist': {
+        navigate(`/artist/${item.browseId}`)
         break
       }
-      case 'EP': {
+      case 'ep': {
+        navigate(`/artist/${item.name.toLowerCase()}/album/${item.browseId}`)
         break
       }
     }
