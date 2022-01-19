@@ -129,12 +129,6 @@ const SearchPage = () => {
                 />
               </div>
             )}
-
-            {/* {(songs.length > 0 && !isLoading) && (
-              <div>
-                <SongSlider songs={songs} header={`Songs results on "${search}"`} />
-              </div>
-            )} */}
           </div>
         </div>
       }

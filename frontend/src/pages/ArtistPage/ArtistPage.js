@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import HeroImg from '../../components/heroImg/HeroImg'
 import SongList from '../../components/songlist/SongList'
@@ -15,7 +16,6 @@ const ArtistPage = () => {
   const [viewMore, setViewMore] = useState(false)
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
-  const [singles, setSingles] = useState('')
 
   useEffect(() => {
     const fetchArtist = async () => {
@@ -31,7 +31,6 @@ const ArtistPage = () => {
 
       setArtist(artists)
       setAlbums(artists.products['albums']?.content)
-      setSingles(artists.products['singles']?.content)
       setSongs(await fetchMoreDetaliedSongs(songArray))
 
       //If artist does not have any songs
@@ -78,7 +77,11 @@ const ArtistPage = () => {
     <>
       {artist && (
         <div className={styles.artistpage}>
-          <HeroImg imgUrl={artist.thumbnails[0].url} caption={artist.name} />
+          <HeroImg
+            imgUrl={artist.thumbnails[0].url}
+            caption={artist.name}
+            url={window.location.href}
+          />
 
           <section className={styles.description}>
             <h1 style={{ paddingBottom: '1rem' }}>About {artist.name}</h1>
@@ -101,12 +104,9 @@ const ArtistPage = () => {
               <SongList
                 songs={songs.slice(0, 5)}
                 header={`Songs by  ${artist.name}`}
-                thumbnails={artist.thumbnails}
-                artist={artist.name}
               />
             </section>
           )}
-
           {albums && <Carousel title={'albums'} list={albums} />}
         </div>
       )}
