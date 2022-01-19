@@ -5,7 +5,6 @@ const AuthContext = React.createContext({
   isLoggedIn: '',
   user: {},
   setLoggedIn: () => {},
-  setUserHandler: (user) => {},
   loginHandler: async (email, password) => {},
   logoutHandler: (token) => {},
   registerHandler: async ({ email, user_name, password }) => {},
@@ -56,6 +55,13 @@ export const AuthContextProvider = (props) => {
     return success
   }
 
+  const logoutHandler = async () => {
+    await fetch('/api/user/logout', {
+      method: 'POST',
+    })
+    setIsLoggedIn(false)
+  }
+
   const validateLoginByCookie = (user) => {
     if (
       document.cookie.replace(
@@ -69,20 +75,9 @@ export const AuthContextProvider = (props) => {
     }
   }
 
-  const logoutHandler = async () => {
-    await fetch('/api/user/logout', {
-      method: 'POST',
-    })
-    setIsLoggedIn(false)
-  }
-
   const setUserHandler = (data) => {
     setUser(null)
     setUser(data)
-  }
-
-  const setLoggedIn = () => {
-    setIsLoggedIn(true)
   }
 
   const updateUserPlaylist = (id) => {
@@ -92,6 +87,7 @@ export const AuthContextProvider = (props) => {
     )
     setUserHandler(newUser)
   }
+  
   const updatePlaylistSongs = (playlist) => {
     let newUser = user
 
@@ -112,7 +108,6 @@ export const AuthContextProvider = (props) => {
         loginHandler: loginHandler,
         logoutHandler: logoutHandler,
         registerHandler: registerHandler,
-        setLoggedIn: setLoggedIn,
         updateUserPlaylist: updateUserPlaylist,
         updatePlaylistSongs: updatePlaylistSongs,
       }}
