@@ -7,7 +7,7 @@ import HeroImg from '../../components/heroImg/HeroImg'
 import SongList from '../../components/songlist/SongList'
 import Carousel from '../../components/carousel/Carousel'
 import styles from './ArtistPage.module.css'
-import { toast } from 'react-toastify'
+
 import { removeNullFromArray } from '../../components/utils/utils'
 
 const ArtistPage = () => {
