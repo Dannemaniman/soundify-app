@@ -152,10 +152,22 @@ const YoutubePlayer = () => {
     let css = {}
     if (hide) {
       css = {
-        top: 'calc(100vh)',
-        height: '0px',
+        top: 'calc(100vh - 15px)',
+        height: '16px',
+        padding: '6px 5px',
         border: 'none',
-        padding: '0',
+        alignSelf: 'center',
+        justifySelf: 'center',
+      }
+    }
+    return css
+  }
+
+  const hideContent = () => {
+    let css = {}
+    if (hide) {
+      css = {
+        display: 'none',
       }
     }
     return css
@@ -176,45 +188,45 @@ const YoutubePlayer = () => {
             {!hide && <i className='fas fa-chevron-down'></i>}
             {hide && <i className='fas fa-chevron-up'></i>}
           </div>
+          <div className={styles.songContent} style={hideContent()}>
+            <div className={styles.songContainer}>
+              <img
+                className={styles.img}
+                src={
+                  song.thumbnails?.url
+                    ? song.thumbnails?.url
+                    : song.thumbnails[0]?.url
+                }
+                alt=''
+              />
 
-          <div className={styles.songContainer}>
-            <img
-              className={styles.img}
-              src={
-                song.thumbnails?.url
-                  ? song.thumbnails?.url
-                  : song.thumbnails[0]?.url
-              }
-              alt=''
-            />
-
-            <div className={styles.name}>
-              <p className={styles.artistName}>
-                {song.artist?.name.substring(0, 20)}
-              </p>
-              <p className={styles.songName}>{song?.name.substring(0, 20)}</p>
+              <div className={styles.name}>
+                <p className={styles.artistName}>
+                  {song.artist?.name.substring(0, 20)}
+                </p>
+                <p className={styles.songName}>{song?.name.substring(0, 20)}</p>
+              </div>
             </div>
-          </div>
-
-          <div className={styles.buttonContainer}>
-            <button className={styles.next}>
-              <i className='fas fa-step-backward' onClick={prevSong}></i>
-            </button>
-
-            {playing && (
-              <button className={styles.next} onClick={pausePlayer}>
-                <i className='fas fa-pause'></i>
+            <div className={styles.buttonContainer}>
+              <button className={styles.next}>
+                <i className='fas fa-step-backward' onClick={prevSong}></i>
               </button>
-            )}
-            {!playing && (
-              <button className={styles.next} onClick={startPlayer}>
-                <i className='fas fa-play'></i>
-              </button>
-            )}
 
-            <button className={styles.next} onClick={nextSong}>
-              <i className='fas fa-step-forward'></i>
-            </button>
+              {playing && (
+                <button className={styles.next} onClick={pausePlayer}>
+                  <i className='fas fa-pause'></i>
+                </button>
+              )}
+              {!playing && (
+                <button className={styles.next} onClick={startPlayer}>
+                  <i className='fas fa-play'></i>
+                </button>
+              )}
+
+              <button className={styles.next} onClick={nextSong}>
+                <i className='fas fa-step-forward'></i>
+              </button>
+            </div>
           </div>
 
           <div className={styles.progressContainer}>
