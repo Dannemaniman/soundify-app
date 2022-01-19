@@ -1,49 +1,21 @@
-// const https = require('https')
+const fetch = require('node-fetch')
 
 
+const searchService = async (searchString: string) => {
+  const { getOrSetCache } = require('../db/redis')
+  try {
+    const searchQuery = searchString
+    const searchResult = await getOrSetCache(searchQuery, async () => {
+      let response = await fetch(`https://yt-music-api.herokuapp.com/api/yt/search/${searchQuery}`)
+      let data = response.json()
 
-// export const searchYoutube = async (song: ISong) => {
-//   try {
+      return data
+    })
+    return searchResult
 
-//     const playlist = await getOrSetCache(req.url, async () => {
-//       const { data } = await https.get(`https://yt-music-api.herokuapp.com/api/yt/search/${search}`)
+  } catch (error: any) {
+    return error
+  }
+}
 
-//       redisClient.SETEX('playlist', 1000, JSON.stringify(data))
-//       return data
-//     })
-//     res.json(playlist)
-
-
-
-
-//     let response = await fetch(
-//       `https://yt-music-api.herokuapp.com/api/yt/search/${search}`
-//     )
-//     let res = await response.json()
-    
-//     const doc = new Song(song)
-//     return await doc.save()
-
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
-
-
-
-// })
-
-// export const deleteSong = async (id: number) => {
-//   return await Song.deleteOne({ _id: id })
-// }
-
-
-// export const saveAlbum = async (album: IAlbum) => {
-//   try {
-//     const doc = new Album(album)
-//     return await doc.save()
-
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+module.exports = { searchService }

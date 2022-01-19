@@ -22,18 +22,14 @@ const SearchPage = () => {
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const { apiServiceGet, apiServicePost } = useContext(ApiContext)
 
   useEffect(() => {
     const fetchSearch = async () => {
       if (!search) return
       setIsLoading(true)
 
-      let response = await fetch(`/api/yt/search/${search}`)
-      console.log(response)
+      let response = await fetch(`/api/search/${search}`)
       let res = await response.json()
-      console.log(res)
-
       sortFetchedData(res.content)
 
       if (res) setIsLoading(false)

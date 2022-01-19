@@ -5,7 +5,7 @@ const AuthContext = React.createContext({
   isLoggedIn: '',
   user: {},
   setLoggedIn: () => {},
-  loginHandler: async (email, password) => {},
+    loginHandler: async (email, password) => {},
   logoutHandler: (token) => {},
   registerHandler: async ({ email, user_name, password }) => {},
   updateUserPlaylist: () => {},
@@ -87,7 +87,7 @@ export const AuthContextProvider = (props) => {
     )
     setUserHandler(newUser)
   }
-  
+
   const updatePlaylistSongs = (playlist) => {
     let newUser = user
 
