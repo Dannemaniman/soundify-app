@@ -1,0 +1,31 @@
+
+.latestSearchesContainer {
+  margin-top: 3rem;
+}
+
+.latestSearches{
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.searchCard{
+  padding: 0.7rem 0;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  border-left: 4px solid var(--color-primary-orange);
+  margin-bottom: 1rem;    
+  
+}
+
+.searchCard:hover {
+  cursor: pointer;  
+  color: white;
+  border-left: 4px solid var(--color-primary);
+}
+
+.searchCard h2{
+  margin-left: 1rem;  
+}
+

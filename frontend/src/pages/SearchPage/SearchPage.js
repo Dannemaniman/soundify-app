@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
@@ -7,64 +7,57 @@ import SongList from '../../components/songlist/SongList'
 import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
 import s from './SearchPage.module.css'
 import backIcon from '../../assets/icons/back.png'
-
+import LatestSearch from '../../components/searchPage/LatestSearch'
 
 
 const SearchPage = () => {
-  let param = useParams()
 
   let navigate = useNavigate()
-  let location = useLocation()
 
   let timer
-  const waitTime = 700
+  const waitTime = 1000
 
-  const [search, setSearch] = useState()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [searchHistory, setLatestSearchHistory] = useState([])
 
-  const noActiveSearch = (location.pathname === '/search' || location.pathname === '/search/')
-
+  const activeSearch = searchParams.get('query')
 
   useEffect(() => {
     const fetchSearch = async () => {
-      if (!search) return
+
+      if (!searchParams.get("query")) return
       setIsLoading(true)
 
       let response = await fetch(
-        `https://yt-music-api.herokuapp.com/api/yt/search/${search}`
+        `https://yt-music-api.herokuapp.com/api/yt/search/${searchParams.get("query")}`
       )
       let res = await response.json()
-
       sortFetchedData(res.content)
-
       if (res) setIsLoading(false)
-      navigate(`/search/${search.toLowerCase()}`)
-    }
-
-    const getSearchHistory = () => {
-      setLatestSearchHistory(getDataLocalStorage("latestSearches"))
     }
 
     fetchSearch()
-    getSearchHistory()
-  }, [navigate, search])
+
+  }, [navigate, searchParams])
 
 
   const handleChangeInput = async (e) => {
-    if (e.key === 'Enter') setSearch(e.target.value)
+    let query = e.target.value
+
+    if (e.key === 'Enter') setSearchParams({ query })
     clearTimeout(timer)
 
     //Waiting for user finished typing
     timer = setTimeout(() => {
       if (!e.target.value.length > 0) {
-        resetAllSearchTerms()
-        navigate(`/search/`)
+        setSearchParams({})
+        navigate(-2) //Route back to '/search'
       }
-      setSearch(e.target.value)
+
+      setSearchParams({ query })
       addNewSearchToLoaclStorage(e.target.value)
     }, waitTime)
   }
@@ -90,78 +83,62 @@ const SearchPage = () => {
     setAlbums(newAlbums)
   }
 
-  const resetAllSearchTerms = () => {
-    setArtist([])
-    setSongs([])
-    setAlbums([])
-    setSearch("")
-  }
-
 
   const addNewSearchToLoaclStorage = (query) => {
     query = query.toLowerCase()
-    let newSearches = searchHistory ? searchHistory : []
+    let newSearches = getDataLocalStorage("latestSearches")
+
     if (query?.length <= 0) return
+    if (!newSearches) newSearches = []
 
-    const hasOldSearch = newSearches.includes(query)
+    if (newSearches.includes(query)) {
+      const index = newSearches.indexOf(query)
+      newSearches.splice(index, 1)
 
-    if (hasOldSearch) {
-      const i = newSearches.indexOf(query)
-      newSearches.splice(i, 1)
-    } else if (newSearches.length >= 5) {
-      newSearches.length = 4
+    } else if (newSearches.length >= 10) {
+      newSearches.length = 9
     }
 
     newSearches.unshift(query)
 
     populateLocalStorage('latestSearches', newSearches)
-    setLatestSearchHistory(newSearches)
 
     return newSearches
   }
 
   const handleGoback = () => {
-    navigate(-1)
+    navigate('/search')
   }
 
   return (
     <>
       {
         <div className={s.container}>
+
+          <h1>Search {activeSearch ? `"${activeSearch}"` : null}</h1>
+          <input
+            className={`${s.searchInput} ${s.icon}`}
+            placeholder={'Artists, songs or albums'}
+            onChange={handleChangeInput}
+          />
           <div
             className={s.header}
             onClick={() => {
               handleGoback()
             }}
           >
-            <img src={backIcon} alt='' />
+            {activeSearch && <img src={backIcon} alt='' />}
           </div>
-          <h1>Search {search ? `"${search}"` : null}</h1>
-          <input
-            className={`${s.searchInput} ${s.icon}`}
-            placeholder={'Artists, songs or albums'}
-            /* value={search} */
-            onChange={handleChangeInput}
-          />
-          {noActiveSearch &&
-            <div className={s.latestSearchesContainer}>
-              {console.log(location.pathname)}
-              <h1>Your latest searches:</h1>
-              <div className={s.latestSearches}>
-                {searchHistory?.length > 0 && searchHistory.map((ele, index) => {
-                  return (
-                    <div className={s.searchCard} key={index} onClick={(e) => { setSearch(ele) }}><h2>{ele}</h2></div>)
-                })}
-              </div>
-            </div>
+          {!activeSearch &&
+            <LatestSearch />
           }
 
-          <div className={isLoading ? 'loader' : ''}>
+          {activeSearch && <div className={isLoading ? 'loader' : ''}>
             {artists.length > 0 && !isLoading && (
               <div>
                 <ArtistSlider
                   artists={artists}
-                  header={`Artist results on "${search}"`}
+                  header={`Artist results on "${searchParams.get('query')}"`}
                 />
               </div>
             )}
@@ -169,7 +146,7 @@ const SearchPage = () => {
               <div>
                 <AlbumSlider
                   albums={albums}
-                  header={`Album results on "${search}"`}
+                  header={`Album results on "${searchParams.get('query')}"`}
                 />
               </div>
             )}
@@ -178,13 +155,14 @@ const SearchPage = () => {
               <div>
                 <SongList
                   songs={songs.slice(0, 5)}
-                  header={`Songs results on "${search}"`}
-                  artist={search}
+                  header={`Songs results on "${searchParams.get('query')}"`}
+                  artist={activeSearch}
                 />
               </div>
             )}
 
-          </div>
+          </div>}
+
         </div>
       }
     </>
