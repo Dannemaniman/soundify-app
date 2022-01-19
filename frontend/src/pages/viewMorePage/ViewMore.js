@@ -12,11 +12,11 @@ const ViewMore = () => {
 	const query = new URLSearchParams(useLocation().search);
 	const type = query.get('query');
 	const name = query.get('name');
-	const moreResults = query.get('moreResults');
 
 	const [dataToRender, setDataToRender] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [nextUrl, setNextUrl] = useState('');
+	const [getMore, setGetMore] = useState(true);
 
 	useEffect(() => {
 		const fetchSearch = async () => {
@@ -66,6 +66,9 @@ const ViewMore = () => {
 	}
 
 	const fetchNewData = async () => {
+		if (dataToRender.length > 150) {
+			return setGetMore(false);
+		}
 		let res2 = await fetch(
 			`https://yt-music-api.herokuapp.com/api/yt/${type}/${name}?next=` +
 				nextUrl
@@ -95,11 +98,15 @@ const ViewMore = () => {
 			<InfiniteScroll
 				dataLength={dataToRender.length}
 				next={fetchNewData}
-				hasMore={true}
-				loader={<h4>Loading...</h4>}
+				hasMore={getMore}
+				loader={
+					<p style={{ textAlign: 'center', color: 'black' }}>
+						<h4>Loading...</h4>
+					</p>
+				}
 				endMessage={
-					<p style={{ textAlign: 'center' }}>
-						<b>Yay! You have seen it all</b>
+					<p style={{ textAlign: 'center', color: 'black' }}>
+						<h3>Yay! You have seen it all</h3>
 					</p>
 				}>
 				{!isLoading &&
