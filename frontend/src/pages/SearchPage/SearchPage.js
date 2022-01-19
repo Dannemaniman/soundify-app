@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
 import SongList from '../../components/songlist/SongList'
 import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
+import ApiContext from '../../store/api-context'
+
 import s from './SearchPage.module.css'
 import backIcon from '../../assets/icons/back.png'
 import LatestSearch from '../../components/searchPage/LatestSearch'
@@ -31,9 +33,7 @@ const SearchPage = () => {
       if (!searchParams.get("query")) return
       setIsLoading(true)
 
-      let response = await fetch(
-        `https://yt-music-api.herokuapp.com/api/yt/search/${searchParams.get("query")}`
-      )
+      let response = await fetch(`/api/search/${searchParams.get("query")}`)
       let res = await response.json()
       sortFetchedData(res.content)
       if (res) setIsLoading(false)

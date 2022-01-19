@@ -6,6 +6,7 @@ import Artist from '../db/schemas/artistSchema'
 import Song from '../db/schemas/songSchema'
 
 
+
 export const saveSong = async (song: ISong) => {
   try {
     const doc = new Song(song)
@@ -52,6 +53,7 @@ export const getArtist = async (id: number) => {
 export const getAlbum = async (id: number) => {
   return await Album.findOne({ id })
 }
+
 
 const musicService = {
   saveSong,
