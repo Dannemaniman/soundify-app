@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 
 import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
 import SongList from '../../components/songlist/SongList'
 import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
 import s from './SearchPage.module.css'
-import backIcon from '../../assets/icons/back.png'
-
 
 
 const SearchPage = () => {
-  let param = useParams()
 
   let navigate = useNavigate()
   let location = useLocation()
@@ -19,30 +16,33 @@ const SearchPage = () => {
   let timer
   const waitTime = 700
 
-  const [search, setSearch] = useState()
+  let [searchParams, setSearchParams] = useSearchParams()
+  const [search, setSearch] = useState(searchParams.get("query"))
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [searchHistory, setLatestSearchHistory] = useState([])
 
-  const noActiveSearch = (location.pathname === '/search' || location.pathname === '/search/')
+  const noActiveSearch = searchParams.get('query')
 
 
   useEffect(() => {
     const fetchSearch = async () => {
-      if (!search) return
+      console.log(searchParams.get("query"))
+      if (!searchParams.get("query")) return
       setIsLoading(true)
 
       let response = await fetch(
-        `https://yt-music-api.herokuapp.com/api/yt/search/${search}`
+        `https://yt-music-api.herokuapp.com/api/yt/search/${searchParams.get("query")}`
       )
       let res = await response.json()
+      console.log(await res)
 
       sortFetchedData(res.content)
 
       if (res) setIsLoading(false)
-      navigate(`/search/${search.toLowerCase()}`)
+      /* navigate(`/search/${search.toLowerCase()}`) */
     }
 
     const getSearchHistory = () => {
@@ -51,7 +51,7 @@ const SearchPage = () => {
 
     fetchSearch()
     getSearchHistory()
-  }, [navigate, search])
+  }, [navigate, search, searchParams])
 
 
   const handleChangeInput = async (e) => {
@@ -63,8 +63,11 @@ const SearchPage = () => {
       if (!e.target.value.length > 0) {
         resetAllSearchTerms()
         navigate(`/search/`)
+        /* setSearchParams({}) */
       }
-      setSearch(e.target.value)
+      console.log(e.target.value)
+      let query = e.target.value
+      setSearchParams({ query })
       addNewSearchToLoaclStorage(e.target.value)
     }, waitTime)
   }
@@ -121,7 +124,7 @@ const SearchPage = () => {
   }
 
   const handleGoback = () => {
-    navigate(-1)
+    navigate('/search')
   }
 
   return (
@@ -140,17 +143,15 @@ const SearchPage = () => {
           <input
             className={`${s.searchInput} ${s.icon}`}
             placeholder={'Artists, songs or albums'}
-            /* value={search} */
             onChange={handleChangeInput}
           />
-          {noActiveSearch &&
+          {!noActiveSearch &&
             <div className={s.latestSearchesContainer}>
-              {console.log(location.pathname)}
               <h1>Your latest searches:</h1>
               <div className={s.latestSearches}>
                 {searchHistory?.length > 0 && searchHistory.map((ele, index) => {
                   return (
-                    <div className={s.searchCard} key={index} onClick={(e) => { setSearch(ele) }}><h2>{ele}</h2></div>)
+                    <div className={s.searchCard} key={index} onClick={(e) => { setSearchParams({ query: ele }) }}><h2>{ele}</h2></div>)
                 })}
               </div>
             </div>

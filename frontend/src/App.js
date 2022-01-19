@@ -8,7 +8,7 @@ import Home from './pages/HomePage/HomePage'
 import ArtistPage from './pages/ArtistPage/ArtistPage'
 import Signup from './pages/SignUpPage/SignUpPage'
 import YoutubePlayer from './components/youtubePlayer/YoutubePlayer'
-import SearchPage from './pages/SearchPage/SearchPage'
+import SearchPage from './pages/SearchPage/SearchPageCopy'
 import PlaylistPage from './pages/PlaylistPage/PlaylistPage'
 import PlaylistSongPage from './pages/PlaylistSongPage/PlaylistSongPage'
 import SoundifyContext from './store/soundify-context'
@@ -57,7 +57,7 @@ const App = () => {
           <Route path='/artist/:id' element={<ArtistPage />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/signup' element={<Signup />} />
-          <Route path='/search/:query' element={<SearchPage />} />
+          {/* <Route path='/search/:query' element={<SearchPage />} /> */}
           <Route path='/search/show-more' element={<ViewMore />} />
           <Route path='/myplaylists' element={<PlaylistPage />} />
           <Route path='/myplaylists/:id' element={<PlaylistSongPage />} />
