@@ -2,20 +2,20 @@ const fetch = require('node-fetch')
 
 
 const searchService = async (searchString: string) => {
-  const { getOrSetCache } = require('../db/redis')
+  // const { getOrSetCache } = require('../db/redis')
   try {
     const searchQuery = searchString
-    const searchResult = await getOrSetCache(searchQuery, async () => {
-      let response = await fetch(`https://yt-music-api.herokuapp.com/api/yt/search/${searchQuery}`)
-      let data = response.json()
-
-      return data
-    })
-    return searchResult
-
+    // return await getOrSetCache(searchQuery, await fetchFromHeroku(searchQuery))
+    return await fetchFromHeroku(searchQuery)
   } catch (error: any) {
     return error
   }
+}
+
+const fetchFromHeroku = async (searchQuery: string) => {
+  let response = await fetch(
+    `${process.env.HEROKU}${searchQuery}`)
+  return await response.json()
 }
 
 module.exports = { searchService }
