@@ -5,7 +5,7 @@ import AlbumSlider from '../../components/searchPage/AlbumSlider'
 import ArtistSlider from '../../components/searchPage/ArtistSlider'
 import SongList from '../../components/songlist/SongList'
 import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
-import ApiContext from '../../store/api-context'
+import MusicAPIContext from '../../store/musicAPI-context'
 
 import s from './SearchPage.module.css'
 import backIcon from '../../assets/icons/back.png'
@@ -25,7 +25,7 @@ const SearchPage = () => {
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
-  let ctx = useContext(ApiContext)
+  const musicAPI = useContext(MusicAPIContext)
 
   const activeSearch = searchParams.get('query')
 
@@ -35,17 +35,14 @@ const SearchPage = () => {
       if (!searchParams.get("query")) return
       setIsLoading(true)
 
-
-      // let response = await fetch(`/api/search/${searchParams.get("query")}`)
-      ctx.apiService(searchParams.get("query"),)
-      let res = await response.json()
+      let res = await musicAPI.search('search', searchParams.get("query"))
       sortFetchedData(res.content)
       if (res) setIsLoading(false)
     }
 
     fetchSearch()
 
-  }, [navigate, searchParams])
+  }, [musicAPI, navigate, searchParams])
 
 
   const handleChangeInput = async (e) => {

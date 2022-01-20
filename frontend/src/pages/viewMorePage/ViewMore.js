@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import s from './ViewMore.module.css'
 import backIcon from '../../assets/icons/back.png'
@@ -6,10 +6,13 @@ import PlayBtn from '../../components/songlist/PlayBtn'
 import SongListOption from '../../components/songlist/SongListOptions'
 import { getThumbnailUrl, millisToMinutesAndSeconds } from '../../components/utils/utils'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import MusicAPIContext from '../../store/musicAPI-context'
 
 
 const ViewMore = () => {
 	let navigate = useNavigate()
+
+	const musicAPI = useContext(MusicAPIContext)
 
 	const query = new URLSearchParams(useLocation().search)
 	const type = query.get('query')
@@ -23,19 +26,14 @@ const ViewMore = () => {
 	useEffect(() => {
 		const fetchSearch = async () => {
 			setIsLoading(true)
-			const query = `yt/${type}/${name}`
 
-			let response = await fetch(
-				query
-			)
-
-			let res = await response.json()
+			let res = await musicAPI.search(type, name)
 			setDataToRender(res.content)
 			setNextUrl(res.next)
 			if (res) setIsLoading(false)
 		}
 		fetchSearch()
-	}, [type, name, nextUrl])
+	}, [type, name, nextUrl, musicAPI])
 
 	const handleGoback = () => {
 		navigate(-1)
@@ -45,11 +43,9 @@ const ViewMore = () => {
 		if (dataToRender.length > 150) {
 			return setGetMore(false)
 		}
-		let res2 = await fetch(
-			`https://yt-music-api.herokuapp.com/api/yt/${type}/${name}?next=` +
-			nextUrl
-		)
-		let response2 = await res2.json()
+		console.log('NextUrl:', nextUrl)
+		let response2 = await musicAPI.search(type, name, nextUrl)
+		if (response2.message) return
 		setTimeout(() => {
 			setDataToRender((prevData) => [...prevData, ...response2.content])
 		}, 1500)

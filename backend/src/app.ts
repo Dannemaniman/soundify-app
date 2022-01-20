@@ -10,7 +10,7 @@ const app: Application = Express()
 
 export default async function (): Promise<Application> {
 	app.use(cookieParser())
-	app.use(morgan('combined'))
+	//app.use(morgan('combined'))
 	app.use(express.json())
 	// redisClient.connect()
 

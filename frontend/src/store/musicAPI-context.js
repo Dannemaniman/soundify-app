@@ -1,0 +1,35 @@
+import React from 'react'
+
+const MusicAPIContext = React.createContext({
+  search: async (mediaType, query) => Promise,
+})
+
+export const MusicCtxProvider = (props) => {
+
+  const search = async (mediaType, query, next) => {
+    try {
+      const next2 = next ? `&next=${next}` : ""
+      const URL = `/api/search/${mediaType}?query=${query}${next2}`
+      console.log(URL)
+      const res = await fetch(encodeURI(URL), {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json' },
+      })
+      const data = await res.json()
+      console.log(data)
+      return data
+    } catch (error) {
+      console.log(error?.message)
+    }
+  }
+
+  return (
+    <MusicAPIContext.Provider value={{
+      search: search
+    }}>
+      {props.children}
+    </MusicAPIContext.Provider>
+  )
+}
+
+export default MusicAPIContext
