@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const AuthContext = React.createContext({
-  isLoggedIn: '',
   user: {},
   setLoggedIn: () => {},
-    loginHandler: async (email, password) => {},
+  loginHandler: async (email, password) => {},
   logoutHandler: (token) => {},
   registerHandler: async ({ email, user_name, password }) => {},
   updateUserPlaylist: () => {},
@@ -13,7 +12,6 @@ const AuthContext = React.createContext({
 })
 
 export const AuthContextProvider = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
 
   const loginHandler = async (email, password) => {
@@ -59,7 +57,7 @@ export const AuthContextProvider = (props) => {
     await fetch('/api/user/logout', {
       method: 'POST',
     })
-    setIsLoggedIn(false)
+    setUser(null)
   }
 
   const validateLoginByCookie = (user) => {
@@ -70,7 +68,6 @@ export const AuthContextProvider = (props) => {
       ) !== null
     ) {
       setUser(user)
-      setIsLoggedIn(true)
       return true
     }
   }
@@ -102,7 +99,6 @@ export const AuthContextProvider = (props) => {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
         user: user,
         setUserHandler: setUserHandler,
         loginHandler: loginHandler,

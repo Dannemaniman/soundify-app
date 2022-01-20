@@ -29,7 +29,6 @@ const App = () => {
       let user = await response.json()
 
       auth.setUserHandler(user)
-      auth.setLoggedIn()
       console.log(user)
     }
     getUser()
