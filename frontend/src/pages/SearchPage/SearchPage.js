@@ -25,6 +25,8 @@ const SearchPage = () => {
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
+  let ctx = useContext(ApiContext)
+
   const activeSearch = searchParams.get('query')
 
   useEffect(() => {
@@ -34,7 +36,8 @@ const SearchPage = () => {
       setIsLoading(true)
 
 
-      let response = await fetch(`/api/search/${searchParams.get("query")}`)
+      // let response = await fetch(`/api/search/${searchParams.get("query")}`)
+      ctx.apiService(searchParams.get("query"),)
       let res = await response.json()
       sortFetchedData(res.content)
       if (res) setIsLoading(false)

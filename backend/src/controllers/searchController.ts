@@ -12,5 +12,8 @@ router.get('/:searchphrase', async (req: Request, res: Response) => {
     return res.sendStatus(500).json(result.message)
   }
 })
+router.get('/:searchphrase', async (req: Request, res: Response) => { 
+  `https://yt-music-api.herokuapp.com/api/yt/${type}/${name}?next=` +
+})
 
 export = router

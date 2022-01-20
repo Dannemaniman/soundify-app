@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from 'react'
 
 const ApiContext = React.createContext({
-  apiServiceGet: () => Promise,
-  apiServicePost: () => Promise,
+  apiService: (searchPhrase, query, body = null, method = 'GET') => Promise,
 })
 
 export const ApiContextProvider = (props) => {
 
-  const apiServiceGet = async (url) => {
-    return fetch(`/api/${url}`, { method: 'GET' })
-      .then(res => {
-        if (!res.ok) throw new Error('Request failed..')
-        res.json()
+  // const apiServiceGet = async (url) => {
+  //   return fetch(`/api/${url}`, { method: 'GET' })
+  //     .then(res => {
+  //       if (!res.ok) throw new Error('Request failed..')
+  //       res.json()
+  //     })
+  // }
+
+  const apiService = async (searchPhrase, query, body = null, method = 'GET') => {
+    try {
+      const res = await fetch(`/api/search/${searchPhrase}?${query}`, { 
+        method: method,
+        headers: { 'Content-type': 'application/json' },
+        body: body ? JSON.stringify(body) : null
       })
+
+      return await res.json()
+
+      } catch (error) {
+        console.log(error?.message);
+    }
   }
 
-  const apiServicePost = async (searchPhrase, query, body) => {
-    const res = await fetch(`/api/${searchPhrase}?${query}`, {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(body)
-    })
-    if (!res.ok)
-      throw new Error('Request failed..')
-    return await res.json()
-  }
 
   return (
     <ApiContext.Provider value={{
-      apiServiceGet: apiServiceGet,
-      apiServicePost: apiServicePost
+      apiService: apiService
     }}>
       {props.children}
     </ApiContext.Provider>
