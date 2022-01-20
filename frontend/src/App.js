@@ -16,7 +16,6 @@ import AuthContext from './store/auth-context'
 import { PlayerContext } from './store/playerContext'
 import ViewMore from './pages/viewMorePage/ViewMore'
 import AlbumPage from './pages/AlbumPage/AlbumPage'
-import GuardedRoute from './components/route-guard/GuardRoute'
 
 const App = () => {
   const [sidebar, setsidebar] = useState(false)
@@ -42,7 +41,7 @@ const App = () => {
 
   const ctx = useContext(SoundifyContext)
 
-
+  
 
   return (
     <div className='App'>
@@ -54,16 +53,16 @@ const App = () => {
       )}
       <main className='main'>
         <Routes>
-          <GuardedRoute exact path='/' element={<Home />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/login' element={<Login />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/artist/:id/album/:browseId' element={<AlbumPage />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/artist/:id' element={<ArtistPage />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/search' element={<SearchPage />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/signup' element={<Signup />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/search/:query' element={<SearchPage />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/search/show-more' element={<ViewMore />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/myplaylists' element={<PlaylistPage />}  auth={auth.isLoggedIn} />
-          <GuardedRoute path='/myplaylists/:id' element={<PlaylistSongPage />}  auth={auth.isLoggedIn} />
+          <Route exact path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/artist/:id/album/:browseId' element={<AlbumPage />} />
+          <Route path='/artist/:id' element={<ArtistPage />} />
+          <Route path='/search' element={<SearchPage />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/search/:query' element={<SearchPage />} />
+          <Route path='/search/show-more' element={<ViewMore />} />
+          <Route path='/myplaylists' element={<PlaylistPage />} />
+          <Route path='/myplaylists/:id' element={<PlaylistSongPage />} />
         </Routes>
       </main>
     </div>
