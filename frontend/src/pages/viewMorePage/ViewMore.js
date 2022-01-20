@@ -23,9 +23,10 @@ const ViewMore = () => {
 	useEffect(() => {
 		const fetchSearch = async () => {
 			setIsLoading(true)
+			const query = `yt/${type}/${name}`
 
 			let response = await fetch(
-				`https://yt-music-api.herokuapp.com/api/yt/${type}/${name}`
+				query
 			)
 
 			let res = await response.json()

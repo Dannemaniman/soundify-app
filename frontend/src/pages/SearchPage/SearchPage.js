@@ -33,6 +33,7 @@ const SearchPage = () => {
       if (!searchParams.get("query")) return
       setIsLoading(true)
 
+
       let response = await fetch(`/api/search/${searchParams.get("query")}`)
       let res = await response.json()
       sortFetchedData(res.content)

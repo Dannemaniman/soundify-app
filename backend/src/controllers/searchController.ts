@@ -3,7 +3,6 @@ const router: Router = Router()
 const { searchService } = require('../services/searchService')
 
 
-
 router.get('/:searchphrase', async (req: Request, res: Response) => {
   const result = await searchService(req.params.searchphrase)
 

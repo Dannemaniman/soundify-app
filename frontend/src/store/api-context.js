@@ -8,15 +8,15 @@ const ApiContext = React.createContext({
 export const ApiContextProvider = (props) => {
 
   const apiServiceGet = async (url) => {
-   return fetch(`/api/${url}`, { method: 'GET' })
+    return fetch(`/api/${url}`, { method: 'GET' })
       .then(res => {
-       if (!res.ok) throw new Error('Request failed..')
-       res.json()
-    })
+        if (!res.ok) throw new Error('Request failed..')
+        res.json()
+      })
   }
 
-  const apiServicePost = async (url, body) => {
-   const res = await fetch(`/api/${url}`, {
+  const apiServicePost = async (searchPhrase, query, body) => {
+    const res = await fetch(`/api/${searchPhrase}?${query}`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body)
@@ -28,9 +28,9 @@ export const ApiContextProvider = (props) => {
 
   return (
     <ApiContext.Provider value={{
-        apiServiceGet: apiServiceGet,
-        apiServicePost: apiServicePost
-      }}>
+      apiServiceGet: apiServiceGet,
+      apiServicePost: apiServicePost
+    }}>
       {props.children}
     </ApiContext.Provider>
   )
