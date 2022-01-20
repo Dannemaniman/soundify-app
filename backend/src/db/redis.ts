@@ -10,8 +10,10 @@ redisClient.on('connect', function (err: any) {
   console.log('connected to redis successfully')
 })
 
-async function getOrSetCache(key: string, cb: any) {
+async function getOrSetCache(key: string, cb: () => any) {
   let data = await redisClient.get(key)
+
+  // if(data)
 
   if (data != null) return JSON.parse(data)
 
