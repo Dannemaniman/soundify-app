@@ -24,27 +24,9 @@ const ArtistSlider = ({ artists, header }) => {
   return (
     <>
       <div className={s.artistSliderContainer}>
-        <h1>{header}</h1>
-        <div className={s.cardsContainer}>
-          {artsistsArray.map((ele, index) => {
-            return (
-              <div
-                className={s.artistCard}
-                key={index}
-                style={{
-                  backgroundImage: `url(${getThumbnailUrl(ele)})`,
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'cover',
-                }}
-                onClick={() => handleClick(ele.browseId)}
-              >
-                <h2 className={s.artistTitle} key={index}>
-                  {ele.name}
-                </h2>
-              </div>
-            )
-          })}
+
+        <div className={s.header}>
+          <h1>{header}</h1>
           <p
             style={{ textDecoration: 'underline' }}
             onClick={() => {
@@ -52,7 +34,24 @@ const ArtistSlider = ({ artists, header }) => {
             }}
           >
             View more
-          </p>
+          </p></div>
+
+        <div className={s.cardsContainer}>
+          {artsistsArray.map((ele, index) => {
+            return (
+              <div
+                className={s.artistCard}
+                key={index}
+                onClick={() => handleClick(ele.browseId)}
+              >
+                <img src={getThumbnailUrl(ele)} alt="" />
+                <h2 className={s.artistTitle} key={index}>
+                  {ele.name}
+                </h2>
+              </div>
+            )
+          })}
+
         </div>
       </div>
     </>

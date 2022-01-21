@@ -21,21 +21,25 @@ const AlbumSlider = ({ albums, header }) => {
   return (
     <>
       <div className={s.albumSliderContainer}>
-        <h1>{header}</h1>
+        <div className={s.header}>
+          <h1>{header}</h1>
+          <p
+            style={{ textDecoration: 'underline' }}
+            onClick={() => {
+              handleClickToViewMore(searchTerm)
+            }}
+          >
+            View more
+          </p></div>
         {albumsArray && <div className={s.cardsContainer}>
           {albumsArray.map((album, index) => {
             return (
 
-              <div className={s.albumCard} key={index} style={{
-                backgroundImage: `url(${getThumbnailUrl(album)})`,
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-              }} onClick={() => handleClick(album)} >
+              <div className={s.albumCard} key={index} onClick={() => handleClick(album)} >
+                <img src={getThumbnailUrl(album)} alt="" />
                 <h2 className={s.albumTitle} key={album.name + index}>{album.name}</h2>
               </div>)
           })}
-          <p style={{ textDecoration: "underline" }} onClick={() => { handleClickToViewMore(searchTerm) }}>View more</p>
         </div>}
       </div>
     </>
