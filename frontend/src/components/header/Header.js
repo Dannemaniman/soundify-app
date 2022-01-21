@@ -4,13 +4,13 @@ import styles from './Header.module.css';
 import AuthContext from '../../store/auth-context';
 
 const Header = ({ showSidebar }) => {
-	const loggedIn = useContext(AuthContext);
+	const auth = useContext(AuthContext);
 
 	let navigate = useNavigate();
 
 	return (
 		<div className={styles.header}>
-			{loggedIn.isLoggedIn && (
+			{auth.user && (
 				<div className={styles.hamburgerContainer} onClick={showSidebar}>
 					<div className={styles.hamburger}></div>
 				</div>
