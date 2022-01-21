@@ -51,7 +51,7 @@ const Header = ({ showSidebar }) => {
 			</div>
 			<div className={styles.searchIcon}>
 				<i
-					class='fa fa-search'
+					className='fa fa-search'
 					aria-hidden='true'
 					onClick={() => {
 						navigate('/search');
