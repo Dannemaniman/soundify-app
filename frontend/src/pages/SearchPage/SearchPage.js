@@ -96,8 +96,8 @@ const SearchPage = () => {
       const index = newSearches.indexOf(query)
       newSearches.splice(index, 1)
 
-    } else if (newSearches.length >= 10) {
-      newSearches.length = 9
+    } else if (newSearches.length >= 5) {
+      newSearches.length = 4
     }
 
     newSearches.unshift(query)

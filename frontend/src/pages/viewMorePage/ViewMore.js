@@ -33,7 +33,8 @@ const ViewMore = () => {
 			if (res) setIsLoading(false)
 		}
 		fetchSearch()
-	}, [type, name, nextUrl, musicAPI])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [type, name, nextUrl])
 
 	const handleGoback = () => {
 		navigate(-1)
@@ -43,7 +44,7 @@ const ViewMore = () => {
 		if (dataToRender.length > 150) {
 			return setGetMore(false)
 		}
-		console.log('NextUrl:', nextUrl)
+
 		let response2 = await musicAPI.search(type, name, nextUrl)
 		if (response2.message) return
 		setTimeout(() => {
@@ -83,12 +84,12 @@ const ViewMore = () => {
 				hasMore={getMore}
 				loader={
 					<p style={{ textAlign: 'center', color: 'black' }}>
-						<h4>Loading...</h4>
+						<b>Loading...</b>
 					</p>
 				}
 				endMessage={
 					<p style={{ textAlign: 'center', color: 'black' }}>
-						<h3>Yay! You have seen it all</h3>
+						<b>Yay! You have seen it all</b>
 					</p>
 				}>
 				{!isLoading &&

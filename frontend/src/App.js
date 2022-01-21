@@ -33,6 +33,7 @@ const App = () => {
       console.log(user)
     }
     getUser()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const showSidebar = () => {

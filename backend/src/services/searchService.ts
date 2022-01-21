@@ -12,11 +12,9 @@ const searchService = async (type: string, query: string, next: string) => {
 }
 
 const fetchFromHeroku = async (type: string, query: string, next?: string) => {
-  console.log("NEXT:", next)
 
   const next2 = next ? `?next=${next}` : ""
   const path = `${process.env.HEROKU}${type}/${query}${next2}`
-  console.log(path)
 
   let response = await fetch(path)
   const res = await response.json()
