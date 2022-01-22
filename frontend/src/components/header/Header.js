@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
 import AuthContext from '../../store/auth-context'
 
@@ -52,7 +52,17 @@ const Header = ({ showSidebar }) => {
           </defs>
         </svg>
       </div>
-      <div></div>
+      {auth.user && (
+        <div className={styles.searchIcon}>
+          <i
+            className='fa fa-search'
+            aria-hidden='true'
+            onClick={() => {
+              navigate('/search')
+            }}
+          ></i>
+        </div>
+      )}
     </div>
   )
 }
