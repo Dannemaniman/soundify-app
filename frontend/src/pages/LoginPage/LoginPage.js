@@ -1,15 +1,13 @@
 import styles from './LoginPage.module.scss'
-import facebookLogo from '../../assets/icons/facebook.png'
-import twitterLogo from '../../assets/icons/twitter.png'
-import googleLogo from '../../assets/icons/google.png'
-import { useContext, useRef } from 'react'
-import AuthContext from '../../store/auth-context'
+import { Twitter, Facebook, Google } from '../../assets/icons'
+import { useRef } from 'react'
+import useAuth from '../../hooks/useAuth'
 import { useNavigate } from 'react-router'
 
 const LoginPage = () => {
   const usernameRef = useRef()
   const passwordRef = useRef()
-  const ctx = useContext(AuthContext)
+  const ctx = useAuth()
   const navigate = useNavigate()
 
   const loginUser = async (e) => {
@@ -53,13 +51,13 @@ const LoginPage = () => {
         <h2>Or login with</h2>
         <ul className={styles['oauth__container']}>
           <li>
-            <img src={facebookLogo} />
+            <img src={Facebook} />
           </li>
           <li>
-            <img src={twitterLogo} />
+            <img src={Twitter} />
           </li>
           <li>
-            <img src={googleLogo} />
+            <img src={Google} />
           </li>
         </ul>
       </div>

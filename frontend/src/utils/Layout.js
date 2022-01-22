@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react'
-import Header from '../components/header/Header'
-import Sidebar from '../components/sidebar/Sidebar'
-import YoutubePlayer from '../components/youtubePlayer/YoutubePlayer'
+import { YoutubePlayer, Sidebar, Header } from '../components'
 import { PlayerContext } from '../store/playerContext'
 
 const Layout = (props) => {

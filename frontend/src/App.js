@@ -1,5 +1,5 @@
 import './App.css'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import useAuth from './hooks/useAuth'
 import { Routes, Layout } from './utils'
 

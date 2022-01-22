@@ -1,10 +1,9 @@
-import React, { useContext } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
-import AuthContext from '../../store/auth-context'
+import useAuth from '../../hooks/useAuth'
 
 const Header = ({ showSidebar }) => {
-  const auth = useContext(AuthContext)
+  const auth = useAuth()
 
   let navigate = useNavigate()
 
