@@ -51,7 +51,17 @@ const Header = ({ showSidebar }) => {
           </defs>
         </svg>
       </div>
-      <div></div>
+      {auth.user && (
+        <div className={styles.searchIcon}>
+          <i
+            className='fa fa-search'
+            aria-hidden='true'
+            onClick={() => {
+              navigate('/search')
+            }}
+          ></i>
+        </div>
+      )}
     </div>
   )
 }
