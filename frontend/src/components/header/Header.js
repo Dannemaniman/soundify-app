@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
 import AuthContext from '../../store/auth-context'
 
 const Header = ({ showSidebar }) => {
-  const loggedIn = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
   let navigate = useNavigate()
 
   return (
     <div className={styles.header}>
-      {loggedIn.isLoggedIn && (
+      {auth.user && (
         <div className={styles.hamburgerContainer} onClick={showSidebar}>
           <div className={styles.hamburger}></div>
         </div>
@@ -52,7 +52,17 @@ const Header = ({ showSidebar }) => {
           </defs>
         </svg>
       </div>
-      <div></div>
+      {auth.user && (
+        <div className={styles.searchIcon}>
+          <i
+            className='fa fa-search'
+            aria-hidden='true'
+            onClick={() => {
+              navigate('/search')
+            }}
+          ></i>
+        </div>
+      )}
     </div>
   )
 }
