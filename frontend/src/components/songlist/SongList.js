@@ -28,7 +28,7 @@ const SongList = ({ songs, header, artist, playlist }) => {
       <ShuffleBtn shufflePlaylist={setPlaylistHandler} />
       {songs.map((song, index) => (
         <SongListItem
-          key={index}
+          key={song.videoId}
           index={index}
           song={song}
           artist={artist}

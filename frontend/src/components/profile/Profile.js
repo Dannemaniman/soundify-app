@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
-import AuthContext from '../../store/auth-context'
+import useAuth from '../../hooks/useAuth'
 import styles from './Profile.module.css'
 
 const Profile = () => {
-  const auth = useContext(AuthContext)
+  const auth = useAuth()
 
   return (
     <div className={styles.container}>

@@ -1,11 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-
-import HeroImg from '../../components/heroImg/HeroImg'
-import SongList from '../../components/songlist/SongList'
-import Carousel from '../../components/carousel/Carousel'
+import { HeroImg, SongList, Carousel } from '../../components'
 import styles from './ArtistPage.module.css'
 
 const ArtistPage = () => {
@@ -101,10 +97,7 @@ const ArtistPage = () => {
 
           {songs.length > 0 && (
             <section className={styles.songs}>
-              <SongList
-                songs={songs.slice(0, 5)}
-                header={`Songs by  ${artist.name}`}
-              />
+              <SongList songs={songs} header={`Songs by  ${artist.name}`} />
             </section>
           )}
           {albums && <Carousel title={'albums'} list={albums} />}

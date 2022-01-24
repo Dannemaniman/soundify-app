@@ -33,7 +33,11 @@ const PlayerCtx = (props) => {
   }
   const setPlaylistHandler = (data) => {
     if (data.random) {
-      var m = data.songs.length,
+      let tempPlaylist = {
+        songs: [...data.songs],
+        index: data.index,
+      }
+      var m = tempPlaylist.songs.length,
         t,
         i
       // While there remain elements to shuffle…
@@ -41,11 +45,11 @@ const PlayerCtx = (props) => {
         // Pick a remaining element…
         i = Math.floor(Math.random() * m--)
         // And swap it with the current element.
-        t = data.songs[m]
-        data.songs[m] = data.songs[i]
-        data.songs[i] = t
+        t = tempPlaylist.songs[m]
+        tempPlaylist.songs[m] = tempPlaylist.songs[i]
+        tempPlaylist.songs[i] = t
       }
-      setplaylist(data)
+      setplaylist(tempPlaylist)
       return
     }
     setplaylist(data)

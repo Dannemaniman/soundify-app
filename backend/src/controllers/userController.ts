@@ -92,14 +92,12 @@ router.get('/whoami', async (req: Request, res: Response) => {
         return
       }
 
-      // THERE IS A LOGGED IN USER
-      //res.locals.user = currentUser
-
       res.send(currentUser.getPublicProfile())
       return
     } catch (err) {
       res.status(500).send()
     }
   }
+  res.send({ message: 'nothing' })
 })
 export = router

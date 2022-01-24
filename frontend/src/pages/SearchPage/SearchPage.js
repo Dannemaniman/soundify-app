@@ -1,13 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
-
-import AlbumSlider from '../../components/searchPage/AlbumSlider'
-import ArtistSlider from '../../components/searchPage/ArtistSlider'
-
-import SongList from '../../components/songlist/SongList'
-import ApiContext from '../../store/api-context'
-
+import { AlbumSlider, ArtistSlider, SongList } from '../../components'
 import s from './SearchPage.module.css'
 
 const SearchPage = () => {

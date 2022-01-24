@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 const AuthContext = React.createContext({
   user: {},
-  setLoggedIn: () => {},
   loginHandler: async (email, password) => {},
   logoutHandler: (token) => {},
   registerHandler: async ({ email, user_name, password }) => {},
   updateUserPlaylist: () => {},
   updatePlaylistSongs: () => {},
+  whoAmI: () => {},
 })
 
 export const AuthContextProvider = (props) => {
@@ -28,8 +27,11 @@ export const AuthContextProvider = (props) => {
       .then((user) => {
         success = validateLoginByCookie(user)
         setUser(user)
+        window.localStorage.setItem('loggedIn', true)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+      })
 
     return success
   }
@@ -48,6 +50,7 @@ export const AuthContextProvider = (props) => {
       .then((user) => {
         success = validateLoginByCookie(user)
         setUser(user)
+        window.localStorage.setItem('loggedIn', true)
       })
       .catch((err) => console.log(err))
     return success
@@ -58,6 +61,7 @@ export const AuthContextProvider = (props) => {
       method: 'POST',
     })
     setUser(null)
+    window.localStorage.clear()
   }
 
   const validateLoginByCookie = (user) => {
@@ -96,6 +100,19 @@ export const AuthContextProvider = (props) => {
     setUserHandler(newUser)
   }
 
+  const whoAmI = async () => {
+    let res = await fetch('/api/user/whoami')
+    res = await res.json()
+
+    if (res.message) {
+      setUserHandler(null)
+      window.localStorage.clear()
+      return
+    }
+    window.localStorage.setItem('loggedIn', true)
+    return setUserHandler(res)
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -106,6 +123,7 @@ export const AuthContextProvider = (props) => {
         registerHandler: registerHandler,
         updateUserPlaylist: updateUserPlaylist,
         updatePlaylistSongs: updatePlaylistSongs,
+        whoAmI: whoAmI,
       }}
     >
       {props.children}

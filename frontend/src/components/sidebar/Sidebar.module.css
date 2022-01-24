@@ -3,6 +3,7 @@
   width: 0%;
   max-width: 500px;
   height: 100%;
+  top: 0;
 
   background-color: rgba(34, 34, 34, 0.753);
 
@@ -11,6 +12,7 @@
 
 .sidebar {
   position: fixed;
+  top: 0;
   height: 100%;
   width: 200px;
 
