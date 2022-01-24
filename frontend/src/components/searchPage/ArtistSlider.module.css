@@ -2,24 +2,49 @@
   max-height: 300px;
   margin: 3rem 0 6rem 0;  
 }
+
 .artistSliderContainer h1{  
   margin-bottom: 2rem;
 }
-.cardsContainer{
-  max-height: 300px;
+
+.cardsContainer{  
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
   color: var(--color-primary);
   overflow: scroll;
   gap: 1rem;
+  justify-items: center;
+  padding: 1rem 0;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .artistCard{
-  width: 100%;
-  height: 8rem;
-  padding: 0.5rem;
+  display: flex;
+  width: 10rem;
+  height: 13rem;
+  /* padding: 0.5rem; */
   background-color: rgb(255, 255, 255);
-  border: 2px solid var(--color-primary-orange);
+  border-radius: 50%;   
+  flex-direction: column;
+}
+
+
+.artistCard img{
+ width: 10rem;
+ height: 10rem;
+ border-radius: 50%;    
+ /* border: 2px solid var(--color-primary-orange); */
+  border:1rem solid;
+  border: double 3px transparent;
+  border-radius: 80px;
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, var(--color-primary-orange), var(--color-primary));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
 }
 
 .artistCard:hover{
@@ -27,7 +52,7 @@
 }
 
 .artistCard .artistTitle{
-  color: var(--color-primary-floor);
-  text-shadow: 2px 2px 5px black;
-  
+  color: var(--color-primary);
+  text-align: center;
+  margin-top: 0.8rem;
 }

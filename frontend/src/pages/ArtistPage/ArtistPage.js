@@ -4,14 +4,17 @@ import { useNavigate } from 'react-router-dom'
 import { HeroImg, SongList, Carousel } from '../../components'
 import styles from './ArtistPage.module.css'
 
+import { removeNullFromArray } from '../../components/utils/utils'
+
 const ArtistPage = () => {
   const param = useParams()
   const navigate = useNavigate()
-
+  // 
   const [artist, setArtist] = useState('')
   const [viewMore, setViewMore] = useState(false)
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
+
 
   useEffect(() => {
     const fetchArtist = async () => {
@@ -20,16 +23,21 @@ const ArtistPage = () => {
       )
       const artists = await response.json()
       if (artists.error) {
+        console.log(artists.error)
+        toast.error(artists.error, {
+          autoClose: 3000,
+          hideProgressBar: true,
+        })
         navigate(-1)
       }
 
-      const songArray = artists.products['songs']?.content
+      const songArray = artists?.products['songs']?.content
 
       setArtist(artists)
       setAlbums(artists.products['albums']?.content)
       setSongs(await fetchMoreDetaliedSongs(songArray))
 
-      //If artist does not have any songs
+      //If artist obj from API does not have any songs
       if (songArray?.length <= 0) {
         setSongs(await fetchMoreSongs(artists.name))
       }
@@ -63,11 +71,7 @@ const ArtistPage = () => {
     return removeNullFromArray(newSongArr)
   }
 
-  function removeNullFromArray(arr) {
-    return arr.filter((ele) => {
-      return ele !== null
-    })
-  }
+
 
   return (
     <>

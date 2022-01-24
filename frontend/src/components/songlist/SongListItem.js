@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import styles from './SongListItem.module.css'
 import { PlayerContext } from '../../store/playerContext'
 import SongListOption from './SongListOptions'
+import { millisToMinutesAndSeconds } from '../utils/utils'
 
 const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
   const player = useContext(PlayerContext)
@@ -14,12 +15,6 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
     }
     setSongPlaying(false)
   }, [player.currentSongPlaying])
-
-  function millisToMinutesAndSeconds(millis) {
-    var minutes = Math.floor(millis / 60000)
-    var seconds = ((millis % 60000) / 1000).toFixed(0)
-    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
-  }
 
   function getArtistName() {
     let name = song.artist?.name ? song.artist.name : song.author

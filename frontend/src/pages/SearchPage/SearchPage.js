@@ -1,49 +1,64 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState, useContext } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { AlbumSlider, ArtistSlider, SongList } from '../../components'
 import s from './SearchPage.module.css'
+import backIcon from '../../assets/icons/back.png'
+import LatestSearch from '../../components/searchPage/LatestSearch'
+import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
+import MusicAPIContext from '../../store/musicAPI-context'
+
 
 const SearchPage = () => {
-  const param = useParams()
+
   let navigate = useNavigate()
 
   let timer
-  const waitTime = 800
+  const waitTime = 1000
 
-  const [search, setSearch] = useState(param.query ? param.query : '')
+  const [searchParams, setSearchParams] = useSearchParams()
   const [artists, setArtist] = useState([])
   const [albums, setAlbums] = useState([])
   const [songs, setSongs] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
+  const musicAPI = useContext(MusicAPIContext)
+
+  const activeSearch = searchParams.get('query')
+
   useEffect(() => {
     const fetchSearch = async () => {
-      if (!search) return
+
+      if (!searchParams.get("query")) return
       setIsLoading(true)
 
-      let response = await fetch(`/api/search/${search}`)
-      let res = await response.json()
+      let res = await musicAPI.search('search', searchParams.get("query"))
       sortFetchedData(res.content)
-
       if (res) setIsLoading(false)
-      navigate(`/search/${search}`)
     }
-    fetchSearch()
-  }, [navigate, search])
 
-  const handleChangeInput = async (e) => {
-    if (e.key === 'Enter') setSearch(e.target.value)
+    fetchSearch()
+
+  }, [musicAPI, navigate, searchParams])
+
+
+  const handleSearchInput = async (e) => {
+    let query = e.target.value
+
+    if (e.key === 'Enter') setSearchParams({ query })
     clearTimeout(timer)
 
     //Waiting for user finished typing
     timer = setTimeout(() => {
       if (!e.target.value.length > 0) {
-        resetAllSearchTerms()
+        setSearchParams({})
+        navigate(-2) //Route back to '/search'
       }
-      setSearch(e.target.value)
+
+      setSearchParams({ query })
+      addNewSearchToLoaclStorage(e.target.value)
     }, waitTime)
   }
+
 
   const sortFetchedData = (data) => {
     let newSongs = []
@@ -65,39 +80,62 @@ const SearchPage = () => {
     setAlbums(newAlbums)
   }
 
-  const resetAllSearchTerms = () => {
-    setArtist([])
-    setSongs([])
-    setAlbums([])
+
+  const addNewSearchToLoaclStorage = (query) => {
+    query = query.toLowerCase()
+    let newSearches = getDataLocalStorage("latestSearches")
+
+    if (query?.length <= 0) return
+    if (!newSearches) newSearches = []
+
+    if (newSearches.includes(query)) {
+      const index = newSearches.indexOf(query)
+      newSearches.splice(index, 1)
+
+    } else if (newSearches.length >= 5) {
+      newSearches.length = 4
+    }
+
+    newSearches.unshift(query)
+
+    populateLocalStorage('latestSearches', newSearches)
+
+    return newSearches
+  }
+
+  const handleGoback = () => {
+    navigate('/search')
   }
 
   return (
     <>
       {
         <div className={s.container}>
-          <h1>Search "{search}"</h1>
+
+          <h1>Search {activeSearch ? `"${activeSearch}"` : null}</h1>
           <input
             className={`${s.searchInput} ${s.icon}`}
-            placeholder='Artists, songs or albums'
-            onChange={handleChangeInput}
-            onKeyDown={handleChangeInput}
+            placeholder={'Artists, songs or albums'}
+            onChange={handleSearchInput}
           />
-          {!search.length > 0 && (
-            <div className={s.yourMostPlayed}>
-              <h1>Your most played albums</h1>
-              <div className={s.cards}>
-                <div className={s.albumCard}>Metallica</div>
-                <div className={s.albumCard}>Rammstein</div>
-              </div>
-            </div>
-          )}
+          <div
+            className={s.header}
+            onClick={() => {
+              handleGoback()
+            }}
+          >
+            {activeSearch && <img src={backIcon} alt='' />}
+          </div>
+          {!activeSearch &&
+            <LatestSearch />
+          }
 
-          <div className={isLoading ? 'loader' : ''}>
+          {activeSearch && <div className={isLoading ? 'loader' : ''}>
             {artists.length > 0 && !isLoading && (
               <div>
                 <ArtistSlider
                   artists={artists}
-                  header={`Artist results on "${search}"`}
+                  header={`Artist results on "${searchParams.get('query')}"`}
                 />
               </div>
             )}
@@ -105,7 +143,7 @@ const SearchPage = () => {
               <div>
                 <AlbumSlider
                   albums={albums}
-                  header={`Album results on "${search}"`}
+                  header={`Album results on "${searchParams.get('query')}"`}
                 />
               </div>
             )}
@@ -114,12 +152,14 @@ const SearchPage = () => {
               <div>
                 <SongList
                   songs={songs.slice(0, 5)}
-                  header={`Songs results on "${search}"`}
-                  artist={search}
+                  header={`Songs results on "${searchParams.get('query')}"`}
+                  artist={activeSearch}
                 />
               </div>
             )}
-          </div>
+
+          </div>}
+
         </div>
       }
     </>

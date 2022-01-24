@@ -7,14 +7,12 @@ const cookieParser = require('cookie-parser')
 const app: Application = Express()
 // const { redisClient } = require('./db/redis')
 
-
 export default async function (): Promise<Application> {
-	app.use(cookieParser())
-	app.use(morgan('tiny'))
-	app.use(express.json())
-	// redisClient.connect()
+  app.use(cookieParser())
+  //app.use(morgan('combined'))
+  app.use(express.json())
+  // redisClient.connect()
 
-	Routes(app)
-	return app
+  Routes(app)
+  return app
 }
-
