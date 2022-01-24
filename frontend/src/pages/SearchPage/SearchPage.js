@@ -45,7 +45,7 @@ const SearchPage = () => {
   }, [musicAPI, navigate, searchParams])
 
 
-  const handleChangeInput = async (e) => {
+  const handleSearchInput = async (e) => {
     let query = e.target.value
 
     if (e.key === 'Enter') setSearchParams({ query })
@@ -120,7 +120,7 @@ const SearchPage = () => {
           <input
             className={`${s.searchInput} ${s.icon}`}
             placeholder={'Artists, songs or albums'}
-            onChange={handleChangeInput}
+            onChange={handleSearchInput}
           />
           <div
             className={s.header}
