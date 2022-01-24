@@ -5,6 +5,7 @@ import { HeroImg, SongList, Carousel } from '../../components'
 import styles from './ArtistPage.module.css'
 
 import { removeNullFromArray } from '../../components/utils/utils'
+import { toast } from 'react-toastify'
 
 const ArtistPage = () => {
   const param = useParams()
