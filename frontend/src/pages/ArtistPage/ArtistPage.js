@@ -97,10 +97,7 @@ const ArtistPage = () => {
 
           {songs.length > 0 && (
             <section className={styles.songs}>
-              <SongList
-                songs={songs.slice(0, 5)}
-                header={`Songs by  ${artist.name}`}
-              />
+              <SongList songs={songs} header={`Songs by  ${artist.name}`} />
             </section>
           )}
           {albums && <Carousel title={'albums'} list={albums} />}
