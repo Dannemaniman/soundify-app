@@ -21,7 +21,7 @@ const ViewMore = () => {
   const [dataToRender, setDataToRender] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [nextUrl, setNextUrl] = useState('')
-  const [getMore, setGetMore] = useState(true)
+  const [capInfinityScroll, setCapInfinityScroll] = useState(true)
 
   useEffect(() => {
     const fetchSearch = async () => {
@@ -40,9 +40,9 @@ const ViewMore = () => {
     navigate(-1)
   }
 
-  const fetchNewData = async () => {
+  const fetchNextPage = async () => {
     if (dataToRender.length > 150) {
-      return setGetMore(false)
+      return setCapInfinityScroll(false)
     }
 
     let response2 = await musicAPI.search(type, name, nextUrl)
@@ -80,8 +80,8 @@ const ViewMore = () => {
       {/* <div id='scrollableDiv' style={{ height: '99vh', overflowY: 'scroll' }}> */}
       <InfiniteScroll
         dataLength={dataToRender.length}
-        next={fetchNewData}
-        hasMore={getMore}
+        next={fetchNextPage}
+        hasMore={capInfinityScroll}
         loader={
           <p style={{ textAlign: 'center', color: 'black' }}>
             <b>Loading...</b>
