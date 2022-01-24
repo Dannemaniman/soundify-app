@@ -1,35 +1,35 @@
-import React from 'react'
+import React from 'react';
 
 const MusicAPIContext = React.createContext({
-  search: async (mediaType, query) => Promise,
-})
+	search: async (mediaType, query) => Promise,
+});
 
 export const MusicCtxProvider = (props) => {
+	const search = async (mediaType, query, next) => {
+		try {
+			const nextPage = next ? `&next=${next}` : '';
+			const URL = `/api/search/${mediaType}?query=${query}${nextPage}`;
 
-  const search = async (mediaType, query, next) => {
-    try {
-      const nextPage = next ? `&next=${next}` : ""
-      const URL = `/api/search/${mediaType}?query=${query}${nextPage}`
+			const res = await fetch(encodeURI(URL), {
+				method: 'GET',
+				headers: { 'Content-type': 'application/json' },
+			});
+			const data = await res.json();
 
-      const res = await fetch(encodeURI(URL), {
-        method: 'GET',
-        headers: { 'Content-type': 'application/json' },
-      })
-      const data = await res.json()
+			return data;
+		} catch (error) {
+			console.log(error?.message);
+		}
+	};
 
-      return data
-    } catch (error) {
-      console.log(error?.message)
-    }
-  }
+	return (
+		<MusicAPIContext.Provider
+			value={{
+				search: search,
+			}}>
+			{props.children}
+		</MusicAPIContext.Provider>
+	);
+};
 
-  return (
-    <MusicAPIContext.Provider value={{
-      search: search
-    }}>
-      {props.children}
-    </MusicAPIContext.Provider>
-  )
-}
-
-export default MusicAPIContext
+export default MusicAPIContext;
