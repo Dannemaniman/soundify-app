@@ -44,7 +44,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   width: 100vw;
   max-width: 500px;
-  height: 100vh;
+  min-height: 100vh;
   background-color: var(--color-bg-white);
   color: var(--color-primary-floor);
 }
@@ -65,11 +65,15 @@ code {
   width: 80px;
   height: 80px;
   animation: spin 2s linear infinite;
-      align-self: center;
-    margin-top: 30%;
+  align-self: center;
+  margin-top: 30%;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

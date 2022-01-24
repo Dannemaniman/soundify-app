@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import SongList from '../../components/songlist/SongList'
+import { SongList } from '../../components'
 import styles from './PlaylistSongPage.module.css'
-import AuthContext from '../../store/auth-context'
+import useAuth from '../../hooks/useAuth'
 
 const PlaylistSongPage = () => {
   const [playlist, setPlaylist] = useState([])
   const [loading, setloading] = useState(true)
 
-  const auth = useContext(AuthContext)
+  const auth = useAuth()
   let param = useParams()
 
   useEffect(() => {

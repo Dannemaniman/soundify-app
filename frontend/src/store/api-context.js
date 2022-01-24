@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 const ApiContext = React.createContext({
   apiService: (searchPhrase, query, body = null, method = 'GET') => Promise,

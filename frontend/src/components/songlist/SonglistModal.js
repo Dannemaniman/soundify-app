@@ -1,12 +1,12 @@
-import React, { useEffect, useContext, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import styles from './SonglistModal.module.css'
-import AuthContext from '../../store/auth-context'
+import useAuth from '../../hooks/useAuth'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const SongListModal = (props) => {
-  const auth = useContext(AuthContext)
+  const auth = useAuth()
   let param = useParams()
   const [list, setlist] = useState([])
 

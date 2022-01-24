@@ -1,13 +1,11 @@
-import React from 'react'
 import styles from './Sidebar.module.css'
 import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
-import AuthContext from '../../store/auth-context'
+import useAuth from '../../hooks/useAuth'
 import Profile from '../profile/Profile'
 
 const Sidebar = ({ hideSidebar, animation }) => {
   let navigate = useNavigate()
-  const ctx = useContext(AuthContext)
+  const ctx = useAuth()
 
   const handleClick = (page) => {
     navigate(`/${page}`)

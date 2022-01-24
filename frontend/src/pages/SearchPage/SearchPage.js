@@ -1,15 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-
-import AlbumSlider from '../../components/searchPage/AlbumSlider'
-import ArtistSlider from '../../components/searchPage/ArtistSlider'
-import SongList from '../../components/songlist/SongList'
-import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
-import MusicAPIContext from '../../store/musicAPI-context'
-
+import { AlbumSlider, ArtistSlider, SongList } from '../../components'
 import s from './SearchPage.module.css'
 import backIcon from '../../assets/icons/back.png'
 import LatestSearch from '../../components/searchPage/LatestSearch'
+import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
+import MusicAPIContext from '../../store/musicAPI-context'
 
 
 const SearchPage = () => {
