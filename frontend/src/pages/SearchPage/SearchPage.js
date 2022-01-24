@@ -4,12 +4,13 @@ import { AlbumSlider, ArtistSlider, SongList } from '../../components'
 import s from './SearchPage.module.css'
 import backIcon from '../../assets/icons/back.png'
 import LatestSearch from '../../components/searchPage/LatestSearch'
-import { getDataLocalStorage, populateLocalStorage } from '../../components/utils/utils'
+import {
+  getDataLocalStorage,
+  populateLocalStorage,
+} from '../../components/utils/utils'
 import MusicAPIContext from '../../store/musicAPI-context'
 
-
 const SearchPage = () => {
-
   let navigate = useNavigate()
 
   let timer
@@ -27,19 +28,16 @@ const SearchPage = () => {
 
   useEffect(() => {
     const fetchSearch = async () => {
-
-      if (!searchParams.get("query")) return
+      if (!searchParams.get('query')) return
       setIsLoading(true)
 
-      let res = await musicAPI.search('search', searchParams.get("query"))
+      let res = await musicAPI.search('search', searchParams.get('query'))
       sortFetchedData(res.content)
       if (res) setIsLoading(false)
     }
 
     fetchSearch()
-
   }, [musicAPI, navigate, searchParams])
-
 
   const handleSearchInput = async (e) => {
     let query = e.target.value
@@ -58,7 +56,6 @@ const SearchPage = () => {
       addNewSearchToLoaclStorage(e.target.value)
     }, waitTime)
   }
-
 
   const sortFetchedData = (data) => {
     let newSongs = []
@@ -80,10 +77,9 @@ const SearchPage = () => {
     setAlbums(newAlbums)
   }
 
-
   const addNewSearchToLoaclStorage = (query) => {
     query = query.toLowerCase()
-    let newSearches = getDataLocalStorage("latestSearches")
+    let newSearches = getDataLocalStorage('latestSearches')
 
     if (query?.length <= 0) return
     if (!newSearches) newSearches = []
@@ -91,7 +87,6 @@ const SearchPage = () => {
     if (newSearches.includes(query)) {
       const index = newSearches.indexOf(query)
       newSearches.splice(index, 1)
-
     } else if (newSearches.length >= 5) {
       newSearches.length = 4
     }
@@ -111,7 +106,6 @@ const SearchPage = () => {
     <>
       {
         <div className={s.container}>
-
           <h1>Search {activeSearch ? `"${activeSearch}"` : null}</h1>
           <input
             className={`${s.searchInput} ${s.icon}`}
@@ -126,40 +120,38 @@ const SearchPage = () => {
           >
             {activeSearch && <img src={backIcon} alt='' />}
           </div>
-          {!activeSearch &&
-            <LatestSearch />
-          }
+          {!activeSearch && <LatestSearch />}
 
-          {activeSearch && <div className={isLoading ? 'loader' : ''}>
-            {artists.length > 0 && !isLoading && (
-              <div>
-                <ArtistSlider
-                  artists={artists}
-                  header={`Artist results on "${searchParams.get('query')}"`}
-                />
-              </div>
-            )}
-            {albums.length > 0 && !isLoading && (
-              <div>
-                <AlbumSlider
-                  albums={albums}
-                  header={`Album results on "${searchParams.get('query')}"`}
-                />
-              </div>
-            )}
+          {activeSearch && (
+            <div className={isLoading ? 'loader' : ''}>
+              {artists.length > 0 && !isLoading && (
+                <div>
+                  <ArtistSlider
+                    artists={artists}
+                    header={`Artist results on "${searchParams.get('query')}"`}
+                  />
+                </div>
+              )}
+              {albums.length > 0 && !isLoading && (
+                <div>
+                  <AlbumSlider
+                    albums={albums}
+                    header={`Album results on "${searchParams.get('query')}"`}
+                  />
+                </div>
+              )}
 
-            {songs.length > 0 && !isLoading && artists && (
-              <div>
-                <SongList
-                  songs={songs.slice(0, 5)}
-                  header={`Songs results on "${searchParams.get('query')}"`}
-                  artist={activeSearch}
-                />
-              </div>
-            )}
-
-          </div>}
-
+              {songs.length > 0 && !isLoading && artists && (
+                <div>
+                  <SongList
+                    songs={songs.slice(0, 5)}
+                    header={`Songs results on "${searchParams.get('query')}"`}
+                    artist={activeSearch}
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </div>
       }
     </>

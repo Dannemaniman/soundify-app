@@ -44,26 +44,35 @@ const SongListModal = (props) => {
     // player.setSongPlaylists()
   }
 
-  let playlistOptions = <button onClick={deleteSongHandler}>delete</button>
+  let playlistOptions = (
+    <button onClick={deleteSongHandler} className={styles.btn}>
+      delete
+    </button>
+  )
 
   return (
-    <div className={styles.modal}>
+    <div
+      className={`${styles.modal} ${props.playlist ? styles.deleteModal : ''}`}
+    >
       <h2 className={styles.header}>
         {' '}
         {props.playlist ? 'Remove song' : 'Add to playlist'}
       </h2>
-      {props.playlist && playlistOptions}
-      {!props.playlist &&
-        list.map((playlist, index) => {
-          return (
-            <button
-              key={index}
-              onClick={() => playlistHandler(playlist.playlist_name)}
-            >
-              {playlist.playlist_name}
-            </button>
-          )
-        })}
+      <div className={styles.modalList}>
+        {props.playlist && playlistOptions}
+        {!props.playlist &&
+          list.map((playlist, index) => {
+            return (
+              <button
+                key={index}
+                onClick={() => playlistHandler(playlist.playlist_name)}
+                className={styles.btn}
+              >
+                {playlist.playlist_name}
+              </button>
+            )
+          })}
+      </div>
     </div>
   )
 }
