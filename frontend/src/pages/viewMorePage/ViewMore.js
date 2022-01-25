@@ -4,10 +4,14 @@ import s from './ViewMore.module.css'
 import backIcon from '../../assets/icons/back.png'
 import PlayBtn from '../../components/songlist/PlayBtn'
 import SongListOption from '../../components/songlist/SongListOptions'
-import { getThumbnailUrl, millisToMinutesAndSeconds } from '../../components/utils/utils'
+import {
+  getThumbnailUrl,
+  millisToMinutesAndSeconds,
+} from '../../components/utils/utils'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import MusicAPIContext from '../../store/musicAPI-context'
-
+import SongListItem from '../../components/songlist/SongListItem'
+import { SongList } from '../../components'
 
 const ViewMore = () => {
   let navigate = useNavigate()
@@ -53,7 +57,6 @@ const ViewMore = () => {
     return
   }
 
-
   function goTo(ele) {
     if (ele.type === 'album' || ele.type === 'single') {
       navigate(`/artist/${ele.artist}/album/${ele.browseId}`)
@@ -91,51 +94,50 @@ const ViewMore = () => {
           <p style={{ textAlign: 'center', color: 'black' }}>
             <b>Yay! You have seen it all</b>
           </p>
-        }>
-        {!isLoading &&
-          dataToRender.map((ele, index) => {
-            return (
-              <div
-                className={s.viewMoreItem}
-                key={index}
-                onClick={() => {
-                  goTo(ele)
-                }}
-              >
-                <div className={s.mainContent}>
-                  <h1
-                    className={ele.type !== 'song' ? s.artistTitle : s.songTitle}
-                  >
-                    {ele.name.substring(0, 20)}{' '}
-                    {ele.name.length > 20 ? '...' : ''}
-                  </h1>
+        }
+      >
+        {!isLoading ? (
+          dataToRender[0]?.type === 'song' ? (
+            <SongList songs={dataToRender} header={'Songs by ' + name} />
+          ) : (
+            dataToRender.map((ele, index) => {
+              return (
+                <div
+                  className={s.viewMoreItem}
+                  key={index}
+                  onClick={() => {
+                    goTo(ele)
+                  }}
+                >
+                  <div className={s.mainContent}>
+                    <h1
+                      className={
+                        ele.type !== 'song' ? s.artistTitle : s.songTitle
+                      }
+                    >
+                      {ele.name.substring(0, 20)}{' '}
+                      {ele.name.length > 20 ? '...' : ''}
+                    </h1>
 
-                  {ele.type !== 'song' && (
-                    <img src={getThumbnailUrl(ele)} alt='artist or album' />
-                  )}
+                    {ele.type !== 'song' && (
+                      <img src={getThumbnailUrl(ele)} alt='artist or album' />
+                    )}
+                  </div>
+                  {typeof ele.artist === 'string' && <p>By: {ele.artist}</p>}
+                  {!ele.artist && <p>Go to artist page</p>}
                   {ele.type === 'song' && (
-                    <div className={s.interaction}>
-                      <PlayBtn
-                        songs={dataToRender}
-                        index={index}
-                      /* song={ele}
-                      thumbnails={ele.thumbnails} */
-                      />
-                      <SongListOption song={ele} />
-                    </div>
+                    <p>
+                      {ele.artist?.name ? ele.artist?.name : ''} -{' '}
+                      {millisToMinutesAndSeconds(ele.duration)}
+                    </p>
                   )}
                 </div>
-                {typeof ele.artist === 'string' && <p>By: {ele.artist}</p>}
-                {!ele.artist && <p>Go to artist page</p>}
-                {ele.type === 'song' && (
-                  <p>
-                    {ele.artist?.name ? ele.artist?.name : ''} -{' '}
-                    {millisToMinutesAndSeconds(ele.duration)}
-                  </p>
-                )}
-              </div>
-            )
-          })}
+              )
+            })
+          )
+        ) : (
+          ''
+        )}
       </InfiniteScroll>
     </div>
   )
