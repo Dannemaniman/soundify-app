@@ -10,6 +10,8 @@ https://trello.com/b/pun56MmH/spacex-v2
 HEROKU
 https://yt-music-api.herokuapp.com/
 
+WIREFRAME / MOCKUP / ADOBE XD
+https://xd.adobe.com/view/d4eb7a5d-ac68-4b46-b0fe-ea0975d0bdce-81b8/
 
 Backend struktur:
 https://www.coreycleary.me/project-structure-for-an-express-rest-api-when-there-is-no-standard-way
