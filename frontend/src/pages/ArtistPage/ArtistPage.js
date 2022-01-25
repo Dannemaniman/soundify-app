@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import { HeroImg, SongList, Carousel } from '../../components'
 import styles from './ArtistPage.module.css'
+import MusicAPIContext from '../../store/musicAPI-context'
 
 import { removeNullFromArray } from '../../components/utils/utils'
 import { toast } from 'react-toastify'
@@ -10,7 +11,8 @@ import { toast } from 'react-toastify'
 const ArtistPage = () => {
   const param = useParams()
   const navigate = useNavigate()
-  // 
+  const musicAPI = useContext(MusicAPIContext)
+
   const [artist, setArtist] = useState('')
   const [viewMore, setViewMore] = useState(false)
   const [albums, setAlbums] = useState([])
@@ -19,12 +21,11 @@ const ArtistPage = () => {
 
   useEffect(() => {
     const fetchArtist = async () => {
-      const response = await fetch(
-        `https://yt-music-api.herokuapp.com/api/yt/artist/${param.id}`
-      )
-      const artists = await response.json()
+
+      let res = await musicAPI.search("artist", `${param.id}`)
+
+      const artists = res
       if (artists.error) {
-        console.log(artists.error)
         toast.error(artists.error, {
           autoClose: 3000,
           hideProgressBar: true,
@@ -45,10 +46,8 @@ const ArtistPage = () => {
     }
 
     const fetchMoreSongs = async (name) => {
-      let response = await fetch(
-        `https://yt-music-api.herokuapp.com/api/yt/videos/${name.toLowerCase()}`
-      )
-      const res = await response.json()
+
+      const res = await musicAPI.search("videos", name.toLowerCase())
       const moreSongs = res.content
 
       //Returns array with songs
@@ -63,10 +62,8 @@ const ArtistPage = () => {
   async function fetchMoreDetaliedSongs(songArray) {
     let newSongArr = await Promise.all(
       songArray.map(async (song) => {
-        let url =
-          'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId
-        let result = await fetch(url)
-        return result.json()
+        let result = await musicAPI.search("song", song.videoId)
+        return result
       })
     )
     return removeNullFromArray(newSongArr)

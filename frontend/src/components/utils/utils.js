@@ -1,16 +1,16 @@
 import { toast } from "react-toastify"
 
 //Find and returns the thumbnail URL from passed object.
-export function getThumbnailUrl(songObj) {
+export function getThumbnailUrl(obj) {
 
   //Taking last index because extern API returns the best quality image at last index.
-  const last = songObj.thumbnails?.length - 1
+  const last = obj.thumbnails?.length - 1
 
-  if (songObj.thumbnails?.url) {
-    return songObj.thumbnails?.url
+  if (obj.thumbnails?.url) {
+    return obj.thumbnails?.url
   }
-  else if (songObj?.thumbnails[last].url) {
-    return songObj?.thumbnails[last].url
+  else if (obj?.thumbnails[last].url) {
+    return obj?.thumbnails[last].url
   }
 }
 

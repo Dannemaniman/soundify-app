@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import { HeroImg, SongList } from '../../components'
+import { getThumbnailUrl, removeNullFromArray } from '../../components/utils/utils'
 import styles from './ArtistPage.module.css'
 
 const AlbumPage = () => {
@@ -17,7 +18,7 @@ const AlbumPage = () => {
         `https://yt-music-api.herokuapp.com/api/yt/album/${param.browseId}`
       )
       const newAlbum = await response.json()
-      if (album?.error) {
+      if (newAlbum?.error) {
         navigate(-1)
       }
       setAlbum(newAlbum)
@@ -41,23 +42,12 @@ const AlbumPage = () => {
     return removeNullFromArray(newSongArr)
   }
 
-  function removeNullFromArray(arr) {
-    return arr.filter((ele) => {
-      return ele !== null
-    })
-  }
-
-  function getLastThumbnail() {
-    const last = album?.thumbnails?.length - 1
-    return album.thumbnails[last].url
-  }
-
   return (
     <>
       {album && (
         <div className={styles.artistpage}>
           <HeroImg
-            imgUrl={getLastThumbnail()}
+            imgUrl={getThumbnailUrl(album)}
             caption={album.title}
             url={window.location.href}
           />
