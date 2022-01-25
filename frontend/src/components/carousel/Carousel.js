@@ -21,7 +21,8 @@ const Carousel = ({ title, list }) => {
     arrows: false,
   }
 
-  const Real = () => {
+  const ItemSlider = () => {
+    console.log(list)
     return (
       <Slider {...settings} className={styles.carousel}>
         {list &&
@@ -43,7 +44,7 @@ const Carousel = ({ title, list }) => {
   return (
     <div className={styles.carousel}>
       <h1 style={{ color: 'black' }}>{title}</h1>
-      {list ? <Real /> : ''}
+      {list ? <ItemSlider /> : ''}
     </div>
   )
 }

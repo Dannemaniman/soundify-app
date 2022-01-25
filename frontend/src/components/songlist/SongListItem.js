@@ -46,9 +46,7 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
               ) : (
                 <i
                   className='fas fa-play'
-                  onClick={() =>
-                    setPlaylist({ index: index, img: song.thumbnails })
-                  }
+                  onClick={() => setPlaylist({ index: index })}
                 ></i>
               )}
             </div>
