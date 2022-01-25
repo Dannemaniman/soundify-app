@@ -4,7 +4,6 @@ import './index.css'
 import App from './App'
 import { ToastContainer } from 'react-toastify'
 import { BrowserRouter } from 'react-router-dom'
-import { ApiContextProvider } from './store/api-context'
 import { AuthContextProvider } from './store/auth-context'
 import PlayerProvider from './store/playerContext'
 import { MusicCtxProvider } from './store/musicAPI-context'
@@ -12,14 +11,12 @@ import { MusicCtxProvider } from './store/musicAPI-context'
 ReactDOM.render(
 	<PlayerProvider>
 		<AuthContextProvider>
-			<ApiContextProvider>
-				<MusicCtxProvider>
-					<BrowserRouter>
-						<App />
-						<ToastContainer theme='colored' position='bottom-center' />
-					</BrowserRouter>
-				</MusicCtxProvider>
-			</ApiContextProvider>
+			<MusicCtxProvider>
+				<BrowserRouter>
+					<App />
+					<ToastContainer theme='colored' position='bottom-center' />
+				</BrowserRouter>
+			</MusicCtxProvider>
 		</AuthContextProvider>
 	</PlayerProvider>,
 	document.getElementById('root')
