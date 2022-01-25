@@ -12,7 +12,7 @@ import {
 } from '../pages'
 import { RedirectRoute, PrivateRoutes } from '.'
 
-const Routess = () => {
+const AppRoutes = () => {
   return (
     <>
       <Routes>
@@ -37,4 +37,4 @@ const Routess = () => {
   )
 }
 
-export default Routess
+export default AppRoutes
