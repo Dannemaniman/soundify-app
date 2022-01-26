@@ -11,7 +11,7 @@ HEROKU
 https://yt-music-api.herokuapp.com/
 
 WIREFRAME / MOCKUP / ADOBE XD
-https://xd.adobe.com/view/d4eb7a5d-ac68-4b46-b0fe-ea0975d0bdce-81b8/
+https://xd.adobe.com/view/4dca20bb-6c2e-4412-bfee-86884f1ad0fe-1899/
 
 Backend struktur:
 https://www.coreycleary.me/project-structure-for-an-express-rest-api-when-there-is-no-standard-way
