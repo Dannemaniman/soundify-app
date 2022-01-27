@@ -22,7 +22,6 @@ const Carousel = ({ title, list }) => {
   }
 
   const ItemSlider = () => {
-    console.log(list)
     return (
       <Slider {...settings} className={styles.carousel}>
         {list &&
