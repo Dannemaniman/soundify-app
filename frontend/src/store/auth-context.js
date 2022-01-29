@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
 
+
 const AuthContext = React.createContext({
   user: {},
-  loginHandler: async (email, password) => {},
-  logoutHandler: (token) => {},
-  registerHandler: async ({ email, user_name, password }) => {},
-  updateUserPlaylist: () => {},
-  updatePlaylistSongs: () => {},
-  whoAmI: () => {},
+  loginHandler: async (email, password) => { },
+  logoutHandler: (token) => { },
+  registerHandler: async ({ email, user_name, password }) => { },
+  updateUserPlaylist: () => { },
+  updatePlaylistSongs: () => { },
+  whoAmI: () => { },
 })
 
 export const AuthContextProvider = (props) => {
+  const API_URL = process.env.REACT_APP_API_URL_PROD
+  console.log(API_URL)
   const [user, setUser] = useState(null)
 
   const loginHandler = async (email, password) => {
     let success = false
-    await fetch('/api/user/login', {
+    await fetch(`${API_URL}/api/user/login`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -38,7 +41,7 @@ export const AuthContextProvider = (props) => {
 
   const registerHandler = async ({ email, user_name, password }) => {
     let success = false
-    await fetch('/api/user/register', {
+    await fetch(`${API_URL}/api/user/register`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ email, user_name, password }),
@@ -57,7 +60,7 @@ export const AuthContextProvider = (props) => {
   }
 
   const logoutHandler = async () => {
-    await fetch('/api/user/logout', {
+    await fetch(`${API_URL}api/user/logout`, {
       method: 'POST',
     })
     setUser(null)
@@ -101,7 +104,7 @@ export const AuthContextProvider = (props) => {
   }
 
   const whoAmI = async () => {
-    let res = await fetch('/api/user/whoami')
+    let res = await fetch(`${API_URL}/api/user/whoami`)
     res = await res.json()
 
     if (res.message) {

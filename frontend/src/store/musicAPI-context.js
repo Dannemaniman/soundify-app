@@ -5,10 +5,12 @@ const MusicAPIContext = React.createContext({
 })
 
 export const MusicCtxProvider = (props) => {
+	const API_URL = process.env.REACT_APP_API_URL_PROD
+
 	const search = async (mediaType, query, next) => {
 		try {
 			const nextPage = next ? `&next=${next}` : ''
-			const URL = `/api/search/${mediaType}?query=${query}${nextPage}`
+			const URL = `${API_URL}/api/search/${mediaType}?query=${query}${nextPage}`
 			console.log(encodeURI(URL))
 
 			const res = await fetch(`${encodeURI(URL)}`, {
