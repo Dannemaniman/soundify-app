@@ -6,7 +6,7 @@ import { Routes, Layout } from './utils'
 const App = () => {
   const auth = useAuth()
   useEffect(() => {
-    if (auth.user !== null) return
+    if (auth.user) return
     auth.whoAmI()
   }, [])
 
