@@ -1,30 +1,30 @@
-import styles from './LoginPage.module.scss'
-import { Twitter, Facebook, Google } from '../../assets/icons'
-import { useRef } from 'react'
-import useAuth from '../../hooks/useAuth'
-import { useNavigate } from 'react-router'
+import styles from './LoginPage.module.scss';
+import { Twitter, Facebook, Google } from '../../assets/icons';
+import { useRef } from 'react';
+import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router';
 
 const LoginForm = () => {
-  const usernameRef = useRef()
-  const passwordRef = useRef()
-  const ctx = useAuth()
-  const navigate = useNavigate()
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+  const ctx = useAuth();
+  const navigate = useNavigate();
 
   const loginUser = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (
       await ctx.loginHandler(
         usernameRef.current.value,
         passwordRef.current.value
       )
     ) {
-      navigate('/')
+      navigate('/');
     }
-  }
+  };
 
   const onNavigateRegisterPage = () => {
-    navigate('/signup')
-  }
+    navigate('/signup');
+  };
 
   return (
     <div className={styles['login-page__container']}>
@@ -33,9 +33,9 @@ const LoginForm = () => {
         <form onSubmit={loginUser}>
           <input
             ref={usernameRef}
-            type='email'
+            type='text'
             required
-            placeholder='Email..'
+            placeholder='Username..'
           />
           <input
             ref={passwordRef}
@@ -62,7 +62,7 @@ const LoginForm = () => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;
