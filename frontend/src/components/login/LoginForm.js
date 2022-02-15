@@ -33,7 +33,7 @@ const LoginForm = () => {
         <form onSubmit={loginUser}>
           <input
             ref={usernameRef}
-            type='email'
+            type='text'
             required
             placeholder='Email..'
           />
