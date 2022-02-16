@@ -8,7 +8,7 @@ export const MusicCtxProvider = (props) => {
 	const search = async (mediaType, query, next) => {
 		try {
 			const nextPage = next ? `&next=${next}` : ''
-			const URL = `/api/search/${mediaType}?query=${query}${nextPage}`
+			const URL = `/api/${mediaType}?query=${query}${nextPage}`
 			console.log(encodeURI(URL))
 
 			const res = await fetch(`${encodeURI(URL)}`, {

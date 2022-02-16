@@ -15,9 +15,9 @@ const SongListModal = (props) => {
     setlist(auth.user.playlists)
   }, [auth.user])
 
-  const playlistHandler = async (name) => {
+  const playlistHandler = async (_id) => {
     if (!props.song) return
-    let response = await fetch(`/api/playlist/update/${name}`, {
+    let response = await fetch(`/api/playlist/update/${_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const SongListModal = (props) => {
             return (
               <button
                 key={index}
-                onClick={() => playlistHandler(playlist.playlist_name)}
+                onClick={() => playlistHandler(playlist._id)}
                 className={styles.btn}
               >
                 {playlist.playlist_name}
