@@ -2,23 +2,23 @@ import React, { useState } from 'react'
 
 const AuthContext = React.createContext({
   user: {},
-  loginHandler: async (email, password) => {},
-  logoutHandler: (token) => {},
-  registerHandler: async ({ email, user_name, password }) => {},
-  updateUserPlaylist: () => {},
-  updatePlaylistSongs: () => {},
-  whoAmI: () => {},
+  loginHandler: async (username, password) => { },
+  logoutHandler: (token) => { },
+  registerHandler: async ({ email, user_name, password }) => { },
+  updateUserPlaylist: () => { },
+  updatePlaylistSongs: () => { },
+  whoAmI: () => { },
 })
 
 export const AuthContextProvider = (props) => {
   const [user, setUser] = useState(null)
 
-  const loginHandler = async (email, password) => {
+  const loginHandler = async (username, password) => {
     let success = false
     await fetch('/api/user/login', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
     })
       .then((res) => {
         if (!res.ok) throw new Error('Could not login User.')
