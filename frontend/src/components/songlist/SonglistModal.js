@@ -17,7 +17,6 @@ const SongListModal = (props) => {
 
   const playlistHandler = async (_id) => {
 
-    console.log("ID:", _id, "Song:", props)
     let newSong = {
       name: props.song.name,
       thumbnails: Array.isArray(props.song.thumbnails) ? props.song.thumbnails : [{ ...props.song.thumbnails }],
