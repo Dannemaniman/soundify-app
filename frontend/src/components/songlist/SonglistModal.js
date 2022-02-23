@@ -16,15 +16,25 @@ const SongListModal = (props) => {
   }, [auth.user])
 
   const playlistHandler = async (_id) => {
+
+    console.log("ID:", _id, "Song:", props)
+    let newSong = {
+      name: props.song.name,
+      thumbnails: Array.isArray(props.song.thumbnails) ? props.song.thumbnails : [{ ...props.song.thumbnails }],
+      duration: props.song.duration,
+      videoId: props.song.videoId
+    }
+
     if (!props.song) return
     let response = await fetch(`/api/playlist/update/${_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(props.song),
+      body: JSON.stringify(newSong),
     })
     let res = await response.json()
+    console.log(res)
     auth.updatePlaylistSongs(res)
     toast.success('Song added to playlist', {
       autoClose: 2500,

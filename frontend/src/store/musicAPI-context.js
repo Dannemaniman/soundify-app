@@ -9,15 +9,12 @@ export const MusicCtxProvider = (props) => {
 		try {
 			const nextPage = next ? `&next=${next}` : ''
 			const URL = `/api/${mediaType}?query=${query}${nextPage}`
-			console.log(encodeURI(URL))
 
 			const res = await fetch(`${encodeURI(URL)}`, {
 				method: 'GET',
 				/* headers: { 'Content-type': 'application/json' }, */
 			})
-			console.log(res)
 			const data = await res.json()
-			console.log(data)
 
 			return data
 		} catch (error) {
