@@ -20,7 +20,7 @@ const HomePage = () => {
     let artist = getRandomValue(artists)
 
     let res = await fetch(
-      'https://yt-music-api.herokuapp.com/api/yt/artists/' + artist
+      'https://soundify-sweden.herokuapp.com/api/yt/artists/' + artist
     )
     res = await res.json()
     setArtistTop(res.content)
@@ -38,7 +38,7 @@ const HomePage = () => {
     let album = getRandomValue(albums)
 
     let res = await fetch(
-      'https://yt-music-api.herokuapp.com/api/yt/albums/' + album
+      'https://soundify-sweden.herokuapp.com/api/yt/albums/' + album
     )
     res = await res.json()
     setAlbumTop(res.content)

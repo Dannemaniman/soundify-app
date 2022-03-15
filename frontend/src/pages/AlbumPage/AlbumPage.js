@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import { HeroImg, SongList } from '../../components'
-import { getThumbnailUrl, removeNullFromArray } from '../../components/utils/utils'
+import {
+  getThumbnailUrl,
+  removeNullFromArray,
+} from '../../components/utils/utils'
 import styles from './ArtistPage.module.css'
 
 const AlbumPage = () => {
@@ -15,7 +18,7 @@ const AlbumPage = () => {
   useEffect(() => {
     const fetchAlbum = async () => {
       const response = await fetch(
-        `https://yt-music-api.herokuapp.com/api/yt/album/${param.browseId}`
+        `https://soundify-sweden.herokuapp.com/api/yt/album/${param.browseId}`
       )
       const newAlbum = await response.json()
       if (newAlbum?.error) {
@@ -34,7 +37,7 @@ const AlbumPage = () => {
     let newSongArr = await Promise.all(
       songArray.map(async (song) => {
         let url =
-          'https://yt-music-api.herokuapp.com/api/yt/song/' + song.videoId
+          'https://soundify-sweden.herokuapp.com/api/yt/song/' + song.videoId
         let result = await fetch(url)
         return result.json()
       })
