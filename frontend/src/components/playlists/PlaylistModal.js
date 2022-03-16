@@ -23,13 +23,14 @@ const PlaylistModal = ({ setModalHandler, deleteList }) => {
       })
         .then((data) => data.json())
         .then((data) => {
+          if (data.error) return
           auth.setUserHandler(data)
+          toast.success('Playlist added!', {
+            autoClose: 2500,
+            hideProgressBar: true,
+          })
         })
 
-      toast.success('Playlist added!', {
-        autoClose: 2500,
-        hideProgressBar: true,
-      })
       setModalHandler()
     }
   }
