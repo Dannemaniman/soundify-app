@@ -2,9 +2,10 @@ import './form.css'
 import { useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+
 const Form = () => {
   const defaultValues = {
-    user_name: '',
+    username: '',
     email: '',
     password: '',
   }
@@ -32,9 +33,9 @@ const Form = () => {
         <input
           type='text'
           name='username'
-          value={newUser.user_name}
+          value={newUser.username}
           onChange={(e) => {
-            setNewUser({ ...newUser, user_name: e.target.value })
+            setNewUser({ ...newUser, username: e.target.value })
           }}
         />
         <h4 className='signup_label'>Email</h4>

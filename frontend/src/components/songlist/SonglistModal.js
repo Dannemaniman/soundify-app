@@ -16,12 +16,14 @@ const SongListModal = (props) => {
   }, [auth.user])
 
   const playlistHandler = async (_id) => {
-
     let newSong = {
       name: props.song.name,
-      thumbnails: Array.isArray(props.song.thumbnails) ? props.song.thumbnails : [{ ...props.song.thumbnails }],
+      thumbnails: Array.isArray(props.song.thumbnails)
+        ? props.song.thumbnails
+        : [{ ...props.song.thumbnails }],
       duration: props.song.duration,
-      videoId: props.song.videoId
+      videoId: props.song.videoId,
+      artist: props.song.artist ? props.song.artist : props.song.author,
     }
 
     if (!props.song) return
@@ -32,8 +34,8 @@ const SongListModal = (props) => {
       },
       body: JSON.stringify(newSong),
     })
+
     let res = await response.json()
-    console.log(res)
     auth.updatePlaylistSongs(res)
     toast.success('Song added to playlist', {
       autoClose: 2500,

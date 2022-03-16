@@ -18,7 +18,8 @@ const SongListItem = ({ index, song, setPlaylist, artist, playlist }) => {
 
   function getArtistName() {
     let name = song.artist?.name ? song.artist.name : song.author
-    if (!name) name = artist
+    if (!name) return artist
+    name = name.substring(0, 20) + (name.length >= 21 ? ' ...' : '')
     return name
   }
 

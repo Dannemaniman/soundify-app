@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 
 const AuthContext = React.createContext({
   user: {},
-  loginHandler: async (username, password) => { },
-  logoutHandler: (token) => { },
-  registerHandler: async ({ email, user_name, password }) => { },
-  updateUserPlaylist: () => { },
-  updatePlaylistSongs: () => { },
-  whoAmI: () => { },
+  loginHandler: async (username, password) => {},
+  logoutHandler: (token) => {},
+  registerHandler: async ({ email, username, password }) => {},
+  updateUserPlaylist: () => {},
+  updatePlaylistSongs: () => {},
+  whoAmI: () => {},
 })
 
 export const AuthContextProvider = (props) => {
@@ -36,12 +36,12 @@ export const AuthContextProvider = (props) => {
     return success
   }
 
-  const registerHandler = async ({ email, user_name, password }) => {
+  const registerHandler = async ({ email, username, password }) => {
     let success = false
     await fetch('/api/user/register', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ email, user_name, password }),
+      body: JSON.stringify({ email, username, password }),
     })
       .then((res) => {
         if (!res.ok) throw new Error('Could not create new User.')
